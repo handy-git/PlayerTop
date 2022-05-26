@@ -1,0 +1,40 @@
+# 没权限时候提醒
+noPermission: "&4你没有权限执行该命令"
+# 重载插件提醒
+reloadMsg: "&a插件重载完成"
+
+# HolographicDisplays提醒
+HolographicDisplaysSucceedMsg: "&a成功加载HolographicDisplays,启用全息图功能!"
+HolographicDisplaysFailureMsg: "&4未找到HolographicDisplays,未启用全息图功能!"
+
+# vault提醒
+vaultSucceedMsg: "&a成功加载Vault,启用经济相关功能!"
+vaultFailureMsg: "&4未找到Vault,未启用经济相关功能!"
+
+# placeholderAPI提醒
+placeholderAPISucceedMsg: "&a成功加载placeholderApi,启用自定义变量功能!"
+placeholderAPIFailureMsg: "&4未找到placeholderApi,未启用自定义变量功能!"
+
+# PlayerPoints提醒
+playerPointsSucceedMsg: "&a成功加载PlayerPoints,启用点券相关功能!"
+playerPointsFailureMsg: "&4未找到PlayerPoints,未启用点券相关功能!"
+
+# playerTitle提醒
+playerTitleSucceedMsg: "&a已成功加载PlayerTitle 启用公会称号功能."
+playerTitleFailureMsg: "&7你的服务端没有安装PlayerTitle 未启用公会称号功能."
+
+# playerTask提醒
+playerTaskSucceedMsg: "&a已成功加载playerTask 启用公会任务功能."
+playerTaskFailureMsg: "&7你的服务端没有安装playerTask 未启用公会任务功能."
+
+# playerRace提醒
+playerRaceSucceedMsg: "&a已成功加载playerRace 兼容种族功能."
+playerRaceFailureMsg: "&7你的服务端没有安装playerRace 未兼容种族功能."
+
+# playerGuild提醒
+playerGuildSucceedMsg: "&a已成功加载playerGuild 兼容公会功能."
+playerGuildFailureMsg: "&7你的服务端没有安装playerGuild 未兼容公会功能."
+
+paramFailureMsg: "&c参数错误."
+noPlayerFailureMsg: "&c该命令只能玩家执行."
+typeFailureMsg: "&c类型错误"

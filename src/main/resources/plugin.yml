@@ -1,0 +1,24 @@
+name: PlayerTop
+main: com.handy.top.PlayerTop
+version: 1.0.0
+author: handy
+website: https://handy-git.gitee.io/rice-doc
+api-version: 1.13
+softdepend: [ PlaceholderAPI,Vault,PlayerPoints,PlayerTitle,PlayerTask,PlayerRace,PlayerGuild,HolographicDisplays ]
+description: 玩家排行
+commands:
+  PlayerTop:
+    description: 玩家排行
+    aliases: [ pt ]
+permissions:
+  PlayerTop.*:
+    description: 玩家公会插件
+    children:
+      PlayerTop.reload: true
+      PlayerTop.createHd: true
+  PlayerTop.reload:
+    description: 重新加载配置
+    default: op
+  PlayerTop.createHd:
+    description: 创建全息图
+    default: op
