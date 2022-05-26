@@ -21,4 +21,4 @@
 - player_title_coin [称号币]
 - player_title_number [称号数量]
 - player_task_coin [任务币]
-- player_guild_money [玩家公会数量]
+- player_guild_money [玩家公会贡献数量]
