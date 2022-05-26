@@ -40,6 +40,7 @@ public class TopTask {
         playerTitleNumberTask();
         playerTitleCoinTask();
         playerTaskCoinTask();
+        playerGuildMoneyTask();
     }
 
     /**
