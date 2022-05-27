@@ -221,7 +221,6 @@ public class TopTask {
         }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.player_guild_money") * 20);
     }
 
-
     /**
      * 同步方法
      *
@@ -270,6 +269,8 @@ public class TopTask {
             TopPlayerService.getInstance().updateByPlayer(topTypeEnum, playerName, offlinePlayer.getUniqueId(), number, vault);
             playerNum++;
         }
+        // 刷新排行榜
+        createHd();
         MessageApi.sendConsoleDebugMessage("同步" + playerNum + "位玩家" + topTypeEnum.getName() + ",消耗ms:" + (System.currentTimeMillis() - start));
     }
 
