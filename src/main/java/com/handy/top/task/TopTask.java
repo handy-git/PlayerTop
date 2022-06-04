@@ -80,6 +80,29 @@ public class TopTask {
     }
 
     /**
+     * 刷新全息图
+     *
+     * @param playerTopTypeEnum 类型
+     */
+    public static void refreshHd(PlayerTopTypeEnum playerTopTypeEnum) {
+        String type = playerTopTypeEnum.getType();
+        // 判断是否开启
+        boolean enable = ConfigUtil.HD_CONFIG.getBoolean(type + ".enable");
+        if (!enable) {
+            return;
+        }
+        String world = ConfigUtil.HD_CONFIG.getString(type + ".world", "");
+        double x = ConfigUtil.HD_CONFIG.getDouble(type + ".x");
+        double y = ConfigUtil.HD_CONFIG.getDouble(type + ".y");
+        double z = ConfigUtil.HD_CONFIG.getDouble(type + ".z");
+        Location location = new Location(Bukkit.getWorld(world), x, y, z);
+        // 先进行删除
+        HolographicDisplaysUtil.delete(location);
+        // 新增全息图
+        CreateHdCommand.createHd(playerTopTypeEnum, location);
+    }
+
+    /**
      * 玩家金币
      */
     private static void vaultTask() {
@@ -124,7 +147,7 @@ public class TopTask {
                     PLAYER_POINTS_LOCK.release();
                 }
             }
-        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.player_points") * 20);
+        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.playerPoints") * 20);
     }
 
     /**
@@ -148,7 +171,7 @@ public class TopTask {
                     PLAYER_TITLE_NUMBER_LOCK.release();
                 }
             }
-        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.player_title_number") * 20);
+        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.playerTitleNumber") * 20);
     }
 
     /**
@@ -172,7 +195,7 @@ public class TopTask {
                     PLAYER_TITLE_COIN_LOCK.release();
                 }
             }
-        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.player_title_coin") * 20);
+        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.playerTitleCoin") * 20);
     }
 
     /**
@@ -196,7 +219,7 @@ public class TopTask {
                     PLAYER_TASK_COIN_LOCK.release();
                 }
             }
-        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.player_task_coin") * 20);
+        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.playerTaskCoin") * 20);
     }
 
     /**
@@ -220,7 +243,7 @@ public class TopTask {
                     PLAYER_GUILD_MONEY_LOCK.release();
                 }
             }
-        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.player_guild_money") * 20);
+        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task.playerGuildMoney") * 20);
     }
 
     /**
@@ -272,7 +295,7 @@ public class TopTask {
             playerNum++;
         }
         // 刷新排行榜
-        Bukkit.getScheduler().runTask(PlayerGuild.getInstance(), TopTask::createHd);
+        Bukkit.getScheduler().runTask(PlayerGuild.getInstance(), () -> TopTask.refreshHd(topTypeEnum));
         MessageApi.sendConsoleDebugMessage("同步" + playerNum + "位玩家" + topTypeEnum.getName() + ",消耗ms:" + (System.currentTimeMillis() - start));
     }
 
