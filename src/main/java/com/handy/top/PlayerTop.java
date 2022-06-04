@@ -60,6 +60,7 @@ public class PlayerTop extends JavaPlugin {
                 .initSubCommand("com.handy.top.command")
                 .initListener("com.handy.top.listener")
                 .enableSql("com.handy.top.enter")
+                .addMetrics(15377)
                 .checkVersion(ConfigUtil.CONFIG.getBoolean(BaseConstants.IS_CHECK_UPDATE), TopConstants.PLUGIN_VERSION_URL);
 
         // 定时任务加载
