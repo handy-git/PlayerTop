@@ -1,5 +1,6 @@
 package com.handy.top.task;
 
+import com.handy.guild.PlayerGuild;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.core.StrUtil;
 import com.handy.top.PlayerTop;
@@ -270,7 +271,7 @@ public class TopTask {
             playerNum++;
         }
         // 刷新排行榜
-        createHd();
+        Bukkit.getScheduler().runTask(PlayerGuild.getInstance(), TopTask::createHd);
         MessageApi.sendConsoleDebugMessage("同步" + playerNum + "位玩家" + topTypeEnum.getName() + ",消耗ms:" + (System.currentTimeMillis() - start));
     }
 

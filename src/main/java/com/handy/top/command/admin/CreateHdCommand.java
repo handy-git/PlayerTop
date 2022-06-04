@@ -12,6 +12,7 @@ import com.handy.top.enter.TopPlayer;
 import com.handy.top.hook.HolographicDisplaysUtil;
 import com.handy.top.service.TopPlayerService;
 import com.handy.top.util.ConfigUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -52,6 +53,7 @@ public class CreateHdCommand implements IHandyCommandEvent {
         // 进行生成
         Location playerLocation = player.getLocation();
         Location location = new Location(player.getWorld(), playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
+        deleteHd(topTypeEnum.getType());
         createHd(topTypeEnum, location);
     }
 
@@ -65,8 +67,7 @@ public class CreateHdCommand implements IHandyCommandEvent {
         String type = topTypeEnum.getType();
         int line = ConfigUtil.CONFIG.getInt("hdFormat." + type + ".line", 10);
         List<TopPlayer> topPlayerList = TopPlayerService.getInstance().page(topTypeEnum, 1, line);
-        // 先进行删除
-        HolographicDisplaysUtil.delete(location);
+
         String material = ConfigUtil.CONFIG.getString("hdFormat." + type + ".material");
         String title = ConfigUtil.CONFIG.getString("hdFormat." + type + ".title");
         String lore = ConfigUtil.CONFIG.getString("hdFormat." + type + ".lore", "");
@@ -116,6 +117,19 @@ public class CreateHdCommand implements IHandyCommandEvent {
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".y", location.getY(), null, "/hologram.yml");
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".z", location.getZ(), null, "/hologram.yml");
         ConfigUtil.HD_CONFIG = HandyConfigUtil.load("hologram.yml");
+    }
+
+    /**
+     * 删除全息
+     *
+     * @param type 类型
+     */
+    public static void deleteHd(String type) {
+        String world = ConfigUtil.HD_CONFIG.getString(type + ".world", "");
+        double x = ConfigUtil.HD_CONFIG.getDouble(type + ".x");
+        double y = ConfigUtil.HD_CONFIG.getDouble(type + ".y");
+        double z = ConfigUtil.HD_CONFIG.getDouble(type + ".z");
+        HolographicDisplaysUtil.delete(new Location(Bukkit.getWorld(world), x, y, z));
     }
 
 }
