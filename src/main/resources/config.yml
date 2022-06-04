@@ -12,30 +12,30 @@ task:
   # 金币
   vault: 300
   # 点券
-  player_points: 600
+  playerPoints: 600
   # 称号币
-  player_title_coin: 1800
+  playerTitleCoin: 1800
   # 称号数量
-  player_title_number: 1900
+  playerTitleNumber: 1900
   # 任务币
-  player_task_coin: 2000
+  playerTaskCoin: 2000
   # 公会贡献
-  player_guild_money: 2000
+  playerGuildMoney: 2000
 
 # 变量的格式 ${player}玩家名 ${original_content}原值,例如 1.0001  ${content}取整值 例如 1
 format:
   # 金币格式
   vault: "${player}: ${content}"
   # 点券格式
-  player_points: "${player}: ${original_content}"
+  playerPoints: "${player}: ${original_content}"
   # 称号币格式
-  player_title_coin: "${player}: ${content}"
+  playerTitleCoin: "${player}: ${content}"
   # 称号数量格式
-  player_title_number: "${player}: ${content}"
+  playerTitleNumber: "${player}: ${content}"
   # 任务币格式
-  player_task_coin: "${player}: ${content}"
+  playerTaskCoin: "${player}: ${content}"
   # 公会贡献格式
-  player_guild_money: "${player}: ${content}"
+  playerGuildMoney: "${player}: ${content}"
 
 # 全息图格式 ${rank}排行 ${player}玩家名 ${original_content}原值,例如 1.0001  ${content}取整值 例如 1
 hdFormat:
@@ -48,27 +48,27 @@ hdFormat:
     title: "&e======全服金币排行榜======"
     # 循环的内容行
     lore: "&e${rank}   &f玩家:&e${player}   &f金币数量:&e${content}"
-  player_points:
+  playerPoints:
     line: 10
     material: "APPLE"
     title: "&e======全服点券排行榜======"
     lore: "&e${rank}   &f玩家:&e${player}   &f点券数量:&e${content}"
-  player_title_coin:
+  playerTitleCoin:
     line: 10
     material: "APPLE"
     title: "&e======全服称号币排行榜======"
     lore: "&e${rank}   &f玩家:&e${player}   &f称号币:&e${content}"
-  player_title_number:
+  playerTitleNumber:
     line: 10
     material: "APPLE"
     title: "&e======全服称号数量排行榜======"
     lore: "&e${rank}   &f玩家:&e${player}   &f称号数量:&e${content}"
-  player_task_coin:
+  playerTaskCoin:
     line: 10
     material: "APPLE"
     title: "&e======全服任务币排行榜======"
     lore: "&e${rank}   &f玩家:&e${player}   &f任务币:&e${content}"
-  player_guild_money:
+  playerGuildMoney:
     line: 10
     material: "APPLE"
     title: "&e======全服公会贡献排行榜======"
