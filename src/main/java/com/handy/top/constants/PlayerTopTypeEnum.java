@@ -18,11 +18,11 @@ public enum PlayerTopTypeEnum {
      * 数据类型
      */
     VAULT(1, "金币", "vault"),
-    PLAYER_POINTS(2, "点券", "player_points"),
-    PLAYER_TITLE_COIN(3, "称号币", "player_title_coin"),
-    PLAYER_TITLE_NUMBER(4, "称号数量", "player_title_number"),
-    PLAYER_TASK_COIN(5, "任务币", "player_task_coin"),
-    PLAYER_GUILD_MONEY(5, "玩家公会贡献", "player_guild_money"),
+    PLAYER_POINTS(2, "点券", "playerPoints"),
+    PLAYER_TITLE_COIN(3, "称号币", "playerTitleCoin"),
+    PLAYER_TITLE_NUMBER(4, "称号数量", "playerTitleNumber"),
+    PLAYER_TASK_COIN(5, "任务币", "playerTaskCoin"),
+    PLAYER_GUILD_MONEY(5, "玩家公会贡献", "playerGuildMoney"),
     ;
 
     private final Integer id;

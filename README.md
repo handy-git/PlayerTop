@@ -17,8 +17,8 @@
 类型包含:
 
 - vault    [金币]
-- player_points [点券]
-- player_title_coin [称号币]
-- player_title_number [称号数量]
-- player_task_coin [任务币]
-- player_guild_money [玩家公会贡献数量]
+- playerPoints [点券]
+- playerTitleCoin [称号币]
+- playerTitleNumber [称号数量]
+- playerTaskCoin [任务币]
+- playerGuildMoney [玩家公会贡献数量]
