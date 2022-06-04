@@ -66,13 +66,8 @@ public class TopTask {
                 continue;
             }
             Location location = new Location(Bukkit.getWorld(world), x, y, z);
-            // 判断是否开启状态
-            boolean enable = memorySection.getBoolean("enable");
-            if (!enable) {
-                // 未开启,进行删除
-                HolographicDisplaysUtil.delete(location);
-                continue;
-            }
+            // 先进行删除
+            HolographicDisplaysUtil.delete(location);
             // 新增全息图
             CreateHdCommand.createHd(playerTopTypeEnum, location);
         }
