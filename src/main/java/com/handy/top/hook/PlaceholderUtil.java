@@ -61,31 +61,25 @@ public class PlaceholderUtil extends PlaceholderExpansion {
 
         String content = "";
         if (CollUtil.isNotEmpty(list)) {
-            String format = "";
+            String format = ConfigUtil.CONFIG.getString("format." + type, "");
             TopPlayer enter = list.get(0);
             switch (topTypeEnum) {
                 case VAULT:
-                    format = ConfigUtil.CONFIG.getString("format.vault", "");
                     content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getVault().intValue() + "").replace("${original_content}", enter.getVault() + "");
                     break;
                 case PLAYER_POINTS:
-                    format = ConfigUtil.CONFIG.getString("format.player_points", "");
                     content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getPlayerPoints() + "").replace("${original_content}", enter.getPlayerPoints() + "");
                     break;
                 case PLAYER_TITLE_COIN:
-                    format = ConfigUtil.CONFIG.getString("format.player_title_coin", "");
                     content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getPlayerTitleCoin() + "").replace("${original_content}", enter.getPlayerTitleCoin() + "");
                     break;
                 case PLAYER_TITLE_NUMBER:
-                    format = ConfigUtil.CONFIG.getString("format.player_title_number", "");
                     content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getPlayerTitleNumber() + "").replace("${original_content}", enter.getPlayerTitleNumber() + "");
                     break;
                 case PLAYER_TASK_COIN:
-                    format = ConfigUtil.CONFIG.getString("format.player_task_coin", "");
                     content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getPlayerTaskCoin() + "").replace("${original_content}", enter.getPlayerTaskCoin() + "");
                     break;
                 case PLAYER_GUILD_MONEY:
-                    format = ConfigUtil.CONFIG.getString("format.player_guild_money", "");
                     content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getPlayerGuildMoney() + "").replace("${original_content}", enter.getPlayerGuildMoney() + "");
                     break;
                 default:
