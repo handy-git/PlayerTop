@@ -44,7 +44,7 @@ public class HolographicDisplaysUtil {
         hologram.clearLines();
         // 第一排的材质
         if (StrUtil.isNotEmpty(materialName)) {
-            hologram.appendItemLine(new ItemStack(ItemStackUtil.getMaterial(materialName, Material.NETHERITE_SWORD)));
+            hologram.appendItemLine(new ItemStack(ItemStackUtil.getMaterial(materialName, Material.PAPER)));
         }
         for (String textLine : textLineList) {
             hologram.appendTextLine(BaseUtil.replaceChatColor(textLine));
