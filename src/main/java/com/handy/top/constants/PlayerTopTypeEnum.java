@@ -22,7 +22,7 @@ public enum PlayerTopTypeEnum {
     PLAYER_TITLE_COIN(3, "称号币", "playerTitleCoin"),
     PLAYER_TITLE_NUMBER(4, "称号数量", "playerTitleNumber"),
     PLAYER_TASK_COIN(5, "任务币", "playerTaskCoin"),
-    PLAYER_GUILD_MONEY(5, "玩家公会贡献", "playerGuildMoney"),
+    PLAYER_GUILD_MONEY(6, "玩家公会贡献", "playerGuildMoney"),
     ;
 
     private final Integer id;
