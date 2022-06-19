@@ -1,7 +1,6 @@
 package com.handy.top.util;
 
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
-import com.handy.guild.PlayerGuild;
 import com.handy.lib.api.MessageApi;
 import com.handy.lib.core.StrUtil;
 import com.handy.top.PlayerTop;
@@ -115,7 +114,7 @@ public class TopTaskUtil {
         }
         MessageApi.sendConsoleDebugMessage("同步" + offlinePlayers.length + "位玩家" + ",消耗ms:" + (System.currentTimeMillis() - start));
         // 刷新排行榜
-        Bukkit.getScheduler().runTask(PlayerGuild.getInstance(), TopTaskUtil::createHd);
+        Bukkit.getScheduler().runTask(PlayerTop.getInstance(), TopTaskUtil::createHd);
     }
 
     /**
