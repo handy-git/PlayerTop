@@ -35,6 +35,10 @@ playerRaceFailureMsg: "&7你的服务端没有安装playerRace 未兼容种族�
 playerGuildSucceedMsg: "&a已成功加载playerGuild 兼容公会功能."
 playerGuildFailureMsg: "&7你的服务端没有安装playerGuild 未兼容公会功能."
 
+# mcMMO提醒
+mcMMOSucceedMsg: "&a已成功加载mcMMO 兼容mcMMO功能."
+mcMMOFailureMsg: "&7你的服务端没有安装mcMMO 未兼容mcMMO功能."
+
 paramFailureMsg: "&c参数错误."
 noPlayerFailureMsg: "&c该命令只能玩家执行."
 typeFailureMsg: "&c类型错误"

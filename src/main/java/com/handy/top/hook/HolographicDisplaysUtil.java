@@ -35,7 +35,7 @@ public class HolographicDisplaysUtil {
      * @param textLineList 内容
      * @param location     位置
      */
-    public static void create(List<String> textLineList, Location location, String materialName) {
+    public void create(List<String> textLineList, Location location, String materialName) {
         if (!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
             return;
         }
@@ -56,7 +56,7 @@ public class HolographicDisplaysUtil {
      *
      * @param location 位置
      */
-    public static void delete(Location location) {
+    public void delete(Location location) {
         if (!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
             return;
         }

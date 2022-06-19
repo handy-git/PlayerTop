@@ -11,13 +11,24 @@ import java.util.UUID;
  */
 public class PlayerPointsUtil {
 
+    private PlayerPointsUtil() {
+    }
+
+    public static PlayerPointsUtil getInstance() {
+        return PlayerPointsUtil.SingletonHolder.INSTANCE;
+    }
+
+    private static class SingletonHolder {
+        private static final PlayerPointsUtil INSTANCE = new PlayerPointsUtil();
+    }
+
     /**
      * 查询玩家点券
      *
      * @param playerUuid 玩家UUID
      * @return 玩家点券
      */
-    public static int getPlayerPoints(UUID playerUuid) {
+    public int getPlayerPoints(UUID playerUuid) {
         if (PlayerTop.getPlayerPoints() == null || playerUuid == null) {
             return 0;
         }

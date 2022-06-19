@@ -6,6 +6,7 @@ import com.handy.top.constants.PlayerTopTypeEnum;
 import com.handy.top.enter.TopPlayer;
 import com.handy.top.service.TopPlayerService;
 import com.handy.top.util.ConfigUtil;
+import com.handy.top.util.TopUtil;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 
@@ -61,30 +62,11 @@ public class PlaceholderUtil extends PlaceholderExpansion {
 
         String content = "";
         if (CollUtil.isNotEmpty(list)) {
-            String format = ConfigUtil.CONFIG.getString("format." + type, "");
-            TopPlayer enter = list.get(0);
-            switch (topTypeEnum) {
-                case VAULT:
-                    content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getVault().intValue() + "").replace("${original_content}", enter.getVault() + "");
-                    break;
-                case PLAYER_POINTS:
-                    content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getPlayerPoints() + "").replace("${original_content}", enter.getPlayerPoints() + "");
-                    break;
-                case PLAYER_TITLE_COIN:
-                    content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getPlayerTitleCoin() + "").replace("${original_content}", enter.getPlayerTitleCoin() + "");
-                    break;
-                case PLAYER_TITLE_NUMBER:
-                    content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getPlayerTitleNumber() + "").replace("${original_content}", enter.getPlayerTitleNumber() + "");
-                    break;
-                case PLAYER_TASK_COIN:
-                    content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getPlayerTaskCoin() + "").replace("${original_content}", enter.getPlayerTaskCoin() + "");
-                    break;
-                case PLAYER_GUILD_MONEY:
-                    content = format.replace("${player}", enter.getPlayerName()).replace("${content}", enter.getPlayerGuildMoney() + "").replace("${original_content}", enter.getPlayerGuildMoney() + "");
-                    break;
-                default:
-                    break;
+            String format = ConfigUtil.FORMAT_CONFIG.getString("format." + type, "");
+            if (type.contains(PlayerTopTypeEnum.MC_MMO.getType())) {
+                format = ConfigUtil.FORMAT_CONFIG.getString("format." + PlayerTopTypeEnum.MC_MMO.getType(), "");
             }
+            content = TopUtil.getContent(topTypeEnum, format, list.get(0));
         }
         return plugin.getConfig().getString(placeholder, content);
     }

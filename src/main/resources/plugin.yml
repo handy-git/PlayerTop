@@ -1,10 +1,10 @@
 name: PlayerTop
 main: com.handy.top.PlayerTop
-version: 1.0.1
+version: 1.0.3
 author: handy
 website: https://handy-git.gitee.io/rice-doc
 api-version: 1.13
-softdepend: [ PlaceholderAPI,Vault,PlayerPoints,PlayerTitle,PlayerTask,PlayerRace,PlayerGuild,HolographicDisplays ]
+softdepend: [ PlaceholderAPI,Vault,PlayerPoints,PlayerTitle,PlayerTask,PlayerRace,PlayerGuild,HolographicDisplays,mcMMO ]
 description: 玩家排行
 commands:
   PlayerTop:

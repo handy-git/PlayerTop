@@ -7,8 +7,8 @@ import com.handy.lib.util.BaseUtil;
 import com.handy.lib.util.SqlManagerUtil;
 import com.handy.top.constants.TopConstants;
 import com.handy.top.hook.PlaceholderUtil;
-import com.handy.top.task.TopTask;
 import com.handy.top.util.ConfigUtil;
+import com.handy.top.util.TopTaskUtil;
 import net.milkbowl.vault.economy.Economy;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.bukkit.Bukkit;
@@ -29,6 +29,7 @@ public class PlayerTop extends JavaPlugin {
     public static boolean USE_RACE;
     public static boolean USE_GUILD;
     public static boolean USE_HOLOGRAPHIC_DISPLAYS;
+    public static boolean USE_MC_MMO;
     public static Economy ECON;
     public static PlayerPoints PLAYER_POINTS;
 
@@ -55,6 +56,8 @@ public class PlayerTop extends JavaPlugin {
         this.loadPlayerTitle();
         // 加载PlayerGuild
         this.loadPlayerGuild();
+        // 加载McMmo
+        this.loadMcMmo();
 
         initApi.initCommand("com.handy.top.command")
                 .initSubCommand("com.handy.top.command")
@@ -64,7 +67,7 @@ public class PlayerTop extends JavaPlugin {
                 .checkVersion(ConfigUtil.CONFIG.getBoolean(BaseConstants.IS_CHECK_UPDATE), TopConstants.PLUGIN_VERSION_URL);
 
         // 定时任务加载
-        TopTask.init();
+        TopTaskUtil.init();
 
         MessageApi.sendConsoleMessage(ChatColor.GREEN + "已成功载入服务器！");
         MessageApi.sendConsoleMessage(ChatColor.GREEN + "Author:handy QQ群:1064982471");
@@ -189,6 +192,18 @@ public class PlayerTop extends JavaPlugin {
             MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerGuildSucceedMsg"));
         } else {
             MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerGuildFailureMsg"));
+        }
+    }
+
+    /**
+     * 加载McMmo
+     */
+    public void loadMcMmo() {
+        USE_MC_MMO = Bukkit.getPluginManager().getPlugin("mcMMO") != null;
+        if (USE_MC_MMO) {
+            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("mcMMOSucceedMsg"));
+        } else {
+            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("mcMMOFailureMsg"));
         }
     }
 

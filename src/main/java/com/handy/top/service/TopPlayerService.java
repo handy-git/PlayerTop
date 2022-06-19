@@ -4,9 +4,9 @@ import com.handy.lib.db.Compare;
 import com.handy.lib.db.Db;
 import com.handy.top.constants.PlayerTopTypeEnum;
 import com.handy.top.enter.TopPlayer;
+import com.handy.top.util.ConfigUtil;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 玩家经济
@@ -26,45 +26,18 @@ public class TopPlayerService {
     }
 
     /**
-     * 根据玩家更新
+     * 新增或更新数据
      *
-     * @param topTypeEnum 类型
-     * @param playerName  玩家名
-     * @param playerUuid  玩家uuid
-     * @param number      数量
-     * @param vault       小数
+     * @param topPlayer 记录
+     * @since 1.0.3
      */
-    public synchronized void updateByPlayer(PlayerTopTypeEnum topTypeEnum, String playerName, UUID playerUuid, int number, double vault) {
-        TopPlayer topPlayer = this.findByPlayerName(playerName);
-        if (topPlayer == null) {
-            topPlayer = new TopPlayer();
-            topPlayer.setPlayerName(playerName);
-            topPlayer.setPlayerUuid(playerUuid.toString());
-            switch (topTypeEnum) {
-                case VAULT:
-                    topPlayer.setVault(vault);
-                    break;
-                case PLAYER_POINTS:
-                    topPlayer.setPlayerPoints(number);
-                    break;
-                case PLAYER_TITLE_COIN:
-                    topPlayer.setPlayerTitleCoin(number);
-                    break;
-                case PLAYER_TITLE_NUMBER:
-                    topPlayer.setPlayerTitleNumber(number);
-                    break;
-                case PLAYER_TASK_COIN:
-                    topPlayer.setPlayerTaskCoin(number);
-                    break;
-                case PLAYER_GUILD_MONEY:
-                    topPlayer.setPlayerGuildMoney(number);
-                default:
-                    break;
-            }
+    public synchronized void saveOrUpdate(TopPlayer topPlayer) {
+        TopPlayer top = this.findByPlayerName(topPlayer.getPlayerName());
+        if (top == null) {
             this.add(topPlayer);
             return;
         }
-        this.updateByPlayerName(topTypeEnum, playerName, number, vault);
+        this.update(topPlayer);
     }
 
     /**
@@ -79,6 +52,10 @@ public class TopPlayerService {
         Db<TopPlayer> db = Db.use(TopPlayer.class);
         Compare<TopPlayer> where = db.where();
         where.limit(pageNum, pageSize);
+        // 是否包含op
+        if (ConfigUtil.CONFIG.getBoolean("isOp")) {
+            where.eq(TopPlayer::getOp, false);
+        }
         switch (topTypeEnum) {
             case VAULT:
                 where.orderByDesc(TopPlayer::getVault);
@@ -97,6 +74,60 @@ public class TopPlayerService {
                 break;
             case PLAYER_GUILD_MONEY:
                 where.orderByDesc(TopPlayer::getPlayerGuildMoney);
+                break;
+            case MC_MMO:
+                where.orderByDesc(TopPlayer::getMcMmoSum);
+                break;
+            case MC_MMO_AXES:
+                where.orderByDesc(TopPlayer::getMcMmoAxes);
+                break;
+            case MC_MMO_MINING:
+                where.orderByDesc(TopPlayer::getMcMmoMining);
+                break;
+            case MC_MMO_REPAIR:
+                where.orderByDesc(TopPlayer::getMcMmoRepair);
+                break;
+            case MC_MMO_SWORDS:
+                where.orderByDesc(TopPlayer::getMcMmoSwords);
+                break;
+            case MC_MMO_TAMING:
+                where.orderByDesc(TopPlayer::getMcMmoTaming);
+                break;
+            case MC_MMO_ALCHEMY:
+                where.orderByDesc(TopPlayer::getMcMmoAlchemy);
+                break;
+            case MC_MMO_ARCHERY:
+                where.orderByDesc(TopPlayer::getMcMmoArchery);
+                break;
+            case MC_MMO_FISHING:
+                where.orderByDesc(TopPlayer::getMcMmoFishing);
+                break;
+            case MC_MMO_SALVAGE:
+                where.orderByDesc(TopPlayer::getMcMmoSalvage);
+                break;
+            case MC_MMO_UNARMED:
+                where.orderByDesc(TopPlayer::getMcMmoUnarmed);
+                break;
+            case MC_MMO_SMELTING:
+                where.orderByDesc(TopPlayer::getMcMmoSmelting);
+                break;
+            case MC_MMO_HERBALISM:
+                where.orderByDesc(TopPlayer::getMcMmoHerbalism);
+                break;
+            case MC_MMO_ACROBATICS:
+                where.orderByDesc(TopPlayer::getMcMmoAcrobatics);
+                break;
+            case MC_MMO_EXCAVATION:
+                where.orderByDesc(TopPlayer::getMcMmoExcavation);
+                break;
+            case MC_MMO_WOODCUTTING:
+                where.orderByDesc(TopPlayer::getMcMmoWoodcutting);
+                break;
+            case PLAYER_GUILD_KILL:
+                where.orderByDesc(TopPlayer::getPlayerGuildKill);
+                break;
+            case PLAYER_GUILD_DIE:
+                where.orderByDesc(TopPlayer::getPlayerGuildDie);
                 break;
             default:
                 break;
@@ -128,36 +159,39 @@ public class TopPlayerService {
     /**
      * 根据玩家名更新
      *
-     * @param topTypeEnum 类型
-     * @param playerName  玩家名
-     * @param number      数量
-     * @param vault       小数量
+     * @param topPlayer 入参
+     * @since 1.0.3
      */
-    private void updateByPlayerName(PlayerTopTypeEnum topTypeEnum, String playerName, int number, double vault) {
+    private void update(TopPlayer topPlayer) {
         Db<TopPlayer> use = Db.use(TopPlayer.class);
-        switch (topTypeEnum) {
-            case VAULT:
-                use.update().set(TopPlayer::getVault, vault);
-                break;
-            case PLAYER_POINTS:
-                use.update().set(TopPlayer::getPlayerPoints, number);
-                break;
-            case PLAYER_TITLE_COIN:
-                use.update().set(TopPlayer::getPlayerTitleCoin, number);
-                break;
-            case PLAYER_TITLE_NUMBER:
-                use.update().set(TopPlayer::getPlayerTitleNumber, number);
-                break;
-            case PLAYER_TASK_COIN:
-                use.update().set(TopPlayer::getPlayerTaskCoin, number);
-                break;
-            case PLAYER_GUILD_MONEY:
-                use.update().set(TopPlayer::getPlayerGuildMoney, number);
-                break;
-            default:
-                return;
-        }
-        use.where().eq(TopPlayer::getPlayerName, playerName);
+        use.update()
+                .set(TopPlayer::getOp, topPlayer.getOp())
+                .set(TopPlayer::getPlayerPoints, topPlayer.getPlayerPoints())
+                .set(TopPlayer::getVault, topPlayer.getVault())
+                .set(TopPlayer::getPlayerGuildMoney, topPlayer.getPlayerGuildMoney())
+                .set(TopPlayer::getPlayerTaskCoin, topPlayer.getPlayerTaskCoin())
+                .set(TopPlayer::getPlayerTitleCoin, topPlayer.getPlayerTitleCoin())
+                .set(TopPlayer::getPlayerTitleNumber, topPlayer.getPlayerTitleNumber())
+                .set(TopPlayer::getMcMmoSum, topPlayer.getMcMmoSum())
+                .set(TopPlayer::getMcMmoAcrobatics, topPlayer.getMcMmoAcrobatics())
+                .set(TopPlayer::getMcMmoAlchemy, topPlayer.getMcMmoAlchemy())
+                .set(TopPlayer::getMcMmoAxes, topPlayer.getMcMmoAxes())
+                .set(TopPlayer::getMcMmoExcavation, topPlayer.getMcMmoExcavation())
+                .set(TopPlayer::getMcMmoFishing, topPlayer.getMcMmoFishing())
+                .set(TopPlayer::getMcMmoHerbalism, topPlayer.getMcMmoHerbalism())
+                .set(TopPlayer::getMcMmoMining, topPlayer.getMcMmoMining())
+                .set(TopPlayer::getMcMmoRepair, topPlayer.getMcMmoRepair())
+                .set(TopPlayer::getMcMmoSalvage, topPlayer.getMcMmoSalvage())
+                .set(TopPlayer::getMcMmoSmelting, topPlayer.getMcMmoSmelting())
+                .set(TopPlayer::getMcMmoSwords, topPlayer.getMcMmoSwords())
+                .set(TopPlayer::getMcMmoTaming, topPlayer.getMcMmoTaming())
+                .set(TopPlayer::getMcMmoUnarmed, topPlayer.getMcMmoUnarmed())
+                .set(TopPlayer::getMcMmoWoodcutting, topPlayer.getMcMmoWoodcutting())
+                .set(TopPlayer::getMcMmoArchery, topPlayer.getMcMmoArchery())
+                .set(TopPlayer::getPlayerGuildKill, topPlayer.getPlayerGuildKill())
+                .set(TopPlayer::getPlayerGuildDie, topPlayer.getPlayerGuildDie())
+        ;
+        use.where().eq(TopPlayer::getPlayerName, topPlayer.getPlayerName());
         use.execution().update();
     }
 

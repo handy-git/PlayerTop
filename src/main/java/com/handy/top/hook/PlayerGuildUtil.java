@@ -3,7 +3,6 @@ package com.handy.top.hook;
 import com.handy.guild.api.PlayerGuildApi;
 import com.handy.lib.core.StrUtil;
 import com.handy.top.PlayerTop;
-import org.bukkit.entity.Player;
 
 /**
  * 公会util
@@ -26,29 +25,43 @@ public class PlayerGuildUtil {
     /**
      * 查询玩家贡献数量
      *
-     * @param player 玩家
-     * @return 贡献数量
-     */
-    public static int getPlayerGuildMoney(Player player) {
-        if (!PlayerTop.USE_GUILD || player == null) {
-            return 0;
-        }
-        Integer playerGuildMoney = PlayerGuildApi.getInstance().getPlayerMoney(player);
-        return playerGuildMoney != null ? playerGuildMoney : 0;
-    }
-
-    /**
-     * 查询玩家贡献数量
-     *
      * @param playerName 玩家名
      * @return 贡献数量
      */
-    public static int getPlayerGuildMoney(String playerName) {
+    public int getPlayerGuildMoney(String playerName) {
         if (!PlayerTop.USE_GUILD || StrUtil.isEmpty(playerName)) {
             return 0;
         }
         Integer playerGuildMoney = PlayerGuildApi.getInstance().getPlayerMoney(playerName);
         return playerGuildMoney != null ? playerGuildMoney : 0;
+    }
+
+    /**
+     * 查询玩家公会战击杀
+     *
+     * @param playerName 玩家名
+     * @return 公会战击杀
+     */
+    public int getPlayerGuildKill(String playerName) {
+        if (!PlayerTop.USE_GUILD || StrUtil.isEmpty(playerName)) {
+            return 0;
+        }
+        Integer playerGuildKill = PlayerGuildApi.getInstance().getPlayerKill(playerName);
+        return playerGuildKill != null ? playerGuildKill : 0;
+    }
+
+    /**
+     * 查询玩家公会战死亡
+     *
+     * @param playerName 玩家名
+     * @return 公会战死亡
+     */
+    public int getPlayerGuildDie(String playerName) {
+        if (!PlayerTop.USE_GUILD || StrUtil.isEmpty(playerName)) {
+            return 0;
+        }
+        Integer playerGuildDie = PlayerGuildApi.getInstance().getPlayerDie(playerName);
+        return playerGuildDie != null ? playerGuildDie : 0;
     }
 
 }

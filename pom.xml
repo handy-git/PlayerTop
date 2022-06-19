@@ -6,22 +6,23 @@
 
     <groupId>com.handy.top</groupId>
     <artifactId>PlayerTop</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
     <description>全能排行榜插件</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spigot-api.vesion>1.19-R0.1-SNAPSHOT</spigot-api.vesion>
         <lombok.version>1.18.24</lombok.version>
-        <HandyLib.version>3.0.9</HandyLib.version>
+        <HandyLib.version>3.1.0</HandyLib.version>
         <placeholderapi.version>2.10.5</placeholderapi.version>
         <VaultAPI.vesion>1.7</VaultAPI.vesion>
         <PlayerPoints.version>3.0.3</PlayerPoints.version>
         <PlayerTitle.version>2.10.1</PlayerTitle.version>
         <PlayerRace.version>1.2.4</PlayerRace.version>
         <PlayerTask.version>1.11.0</PlayerTask.version>
-        <PlayerGuild.version>1.4.4</PlayerGuild.version>
+        <PlayerGuild.version>1.4.6</PlayerGuild.version>
         <holographicdisplays.version>2.3.2</holographicdisplays.version>
+        <mcMMO.version>2.1.209</mcMMO.version>
     </properties>
 
     <dependencies>
@@ -76,16 +77,24 @@
             <groupId>com.handy.playerrace</groupId>
             <artifactId>PlayerRace</artifactId>
             <version>${PlayerRace.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.handy.guild</groupId>
             <artifactId>PlayerGuild</artifactId>
             <version>${PlayerGuild.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.gmail.filoghost.holographicdisplays</groupId>
             <artifactId>holographicdisplays-api</artifactId>
             <version>${holographicdisplays.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gmail.nossr50</groupId>
+            <artifactId>mcMMO</artifactId>
+            <version>${mcMMO.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -117,7 +126,7 @@
                     <relocations>
                         <relocation>
                             <pattern>com.handy.lib</pattern>
-                            <shadedPattern>com.handy.flow.lib</shadedPattern>
+                            <shadedPattern>com.handy.top.lib</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
