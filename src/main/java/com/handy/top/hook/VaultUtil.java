@@ -3,6 +3,9 @@ package com.handy.top.hook;
 import com.handy.lib.core.StrUtil;
 import com.handy.top.PlayerTop;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * 金币util
  *
@@ -31,7 +34,9 @@ public class VaultUtil {
         if (PlayerTop.getEconomy() == null || StrUtil.isEmpty(playerName)) {
             return 0.0;
         }
-        return PlayerTop.getEconomy().getBalance(playerName);
+        double dou = PlayerTop.getEconomy().getBalance(playerName);
+        BigDecimal bigDecimal = new BigDecimal(dou).setScale(2, RoundingMode.HALF_UP);
+        return bigDecimal.doubleValue();
     }
 
 }
