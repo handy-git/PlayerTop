@@ -1,6 +1,6 @@
 name: PlayerTop
-main: com.handy.top.PlayerTop
-version: 1.0.5
+main: cn.handyplus.top.PlayerTop
+version: 1.0.6
 author: handy
 website: https://handy-git.gitee.io/rice-doc
 api-version: 1.13
