@@ -74,7 +74,10 @@ public class TopTaskUtil {
             TopPlayer topPlayer = new TopPlayer();
             topPlayer.setPlayerName(playerName);
             topPlayer.setPlayerUuid(offlinePlayer.getUniqueId().toString());
-            topPlayer.setOp(offlinePlayer.isOp());
+            topPlayer.setOp(false);
+            if (ConfigUtil.CONFIG.getBoolean("isOp")) {
+                topPlayer.setOp(offlinePlayer.isOp());
+            }
             // 金币
             topPlayer.setVault(VaultUtil.getInstance().getPlayerVault(playerName));
             // 点券

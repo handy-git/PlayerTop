@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spigot-api.vesion>1.19-R0.1-SNAPSHOT</spigot-api.vesion>
         <lombok.version>1.18.24</lombok.version>
-        <HandyLib.version>3.1.1</HandyLib.version>
+        <HandyLib.version>3.2.0</HandyLib.version>
         <placeholderapi.version>2.10.5</placeholderapi.version>
         <VaultAPI.vesion>1.7</VaultAPI.vesion>
         <PlayerPoints.version>3.0.3</PlayerPoints.version>
