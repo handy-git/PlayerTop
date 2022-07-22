@@ -2,6 +2,7 @@ package cn.handyplus.top.util;
 
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
+import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.HandyConfigUtil;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPlayer;
@@ -109,7 +110,8 @@ public class TopUtil {
                 content = newLore;
                 break;
         }
-        return content.replace("${player}", topPlayer.getPlayerName()).replace("${rank}", rank + "");
+        content = content.replace("${player}", topPlayer.getPlayerName()).replace("${rank}", rank + "");
+        return BaseUtil.replaceChatColor(content);
     }
 
     /**
