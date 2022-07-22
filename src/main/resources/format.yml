@@ -1,23 +1,23 @@
 # 变量的格式 ${rank}排行 ${player}玩家名 ${original_content}原值,例如 1.0001  ${content}取整值 例如 1
 format:
   # 金币格式
-  vault: "${player}: ${content}"
+  vault: "&e${rank}   &f玩家:&e${player}   &f数量:&e${content}"
   # 点券格式
-  playerPoints: "${player}: ${original_content}"
+  playerPoints: "&e${rank}   &f玩家:&e${player}   &f数量:&e${content}"
   # 称号币格式
-  playerTitleCoin: "${player}: ${content}"
+  playerTitleCoin: "&e${rank}   &f玩家:&e${player}   &f称号币:&e${content}"
   # 称号数量格式
-  playerTitleNumber: "${player}: ${content}"
+  playerTitleNumber: "&e${rank}   &f玩家:&e${player}   &f称号数量:&e${content}"
   # 任务币格式
-  playerTaskCoin: "${player}: ${content}"
+  playerTaskCoin: "&e${rank}   &f玩家:&e${player}   &f任务币:&e${content}"
   # 公会贡献格式
-  playerGuildMoney: "${player}: ${content}"
+  playerGuildMoney: "&e${rank}   &f玩家:&e${player}   &f公会贡献:&e${content}"
   # mcMmo格式
-  mcMmo: "${player}: ${content}"
+  mcMmo: "&e${rank}   &f玩家:&e${player}   &f等级:&e${content}"
   # 公会战击杀数量格式
-  playerGuildKill: "${player}: ${content}"
+  playerGuildKill: "&e${rank}   &f玩家:&e${player}   &f次数:&e${content}"
   # 公会战死亡数量格式
-  playerGuildDie: "${player}: ${content}"
+  playerGuildDie: "&e${rank}   &f玩家:&e${player}   &f次数:&e${content}"
 
 # 全息图格式 ${rank}排行 ${player}玩家名 ${original_content}原值,例如 1.0001  ${content}取整值 例如 1
 hdFormat:
