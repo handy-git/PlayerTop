@@ -26,10 +26,11 @@ public class TopUtil {
      * @param topTypeEnum 类型
      * @param newLore     替换的lore
      * @param topPlayer   数据
+     * @param rank        排行
      * @return 新值
      * @since 1.0.3
      */
-    public static String getContent(PlayerTopTypeEnum topTypeEnum, String newLore, TopPlayer topPlayer) {
+    public static String getContent(PlayerTopTypeEnum topTypeEnum, String newLore, TopPlayer topPlayer, int rank) {
         String content = "";
         switch (topTypeEnum) {
             case VAULT:
@@ -108,7 +109,7 @@ public class TopUtil {
                 content = newLore;
                 break;
         }
-        return content;
+        return content.replace("${player}", topPlayer.getPlayerName()).replace("${rank}", rank + "");
     }
 
     /**
@@ -140,9 +141,7 @@ public class TopUtil {
         // 判断有数据 进行构建行
         if (CollUtil.isNotEmpty(topPlayerList)) {
             for (int i = 0; i < topPlayerList.size(); i++) {
-                TopPlayer topPlayer = topPlayerList.get(i);
-                String newLore = lore.replace("${player}", topPlayer.getPlayerName()).replace("${rank}", (i + 1) + "");
-                textLineList.add(getContent(topTypeEnum, newLore, topPlayer));
+                textLineList.add(getContent(topTypeEnum, lore, topPlayerList.get(i), i + 1));
             }
         }
         // 创建全息

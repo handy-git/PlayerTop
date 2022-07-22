@@ -66,7 +66,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
             if (type.contains(PlayerTopTypeEnum.MC_MMO.getType())) {
                 format = ConfigUtil.FORMAT_CONFIG.getString("format." + PlayerTopTypeEnum.MC_MMO.getType(), "");
             }
-            content = TopUtil.getContent(topTypeEnum, format, list.get(0));
+            content = TopUtil.getContent(topTypeEnum, format, list.get(0), pageNum);
         }
         return plugin.getConfig().getString(placeholder, content);
     }
