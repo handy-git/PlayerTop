@@ -1,4 +1,4 @@
-# 变量的格式 ${player}玩家名 ${original_content}原值,例如 1.0001  ${content}取整值 例如 1
+# 变量的格式 ${rank}排行 ${player}玩家名 ${original_content}原值,例如 1.0001  ${content}取整值 例如 1
 format:
   # 金币格式
   vault: "${player}: ${content}"
