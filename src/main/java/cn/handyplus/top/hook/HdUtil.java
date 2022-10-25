@@ -20,11 +20,11 @@ public class HdUtil {
      */
     public static void create(List<String> textLineList, Location location, String materialName) {
         if (PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
-            CmiUtil.getInstance().create(textLineList, location, materialName);
+            HolographicDisplaysUtil.getInstance().create(textLineList, location, materialName);
             return;
         }
         if (PlayerTop.USE_CMI) {
-            HolographicDisplaysUtil.getInstance().create(textLineList, location, materialName);
+            CmiUtil.getInstance().create(textLineList, location, materialName);
         }
     }
 
@@ -35,11 +35,11 @@ public class HdUtil {
      */
     public static void delete(Location location) {
         if (PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
-            CmiUtil.getInstance().delete(location);
+            HolographicDisplaysUtil.getInstance().delete(location);
             return;
         }
         if (PlayerTop.USE_CMI) {
-            HolographicDisplaysUtil.getInstance().delete(location);
+            CmiUtil.getInstance().delete(location);
         }
     }
 
