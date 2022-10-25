@@ -23,7 +23,7 @@
         <PlayerGuild.version>1.4.6</PlayerGuild.version>
         <holographicdisplays.version>2.3.2</holographicdisplays.version>
         <mcMMO.version>2.1.209</mcMMO.version>
-        <cmi.version>9.0.0.0</cmi.version>
+        <cmi.version>8.7.8.2</cmi.version>
     </properties>
 
     <dependencies>
