@@ -6,7 +6,7 @@ import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.HandyConfigUtil;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPlayer;
-import cn.handyplus.top.hook.HolographicDisplaysUtil;
+import cn.handyplus.top.hook.HdUtil;
 import cn.handyplus.top.service.TopPlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -147,7 +147,7 @@ public class TopUtil {
             }
         }
         // 创建全息
-        HolographicDisplaysUtil.getInstance().create(textLineList, location, material);
+        HdUtil.create(textLineList, location, material);
         // 保存全息配置
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".enable", true, Collections.singletonList("是否开启"), "/hologram.yml");
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".world", Objects.requireNonNull(location.getWorld()).getName(), null, "/hologram.yml");
@@ -167,7 +167,7 @@ public class TopUtil {
         double x = ConfigUtil.HD_CONFIG.getDouble(type + ".x");
         double y = ConfigUtil.HD_CONFIG.getDouble(type + ".y");
         double z = ConfigUtil.HD_CONFIG.getDouble(type + ".z");
-        HolographicDisplaysUtil.getInstance().delete(new Location(Bukkit.getWorld(world), x, y, z));
+        HdUtil.delete(new Location(Bukkit.getWorld(world), x, y, z));
     }
 
 }

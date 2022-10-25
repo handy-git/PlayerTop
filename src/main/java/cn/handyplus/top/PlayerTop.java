@@ -32,6 +32,7 @@ public class PlayerTop extends JavaPlugin {
     public static boolean USE_MC_MMO;
     public static Economy ECON;
     public static PlayerPoints PLAYER_POINTS;
+    public static boolean USE_CMI;
 
     @Override
     public void onEnable() {
@@ -39,25 +40,26 @@ public class PlayerTop extends JavaPlugin {
         InitApi initApi = InitApi.getInstance(this);
         // 加载配置文件
         ConfigUtil.init();
-
         // 加载vault
         this.loadEconomy();
-        // 加载HolographicDisplays
-        this.loadHolographicDisplays();
         // 加载PlayerPoints
         this.loadPlayerPoints();
         // 加载Placeholder
         this.loadPlaceholder();
+        // 加载HolographicDisplays
+        USE_HOLOGRAPHIC_DISPLAYS = BaseUtil.hook("HolographicDisplays", "HolographicDisplaysSucceedMsg", "HolographicDisplaysFailureMsg");
         // 加载PlayerTask
-        this.loadPlayerTask();
-        // 记载PlayerRace
-        this.loadPlayerRace();
+        USE_TASK = BaseUtil.hook("PlayerTask", "playerTaskSucceedMsg", "playerTaskFailureMsg");
+        // 加载PlayerRace
+        USE_RACE = BaseUtil.hook("PlayerRace", "playerRaceSucceedMsg", "playerRaceFailureMsg");
         // 加载PlayerTitle
-        this.loadPlayerTitle();
+        USE_TITLE = BaseUtil.hook("PlayerTitle", "playerTitleSucceedMsg", "playerTitleFailureMsg");
         // 加载PlayerGuild
-        this.loadPlayerGuild();
+        USE_GUILD = BaseUtil.hook("PlayerGuild", "playerGuildSucceedMsg", "playerGuildFailureMsg");
         // 加载McMmo
-        this.loadMcMmo();
+        USE_MC_MMO = BaseUtil.hook("mcMMO", "mcMMOSucceedMsg", "mcMMOFailureMsg");
+        // 加载cmi
+        USE_CMI = BaseUtil.hook("CMI", "cmiSucceedMsg", "cmiFailureMsg");
 
         initApi.initCommand("cn.handyplus.top.command")
                 .initListener("cn.handyplus.top.listener")
@@ -122,18 +124,6 @@ public class PlayerTop extends JavaPlugin {
     }
 
     /**
-     * 加载 HolographicDisplays
-     */
-    public void loadHolographicDisplays() {
-        USE_HOLOGRAPHIC_DISPLAYS = Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays");
-        if (USE_HOLOGRAPHIC_DISPLAYS) {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("HolographicDisplaysSucceedMsg"));
-        } else {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("HolographicDisplaysFailureMsg"));
-        }
-    }
-
-    /**
      * 加载PlayerPoints
      */
     private void loadPlayerPoints() {
@@ -144,66 +134,6 @@ public class PlayerTop extends JavaPlugin {
             return;
         }
         MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerPointsFailureMsg"));
-    }
-
-    /**
-     * 加载PlayerTitle
-     */
-    public void loadPlayerTitle() {
-        USE_TITLE = Bukkit.getPluginManager().getPlugin("PlayerTitle") != null;
-        if (USE_TITLE) {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerTitleSucceedMsg"));
-        } else {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerTitleFailureMsg"));
-        }
-    }
-
-    /**
-     * 加载 PlayerRace
-     */
-    public void loadPlayerRace() {
-        USE_RACE = Bukkit.getPluginManager().getPlugin("PlayerRace") != null;
-        if (USE_RACE) {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerRaceSucceedMsg"));
-        } else {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerRaceFailureMsg"));
-        }
-    }
-
-    /**
-     * 加载 PlayerTask
-     */
-    public void loadPlayerTask() {
-        USE_TASK = Bukkit.getPluginManager().getPlugin("PlayerTask") != null;
-        if (USE_TASK) {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerTaskSucceedMsg"));
-        } else {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerTaskFailureMsg"));
-        }
-    }
-
-    /**
-     * 加载PlayerGuild
-     */
-    public void loadPlayerGuild() {
-        USE_GUILD = Bukkit.getPluginManager().getPlugin("PlayerGuild") != null;
-        if (USE_GUILD) {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerGuildSucceedMsg"));
-        } else {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("playerGuildFailureMsg"));
-        }
-    }
-
-    /**
-     * 加载McMmo
-     */
-    public void loadMcMmo() {
-        USE_MC_MMO = Bukkit.getPluginManager().getPlugin("mcMMO") != null;
-        if (USE_MC_MMO) {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("mcMMOSucceedMsg"));
-        } else {
-            MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("mcMMOFailureMsg"));
-        }
     }
 
 }

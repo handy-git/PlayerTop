@@ -21,7 +21,7 @@ public class HolographicDisplaysUtil {
     private HolographicDisplaysUtil() {
     }
 
-    public static HolographicDisplaysUtil getInstance() {
+    protected static HolographicDisplaysUtil getInstance() {
         return HolographicDisplaysUtil.SingletonHolder.INSTANCE;
     }
 

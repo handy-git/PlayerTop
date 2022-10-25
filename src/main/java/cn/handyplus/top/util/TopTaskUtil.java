@@ -144,7 +144,7 @@ public class TopTaskUtil {
             Location location = new Location(Bukkit.getWorld(world), x, y, z);
 
             // 先进行删除
-            HolographicDisplaysUtil.getInstance().delete(location);
+            HdUtil.delete(location);
             // 判断是否开启状态
             boolean enable = memorySection.getBoolean("enable");
             if (!enable) {
