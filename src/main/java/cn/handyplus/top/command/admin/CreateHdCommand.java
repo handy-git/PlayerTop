@@ -34,7 +34,7 @@ public class CreateHdCommand implements IHandyCommandEvent {
         AssertUtil.notPlayer(sender, BaseUtil.getLangMsg("noPlayerFailureMsg"));
         Player player = (Player) sender;
         // 是否加载全息图
-        AssertUtil.notTrue(!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS, sender, BaseUtil.getLangMsg("HolographicDisplaysFailureMsg"));
+        AssertUtil.notTrue(!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS && !PlayerTop.USE_CMI, sender, BaseUtil.getLangMsg("HolographicDisplaysFailureMsg"));
         // 获取类型
         PlayerTopTypeEnum topTypeEnum = PlayerTopTypeEnum.getType(args[1]);
         AssertUtil.notNull(topTypeEnum, sender, BaseUtil.getLangMsg("typeFailureMsg"));
