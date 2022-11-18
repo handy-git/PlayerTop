@@ -96,4 +96,41 @@ public class TopPlayer {
 
     @TableField(value = "mc_mmo_woodcutting", comment = "McMmo 伐木", filedDefault = "0")
     private Integer mcMmoWoodcutting;
+
+    @TableField(value = "job_brewer", comment = "Jobs 酿造师", filedDefault = "0")
+    private Integer jobBrewer;
+
+    @TableField(value = "job_builder", comment = "Jobs 建筑家", filedDefault = "0")
+    private Integer jobBuilder;
+
+    @TableField(value = "job_crafter", comment = "Jobs 合成者", filedDefault = "0")
+    private Integer jobCrafter;
+
+    @TableField(value = "job_digger", comment = "Jobs 挖掘者", filedDefault = "0")
+    private Integer jobDigger;
+
+    @TableField(value = "job_enchanter", comment = "Jobs 附魔师", filedDefault = "0")
+    private Integer jobEnchanter;
+
+    @TableField(value = "job_explorer", comment = "Jobs 探索者", filedDefault = "0")
+    private Integer jobExplorer;
+
+    @TableField(value = "job_farmer", comment = "Jobs 农场主", filedDefault = "0")
+    private Integer jobFarmer;
+
+    @TableField(value = "job_fisherman", comment = "Jobs 渔夫", filedDefault = "0")
+    private Integer jobFisherman;
+
+    @TableField(value = "job_hunter", comment = "Jobs 猎人", filedDefault = "0")
+    private Integer jobHunter;
+
+    @TableField(value = "job_miner", comment = "Jobs 矿工", filedDefault = "0")
+    private Integer jobMiner;
+
+    @TableField(value = "job_weapon_smith", comment = "Jobs 武器商", filedDefault = "0")
+    private Integer jobWeaponSmith;
+
+    @TableField(value = "job_woodcutter", comment = "Jobs 伐木工", filedDefault = "0")
+    private Integer jobWoodcutter;
+
 }

@@ -43,6 +43,10 @@ mcMMOFailureMsg: "&7你的服务端没有安装mcMMO 未兼容mcMMO功能."
 cmiSucceedMsg: "&a成功加载CMI,启用CMI全息图功能."
 cmiFailureMsg: "&4未找到CMI,未启用CMI全息图功能."
 
+# jobs提醒
+jobsSucceedMsg: "&a已成功加载Jobs 兼容Jobs功能."
+jobsFailureMsg: "&7你的服务端没有安装Jobs 未兼容Jobs功能."
+
 paramFailureMsg: "&c参数错误."
 noPlayerFailureMsg: "&c该命令只能玩家执行."
 typeFailureMsg: "&c类型错误"

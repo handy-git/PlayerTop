@@ -129,6 +129,42 @@ public class TopPlayerService {
             case PLAYER_GUILD_DIE:
                 where.orderByDesc(TopPlayer::getPlayerGuildDie);
                 break;
+            case JOBS_BREWER:
+                where.orderByDesc(TopPlayer::getJobBrewer);
+                break;
+            case JOBS_BUILDER:
+                where.orderByDesc(TopPlayer::getJobBuilder);
+                break;
+            case JOBS_CRAFTER:
+                where.orderByDesc(TopPlayer::getJobCrafter);
+                break;
+            case JOBS_DIGGER:
+                where.orderByDesc(TopPlayer::getJobDigger);
+                break;
+            case JOBS_ENCHANTER:
+                where.orderByDesc(TopPlayer::getJobEnchanter);
+                break;
+            case JOBS_EXPLORER:
+                where.orderByDesc(TopPlayer::getJobExplorer);
+                break;
+            case JOBS_FARMER:
+                where.orderByDesc(TopPlayer::getJobFarmer);
+                break;
+            case JOBS_FISHERMAN:
+                where.orderByDesc(TopPlayer::getJobFisherman);
+                break;
+            case JOBS_HUNTER:
+                where.orderByDesc(TopPlayer::getJobHunter);
+                break;
+            case JOBS_MINER:
+                where.orderByDesc(TopPlayer::getJobMiner);
+                break;
+            case JOBS_WEAPON_SMITH:
+                where.orderByDesc(TopPlayer::getJobWeaponSmith);
+                break;
+            case JOBS_WOODCUTTER:
+                where.orderByDesc(TopPlayer::getJobWoodcutter);
+                break;
             default:
                 break;
         }
@@ -190,6 +226,18 @@ public class TopPlayerService {
                 .set(TopPlayer::getMcMmoArchery, topPlayer.getMcMmoArchery())
                 .set(TopPlayer::getPlayerGuildKill, topPlayer.getPlayerGuildKill())
                 .set(TopPlayer::getPlayerGuildDie, topPlayer.getPlayerGuildDie())
+                .set(TopPlayer::getJobBrewer, topPlayer.getJobBrewer())
+                .set(TopPlayer::getJobBuilder, topPlayer.getJobBuilder())
+                .set(TopPlayer::getJobCrafter, topPlayer.getJobCrafter())
+                .set(TopPlayer::getJobDigger, topPlayer.getJobDigger())
+                .set(TopPlayer::getJobEnchanter, topPlayer.getJobEnchanter())
+                .set(TopPlayer::getJobExplorer, topPlayer.getJobExplorer())
+                .set(TopPlayer::getJobFarmer, topPlayer.getJobFarmer())
+                .set(TopPlayer::getJobFisherman, topPlayer.getJobFisherman())
+                .set(TopPlayer::getJobHunter, topPlayer.getJobHunter())
+                .set(TopPlayer::getJobMiner, topPlayer.getJobMiner())
+                .set(TopPlayer::getJobWeaponSmith, topPlayer.getJobWeaponSmith())
+                .set(TopPlayer::getJobWoodcutter, topPlayer.getJobWoodcutter())
         ;
         use.where().eq(TopPlayer::getPlayerName, topPlayer.getPlayerName());
         use.execution().update();

@@ -5,7 +5,14 @@ import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPlayer;
-import cn.handyplus.top.hook.*;
+import cn.handyplus.top.hook.HdUtil;
+import cn.handyplus.top.hook.JobUtil;
+import cn.handyplus.top.hook.McMmoUtil;
+import cn.handyplus.top.hook.PlayerGuildUtil;
+import cn.handyplus.top.hook.PlayerPointsUtil;
+import cn.handyplus.top.hook.PlayerTaskUtil;
+import cn.handyplus.top.hook.PlayerTitleUtil;
+import cn.handyplus.top.hook.VaultUtil;
 import cn.handyplus.top.service.TopPlayerService;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import org.bukkit.Bukkit;
@@ -112,6 +119,22 @@ public class TopTaskUtil {
                 topPlayer.setMcMmoAcrobatics(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.ACROBATICS.name()));
                 topPlayer.setMcMmoExcavation(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.EXCAVATION.name()));
                 topPlayer.setMcMmoWoodcutting(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.WOODCUTTING.name()));
+            }
+            // jobs
+            if (PlayerTop.USE_JOB) {
+                Map<String, Integer> levelMap = JobUtil.getInstance().getLevelMap(playerName);
+                topPlayer.setJobBrewer(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_BREWER.getOriginalType(), 0));
+                topPlayer.setJobBuilder(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_BUILDER.getOriginalType(), 0));
+                topPlayer.setJobCrafter(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_CRAFTER.getOriginalType(), 0));
+                topPlayer.setJobDigger(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_DIGGER.getOriginalType(), 0));
+                topPlayer.setJobEnchanter(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_ENCHANTER.getOriginalType(), 0));
+                topPlayer.setJobExplorer(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_EXPLORER.getOriginalType(), 0));
+                topPlayer.setJobFarmer(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_FARMER.getOriginalType(), 0));
+                topPlayer.setJobFisherman(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_FISHERMAN.getOriginalType(), 0));
+                topPlayer.setJobHunter(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_HUNTER.getOriginalType(), 0));
+                topPlayer.setJobMiner(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_MINER.getOriginalType(), 0));
+                topPlayer.setJobWeaponSmith(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WEAPON_SMITH.getOriginalType(), 0));
+                topPlayer.setJobWoodcutter(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WOODCUTTER.getOriginalType(), 0));
             }
             TopPlayerService.getInstance().saveOrUpdate(topPlayer);
         }

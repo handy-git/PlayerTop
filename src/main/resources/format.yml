@@ -18,6 +18,8 @@ format:
   playerGuildKill: "&e${rank}   &f玩家:&e${player}   &f次数:&e${content}"
   # 公会战死亡数量格式
   playerGuildDie: "&e${rank}   &f玩家:&e${player}   &f次数:&e${content}"
+  # jobs格式
+  jobs: "&e${rank}   &f玩家:&e${player}   &f等级:&e${content}"
 
 # 全息图格式 ${rank}排行 ${player}玩家名 ${original_content}原值,例如 1.0001  ${content}取整值 例如 1
 hdFormat:
@@ -70,3 +72,8 @@ hdFormat:
     material: "APPLE"
     title: "&e======全服公会战死亡排行榜======"
     lore: "&e${rank}   &f玩家:&e${player}   &f次数:&e${content}"
+  jobs:
+    line: 10
+    material: "NETHER_STAR"
+    title: "&e======全服${jobs}排行榜======"
+    lore: "&e${rank}   &f玩家:&e${player}   &f等级:&e${content}"

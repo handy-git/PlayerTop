@@ -106,6 +106,42 @@ public class TopUtil {
             case PLAYER_GUILD_DIE:
                 content = newLore.replace("${content}", topPlayer.getPlayerGuildDie() + "").replace("${original_content}", topPlayer.getPlayerGuildDie() + "");
                 break;
+            case JOBS_BREWER:
+                content = newLore.replace("${content}", topPlayer.getJobBrewer() + "").replace("${original_content}", topPlayer.getJobBrewer() + "");
+                break;
+            case JOBS_BUILDER:
+                content = newLore.replace("${content}", topPlayer.getJobBuilder() + "").replace("${original_content}", topPlayer.getJobBuilder() + "");
+                break;
+            case JOBS_CRAFTER:
+                content = newLore.replace("${content}", topPlayer.getJobCrafter() + "").replace("${original_content}", topPlayer.getJobCrafter() + "");
+                break;
+            case JOBS_DIGGER:
+                content = newLore.replace("${content}", topPlayer.getJobDigger() + "").replace("${original_content}", topPlayer.getJobDigger() + "");
+                break;
+            case JOBS_ENCHANTER:
+                content = newLore.replace("${content}", topPlayer.getJobEnchanter() + "").replace("${original_content}", topPlayer.getJobEnchanter() + "");
+                break;
+            case JOBS_EXPLORER:
+                content = newLore.replace("${content}", topPlayer.getJobExplorer() + "").replace("${original_content}", topPlayer.getJobExplorer() + "");
+                break;
+            case JOBS_FARMER:
+                content = newLore.replace("${content}", topPlayer.getJobFarmer() + "").replace("${original_content}", topPlayer.getJobFarmer() + "");
+                break;
+            case JOBS_FISHERMAN:
+                content = newLore.replace("${content}", topPlayer.getJobFisherman() + "").replace("${original_content}", topPlayer.getJobFisherman() + "");
+                break;
+            case JOBS_HUNTER:
+                content = newLore.replace("${content}", topPlayer.getJobHunter() + "").replace("${original_content}", topPlayer.getJobHunter() + "");
+                break;
+            case JOBS_MINER:
+                content = newLore.replace("${content}", topPlayer.getJobMiner() + "").replace("${original_content}", topPlayer.getJobMiner() + "");
+                break;
+            case JOBS_WEAPON_SMITH:
+                content = newLore.replace("${content}", topPlayer.getJobWeaponSmith() + "").replace("${original_content}", topPlayer.getJobWeaponSmith() + "");
+                break;
+            case JOBS_WOODCUTTER:
+                content = newLore.replace("${content}", topPlayer.getJobWoodcutter() + "").replace("${original_content}", topPlayer.getJobWoodcutter() + "");
+                break;
             default:
                 content = newLore;
                 break;
@@ -134,6 +170,15 @@ public class TopUtil {
             title = ConfigUtil.FORMAT_CONFIG.getString("hdFormat." + PlayerTopTypeEnum.MC_MMO.getType() + ".title", "");
             title = title.replace("${mcMmo}", topTypeEnum.getName());
             lore = ConfigUtil.FORMAT_CONFIG.getString("hdFormat." + PlayerTopTypeEnum.MC_MMO.getType() + ".lore", "");
+        }
+        // 判断jobs
+        String jobs = "jobs";
+        if (type.contains(jobs)) {
+            line = ConfigUtil.FORMAT_CONFIG.getInt("hdFormat." + jobs + ".line", 10);
+            material = ConfigUtil.FORMAT_CONFIG.getString("hdFormat." + jobs + ".material");
+            title = ConfigUtil.FORMAT_CONFIG.getString("hdFormat." + jobs + ".title", "");
+            title = title.replace("${jobs}", topTypeEnum.getName());
+            lore = ConfigUtil.FORMAT_CONFIG.getString("hdFormat." + jobs + ".lore", "");
         }
         List<TopPlayer> topPlayerList = TopPlayerService.getInstance().page(topTypeEnum, 1, line);
         List<String> textLineList = new ArrayList<>();

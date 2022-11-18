@@ -42,6 +42,9 @@ public class ConfigUtil {
         // 1.0.9 添加語言文件
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "cmiSucceedMsg", "&a成功加载CMI,启用CMI全息图功能", null, "languages/" + CONFIG.getString("language") + ".yml");
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "cmiFailureMsg", "&4未找到CMI,未启用CMI全息图功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
+        // 1.1.1 添加語言文件
+        HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "jobsSucceedMsg", "&a已成功加载Jobs 兼容Jobs功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
+        HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "jobsFailureMsg", "&7你的服务端没有安装Jobs 未兼容Jobs功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
         LANG_CONFIG = HandyConfigUtil.load("languages/" + CONFIG.getString("language") + ".yml");
     }
 

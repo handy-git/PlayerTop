@@ -33,6 +33,7 @@ public class PlayerTop extends JavaPlugin {
     public static Economy ECON;
     public static PlayerPoints PLAYER_POINTS;
     public static boolean USE_CMI;
+    public static boolean USE_JOB;
 
     @Override
     public void onEnable() {
@@ -60,6 +61,8 @@ public class PlayerTop extends JavaPlugin {
         USE_MC_MMO = BaseUtil.hook("mcMMO", "mcMMOSucceedMsg", "mcMMOFailureMsg");
         // 加载cmi
         USE_CMI = BaseUtil.hook("CMI", "cmiSucceedMsg", "cmiFailureMsg");
+        // 加载jobs
+        USE_JOB = BaseUtil.hook("Jobs", "jobsSucceedMsg", "jobsFailureMsg");
 
         initApi.initCommand("cn.handyplus.top.command")
                 .initListener("cn.handyplus.top.listener")
