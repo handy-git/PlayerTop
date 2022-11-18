@@ -148,7 +148,7 @@ public class TopUtil {
                 break;
         }
         content = content.replace("${player}", topPlayer.getPlayerName()).replace("${rank}", rank + "");
-        content = PlaceholderApiUtil.set(BaseUtil.getOnlinePlayer(topPlayer.getPlayerName()), content);
+        content = PlaceholderApiUtil.set(topPlayer.getPlayerName(), content);
         return BaseUtil.replaceChatColor(content);
     }
 
