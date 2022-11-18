@@ -34,6 +34,7 @@ public class PlayerTop extends JavaPlugin {
     public static PlayerPoints PLAYER_POINTS;
     public static boolean USE_CMI;
     public static boolean USE_JOB;
+    public static boolean USE_PAPI;
 
     @Override
     public void onEnable() {
@@ -120,9 +121,11 @@ public class PlayerTop extends JavaPlugin {
     public void loadPlaceholder() {
         if (Bukkit.getPluginManager().getPlugin(BaseConstants.PLACEHOLDER_API) != null) {
             new PlaceholderUtil(this).register();
+            USE_PAPI = true;
             MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("placeholderAPISucceedMsg"));
             return;
         }
+        USE_PAPI = false;
         MessageApi.sendConsoleMessage(BaseUtil.getLangMsg("placeholderAPIFailureMsg"));
     }
 

@@ -7,6 +7,7 @@ import cn.handyplus.lib.util.HandyConfigUtil;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPlayer;
 import cn.handyplus.top.hook.HdUtil;
+import cn.handyplus.top.hook.PlaceholderApiUtil;
 import cn.handyplus.top.service.TopPlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -147,6 +148,7 @@ public class TopUtil {
                 break;
         }
         content = content.replace("${player}", topPlayer.getPlayerName()).replace("${rank}", rank + "");
+        content = PlaceholderApiUtil.set(BaseUtil.getOnlinePlayer(topPlayer.getPlayerName()), content);
         return BaseUtil.replaceChatColor(content);
     }
 
