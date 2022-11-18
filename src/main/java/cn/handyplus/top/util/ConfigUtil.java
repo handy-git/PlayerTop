@@ -11,7 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
  */
 public class ConfigUtil {
     public static FileConfiguration CONFIG, LANG_CONFIG;
-    public static FileConfiguration HD_CONFIG, FORMAT_CONFIG;
+    public static FileConfiguration HD_CONFIG, FORMAT_CONFIG, PAPI_CONFIG;
 
     /**
      * 加载全部配置
@@ -26,6 +26,8 @@ public class ConfigUtil {
         HD_CONFIG = HandyConfigUtil.load("hologram.yml");
         // 全息配置
         FORMAT_CONFIG = HandyConfigUtil.load("format.yml");
+        // 变量配置
+        PAPI_CONFIG = HandyConfigUtil.load("papi.yml");
         // 升级配置
         upConfig();
     }

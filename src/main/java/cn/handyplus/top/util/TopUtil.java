@@ -8,6 +8,7 @@ import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPlayer;
 import cn.handyplus.top.hook.HdUtil;
 import cn.handyplus.top.hook.PlaceholderApiUtil;
+import cn.handyplus.top.param.PlayerPapi;
 import cn.handyplus.top.service.TopPlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -149,6 +150,21 @@ public class TopUtil {
         }
         content = content.replace("${player}", topPlayer.getPlayerName()).replace("${rank}", rank + "");
         content = PlaceholderApiUtil.set(topPlayer.getPlayerName(), content);
+        return BaseUtil.replaceChatColor(content);
+    }
+
+    /**
+     * 根据类型获取模板
+     *
+     * @param lore       替换的lore
+     * @param playerPapi 玩家排行数据
+     * @param rank       排行
+     * @return 新值
+     * @since 1.0.3
+     */
+    public static String getPapiContent(String lore, PlayerPapi playerPapi, int rank) {
+        String content = lore.replace("${content}", playerPapi.getPapiValue()).replace("${player}", playerPapi.getPlayerName()).replace("${rank}", rank + "");
+        content = PlaceholderApiUtil.set(playerPapi.getPlayerName(), content);
         return BaseUtil.replaceChatColor(content);
     }
 
