@@ -42,7 +42,7 @@ public class JobUtil {
         }
         List<JobProgression> jobs = jobsPlayer.getJobProgression();
         for (JobProgression jobProgression : jobs) {
-            map.put(jobProgression.getJob().getJobFullName(), jobProgression.getLevel());
+            map.put(jobProgression.getJob().getName(), jobProgression.getLevel());
         }
         return map;
     }
