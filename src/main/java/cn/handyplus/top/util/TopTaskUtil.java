@@ -258,6 +258,11 @@ public class TopTaskUtil {
             if (memorySection == null) {
                 continue;
             }
+            // 判断是否开启状态
+            boolean enable = memorySection.getBoolean(type + ".enable");
+            if (!enable) {
+                continue;
+            }
             String papi = ConfigUtil.PAPI_CONFIG.getString(type + ".papi", "");
             if (StrUtil.isNotEmpty(papi)) {
                 papiTypeList.add(papi);
@@ -275,9 +280,14 @@ public class TopTaskUtil {
     private static Map<String, List<PlayerPapi>> getPlayerPapiListMap(List<String> papiTypeList) {
         List<PlayerPapi> playerPapiList = new ArrayList<>();
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
+        boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
+
         for (OfflinePlayer offlinePlayer : offlinePlayers) {
             String playerName = offlinePlayer.getName();
             if (StrUtil.isEmpty(playerName)) {
+                continue;
+            }
+            if (isOp && offlinePlayer.isOp()) {
                 continue;
             }
             for (String papiType : papiTypeList) {
