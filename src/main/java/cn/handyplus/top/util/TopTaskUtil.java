@@ -199,6 +199,9 @@ public class TopTaskUtil {
         }
         // 获取变量类型
         List<String> papiTypeList = getPapiTypeList(values);
+        if (CollUtil.isEmpty(papiTypeList)) {
+            return;
+        }
         // 获取全部玩家的变量值
         Map<String, List<PlayerPapi>> playerPapiListMap = getPlayerPapiListMap(papiTypeList);
         // 设置对应属性
