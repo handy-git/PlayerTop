@@ -6,15 +6,7 @@ import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPlayer;
-import cn.handyplus.top.hook.HdUtil;
-import cn.handyplus.top.hook.JobUtil;
-import cn.handyplus.top.hook.McMmoUtil;
-import cn.handyplus.top.hook.PlaceholderApiUtil;
-import cn.handyplus.top.hook.PlayerGuildUtil;
-import cn.handyplus.top.hook.PlayerPointsUtil;
-import cn.handyplus.top.hook.PlayerTaskUtil;
-import cn.handyplus.top.hook.PlayerTitleUtil;
-import cn.handyplus.top.hook.VaultUtil;
+import cn.handyplus.top.hook.*;
 import cn.handyplus.top.param.PlayerPapi;
 import cn.handyplus.top.param.PlayerPapiHd;
 import cn.handyplus.top.service.TopPlayerService;
@@ -165,10 +157,10 @@ public class TopTaskUtil {
             if (memorySection == null) {
                 continue;
             }
-            String world = ConfigUtil.HD_CONFIG.getString(type + ".world", "");
-            double x = ConfigUtil.HD_CONFIG.getDouble(type + ".x");
-            double y = ConfigUtil.HD_CONFIG.getDouble(type + ".y");
-            double z = ConfigUtil.HD_CONFIG.getDouble(type + ".z");
+            String world = memorySection.getString("world", "");
+            double x = memorySection.getDouble("x");
+            double y = memorySection.getDouble("y");
+            double z = memorySection.getDouble("z");
             // 获取类型
             PlayerTopTypeEnum playerTopTypeEnum = PlayerTopTypeEnum.getType(type);
             if (playerTopTypeEnum == null) {
@@ -212,20 +204,20 @@ public class TopTaskUtil {
             if (memorySection == null) {
                 continue;
             }
-            String papi = ConfigUtil.PAPI_CONFIG.getString(type + ".papi", "");
-            int line = ConfigUtil.PAPI_CONFIG.getInt(type + ".line", 10);
-            String material = ConfigUtil.PAPI_CONFIG.getString(type + ".material", "");
-            String title = ConfigUtil.PAPI_CONFIG.getString(type + ".title", "");
-            String lore = ConfigUtil.PAPI_CONFIG.getString(type + ".lore", "");
+            String papi = memorySection.getString("papi", "");
+            int line = memorySection.getInt("line", 10);
+            String material = memorySection.getString("material", "");
+            String title = memorySection.getString("title", "");
+            String lore = memorySection.getString("lore", "");
             // 获取位置
-            String world = ConfigUtil.PAPI_CONFIG.getString(type + ".world", "");
+            String world = memorySection.getString("world", "");
             if (StrUtil.isEmpty(world)) {
                 MessageApi.sendConsoleMessage("papi.yml里节点:" + type + ",配置异常");
                 continue;
             }
-            double x = ConfigUtil.PAPI_CONFIG.getDouble(type + ".x");
-            double y = ConfigUtil.PAPI_CONFIG.getDouble(type + ".y");
-            double z = ConfigUtil.PAPI_CONFIG.getDouble(type + ".z");
+            double x = memorySection.getDouble("x");
+            double y = memorySection.getDouble("y");
+            double z = memorySection.getDouble("z");
             Location location = new Location(Bukkit.getWorld(world), x, y, z);
             List<String> textLineList = new ArrayList<>();
             if (StrUtil.isNotEmpty(title)) {
@@ -285,11 +277,11 @@ public class TopTaskUtil {
                 continue;
             }
             // 判断是否开启状态
-            boolean enable = memorySection.getBoolean(type + ".enable");
+            boolean enable = memorySection.getBoolean("enable");
             if (!enable) {
                 continue;
             }
-            String papi = ConfigUtil.PAPI_CONFIG.getString(type + ".papi", "");
+            String papi = memorySection.getString("papi", "");
             if (StrUtil.isNotEmpty(papi)) {
                 papiTypeList.add(papi);
             }

@@ -2,13 +2,13 @@
 example:
   # 是否开启
   enable: false
-  # 使用称号数量变量
+  # 例子-使用称号数量变量
   papi: "%playerTitle_number%"
   # lore内容循环行数
   line: 10
   # 全息物品材质
   material: "PAPER"
-  # 标题行
+  # 例子-标题行
   title: "&e======称号数量变量排行榜======"
   # 循环的内容行
   lore: "&e${rank}   &f玩家:&e${player}   &f数量:&e${content}"
