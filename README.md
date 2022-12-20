@@ -4,21 +4,13 @@
 
 一款有点好用的玩家排行榜插件
 
-#### 指令
+[MCBBS](https://www.mcbbs.net/thread-1351130-1-1.html)
 
-/pt reload 重载插件
-/pt createHd [类型] 生成对应全息图
 
-#### 变量
+[WIKI](https://ricedoc.handyplus.cn/#/PlayerTop/zh_CN/)
 
-%playerTop_[类型]_[排行]%
-例如:  %playerTop_vault_1%
+### 爱发电购买
+[爱发电](https://afdian.net/item?plan_id=3ccf4a54e3f611ec984c52540025c377)
 
-类型包含:
-
-- vault    [金币]
-- playerPoints [点券]
-- playerTitleCoin [称号币]
-- playerTitleNumber [称号数量]
-- playerTaskCoin [任务币]
-- playerGuildMoney [玩家公会贡献数量]
+#### 如果你没有钱购买支持作者
+请点个star支持下也可
