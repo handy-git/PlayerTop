@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author handy
@@ -149,7 +150,7 @@ public class TopUtil {
                 break;
         }
         content = content.replace("${player}", topPlayer.getPlayerName()).replace("${rank}", rank + "");
-        content = PlaceholderApiUtil.set(topPlayer.getPlayerName(), content);
+        content = PlaceholderApiUtil.set(UUID.fromString(topPlayer.getPlayerUuid()), content);
         return BaseUtil.replaceChatColor(content);
     }
 
@@ -164,7 +165,7 @@ public class TopUtil {
      */
     public static String getPapiContent(String lore, PlayerPapi playerPapi, int rank) {
         String content = lore.replace("${content}", playerPapi.getPapiValue()).replace("${player}", playerPapi.getPlayerName()).replace("${rank}", rank + "");
-        content = PlaceholderApiUtil.set(playerPapi.getPlayerName(), content);
+        content = PlaceholderApiUtil.set(playerPapi.getPlayerUuid(), content);
         return BaseUtil.replaceChatColor(content);
     }
 

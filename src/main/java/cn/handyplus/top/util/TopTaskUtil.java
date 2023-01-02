@@ -6,7 +6,15 @@ import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPlayer;
-import cn.handyplus.top.hook.*;
+import cn.handyplus.top.hook.HdUtil;
+import cn.handyplus.top.hook.JobUtil;
+import cn.handyplus.top.hook.McMmoUtil;
+import cn.handyplus.top.hook.PlaceholderApiUtil;
+import cn.handyplus.top.hook.PlayerGuildUtil;
+import cn.handyplus.top.hook.PlayerPointsUtil;
+import cn.handyplus.top.hook.PlayerTaskUtil;
+import cn.handyplus.top.hook.PlayerTitleUtil;
+import cn.handyplus.top.hook.VaultUtil;
 import cn.handyplus.top.param.PlayerPapi;
 import cn.handyplus.top.param.PlayerPapiHd;
 import cn.handyplus.top.service.TopPlayerService;
@@ -309,8 +317,8 @@ public class TopTaskUtil {
                 continue;
             }
             for (String papiType : papiTypeList) {
-                String papiValue = PlaceholderApiUtil.set(playerName, papiType);
-                PlayerPapi playerPapi = PlayerPapi.builder().playerName(playerName).papiType(papiType).papiValue(papiValue).build();
+                String papiValue = PlaceholderApiUtil.set(offlinePlayer, papiType);
+                PlayerPapi playerPapi = PlayerPapi.builder().playerName(playerName).playerUuid(offlinePlayer.getUniqueId()).papiType(papiType).papiValue(papiValue).build();
                 playerPapiList.add(playerPapi);
             }
         }
