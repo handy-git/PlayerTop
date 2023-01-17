@@ -60,6 +60,11 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         // 查询对应记录
         List<TopPlayer> list = TopPlayerService.getInstance().page(topTypeEnum, pageNum, 1);
 
+        // 判断是否查询玩家name
+        if (placeholderStr.length > 2 && "name".equalsIgnoreCase(placeholderStr[2])) {
+            return list.get(0).getPlayerName();
+        }
+
         String content = "";
         if (CollUtil.isNotEmpty(list)) {
             String format = ConfigUtil.FORMAT_CONFIG.getString("format." + type, "");
