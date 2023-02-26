@@ -1,3 +1,4 @@
+# 这里配置好后 /pt reload 重载插件即可刷新出来排行
 # 变量全息图格式 ${rank}排行 ${player}玩家名  ${content}值 例如 1
 example:
   # 是否开启

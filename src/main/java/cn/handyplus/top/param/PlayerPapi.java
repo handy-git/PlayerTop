@@ -21,4 +21,6 @@ public class PlayerPapi {
     private String papiType;
 
     private String papiValue;
+
+    private Long papiLongValue;
 }
