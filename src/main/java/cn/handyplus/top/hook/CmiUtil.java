@@ -74,6 +74,9 @@ public class CmiUtil {
         if (!PlayerTop.USE_CMI) {
             return;
         }
+        if (CMI_HD_CACHE.isEmpty()) {
+            return;
+        }
         // 删除旧的全息图
         for (Location location : CMI_HD_CACHE.keySet()) {
             CMIHologram cmiHologram = CMI_HD_CACHE.get(location);
