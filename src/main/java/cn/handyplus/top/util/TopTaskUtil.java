@@ -317,7 +317,8 @@ public class TopTaskUtil {
                 continue;
             }
             for (String papiType : papiTypeList) {
-                String papiValue = PlaceholderApiUtil.set(offlinePlayer, papiType).trim();
+                String papiValue = PlaceholderApiUtil.set(offlinePlayer, papiType);
+                papiValue = StrUtil.isNotEmpty(papiValue) ? papiValue.trim() : papiType;
                 PlayerPapi playerPapi = PlayerPapi.builder().playerName(playerName).playerUuid(offlinePlayer.getUniqueId()).papiType(papiType).papiValue(papiValue).build();
                 playerPapiList.add(playerPapi);
             }
