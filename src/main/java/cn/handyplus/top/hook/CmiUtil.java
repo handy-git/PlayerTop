@@ -82,9 +82,9 @@ public class CmiUtil {
             CMIHologram cmiHologram = CMI_HD_CACHE.get(location);
             if (cmiHologram != null) {
                 cmiHologram.remove();
-                CMI_HD_CACHE.remove(location);
             }
         }
+        CMI_HD_CACHE.clear();
     }
 
 }
