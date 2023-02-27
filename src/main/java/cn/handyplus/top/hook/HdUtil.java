@@ -29,6 +29,22 @@ public class HdUtil {
     }
 
     /**
+     * 删除全息图
+     *
+     * @param location 位置
+     */
+    public static void deleteAll() {
+        if (PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
+            HolographicDisplaysUtil.getInstance().deleteAll();
+            return;
+        }
+        if (PlayerTop.USE_CMI) {
+            CmiUtil.getInstance().deleteAll();
+        }
+    }
+
+
+    /**
      * 根据位置删除全息图
      *
      * @param location 位置

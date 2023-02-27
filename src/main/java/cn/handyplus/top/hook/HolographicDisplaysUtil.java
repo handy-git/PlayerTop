@@ -70,4 +70,17 @@ public class HolographicDisplaysUtil {
         }
     }
 
+    /**
+     * 删除全部全息图
+     */
+    public void deleteAll() {
+        if (!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
+            return;
+        }
+        // 删除旧的全息图
+        for (Hologram hologram : HologramsAPI.getHolograms(PlayerTop.getInstance())) {
+            hologram.delete();
+        }
+    }
+
 }

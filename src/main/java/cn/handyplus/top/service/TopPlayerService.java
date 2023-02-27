@@ -9,7 +9,7 @@ import cn.handyplus.top.util.ConfigUtil;
 import java.util.List;
 
 /**
- * 玩家经济
+ * 玩家排行数据
  *
  * @author handy
  */

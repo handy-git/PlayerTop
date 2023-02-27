@@ -2,21 +2,24 @@ package cn.handyplus.top.enter;
 
 import cn.handyplus.lib.annotation.TableField;
 import cn.handyplus.lib.annotation.TableName;
-import lombok.Data;
+import cn.handyplus.lib.db.enums.IndexEnum;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 玩家排行数据
  *
  * @author handy
  */
-@Data
+@Getter
+@Setter
 @TableName(value = "top_player", comment = "玩家排行数据")
 public class TopPlayer {
 
     @TableField(value = "id", comment = "ID")
     private Integer id;
 
-    @TableField(value = "player_name", comment = "玩家名称", notNull = true)
+    @TableField(value = "player_name", comment = "玩家名称", notNull = true, indexEnum = IndexEnum.INDEX)
     private String playerName;
 
     @TableField(value = "player_uuid", comment = "玩家uuid")

@@ -12,6 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
+ * 创建全息图配置
+ *
  * @author handy
  */
 public class CreateHdCommand implements IHandyCommandEvent {

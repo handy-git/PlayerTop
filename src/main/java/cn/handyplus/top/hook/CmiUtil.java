@@ -67,4 +67,21 @@ public class CmiUtil {
         }
     }
 
+    /**
+     * 删除全息图
+     */
+    public void deleteAll() {
+        if (!PlayerTop.USE_CMI) {
+            return;
+        }
+        // 删除旧的全息图
+        for (Location location : CMI_HD_CACHE.keySet()) {
+            CMIHologram cmiHologram = CMI_HD_CACHE.get(location);
+            if (cmiHologram != null) {
+                cmiHologram.remove();
+                CMI_HD_CACHE.remove(location);
+            }
+        }
+    }
+
 }
