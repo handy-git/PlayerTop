@@ -64,4 +64,22 @@ public class PlayerGuildUtil {
         return playerGuildDie != null ? playerGuildDie : 0;
     }
 
+    /**
+     * 查询玩家捐赠贡献数量
+     *
+     * @param playerName 玩家名
+     * @return 捐赠贡献数量
+     */
+    public int getPlayerDonatedGuildMoney(String playerName) {
+        if (!PlayerTop.USE_GUILD || StrUtil.isEmpty(playerName)) {
+            return 0;
+        }
+        try {
+            Integer playerGuildMoney = PlayerGuildApi.getInstance().getPlayerGuildMoney(playerName);
+            return playerGuildMoney != null ? playerGuildMoney : 0;
+        } catch (Throwable ignored) {
+        }
+        return 0;
+    }
+
 }

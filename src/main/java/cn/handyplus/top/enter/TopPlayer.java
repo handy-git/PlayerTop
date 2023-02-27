@@ -46,6 +46,9 @@ public class TopPlayer {
     @TableField(value = "player_guild_money", comment = "玩家公会贡献", filedDefault = "0")
     private Integer playerGuildMoney;
 
+    @TableField(value = "player_guild_donated_money", comment = "玩家公会捐赠贡献", filedDefault = "0")
+    private Integer playerGuildDonatedMoney;
+
     @TableField(value = "player_guild_kill", comment = "玩家公会战击杀", filedDefault = "0")
     private Integer playerGuildKill;
 

@@ -75,6 +75,15 @@ public class TopPlayerService {
             case PLAYER_GUILD_MONEY:
                 where.orderByDesc(TopPlayer::getPlayerGuildMoney);
                 break;
+            case PLAYER_GUILD_DONATED_MONEY:
+                where.orderByDesc(TopPlayer::getPlayerGuildDonatedMoney);
+                break;
+            case PLAYER_GUILD_KILL:
+                where.orderByDesc(TopPlayer::getPlayerGuildKill);
+                break;
+            case PLAYER_GUILD_DIE:
+                where.orderByDesc(TopPlayer::getPlayerGuildDie);
+                break;
             case MC_MMO:
                 where.orderByDesc(TopPlayer::getMcMmoSum);
                 break;
@@ -122,12 +131,6 @@ public class TopPlayerService {
                 break;
             case MC_MMO_WOODCUTTING:
                 where.orderByDesc(TopPlayer::getMcMmoWoodcutting);
-                break;
-            case PLAYER_GUILD_KILL:
-                where.orderByDesc(TopPlayer::getPlayerGuildKill);
-                break;
-            case PLAYER_GUILD_DIE:
-                where.orderByDesc(TopPlayer::getPlayerGuildDie);
                 break;
             case JOBS_BREWER:
                 where.orderByDesc(TopPlayer::getJobBrewer);

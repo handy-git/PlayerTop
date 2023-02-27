@@ -55,6 +55,15 @@ public class TopUtil {
             case PLAYER_GUILD_MONEY:
                 content = newLore.replace("${content}", topPlayer.getPlayerGuildMoney() + "").replace("${original_content}", topPlayer.getPlayerGuildMoney() + "");
                 break;
+            case PLAYER_GUILD_DONATED_MONEY:
+                content = newLore.replace("${content}", topPlayer.getPlayerGuildDonatedMoney() + "").replace("${original_content}", topPlayer.getPlayerGuildDonatedMoney() + "");
+                break;
+            case PLAYER_GUILD_KILL:
+                content = newLore.replace("${content}", topPlayer.getPlayerGuildKill() + "").replace("${original_content}", topPlayer.getPlayerGuildKill() + "");
+                break;
+            case PLAYER_GUILD_DIE:
+                content = newLore.replace("${content}", topPlayer.getPlayerGuildDie() + "").replace("${original_content}", topPlayer.getPlayerGuildDie() + "");
+                break;
             case MC_MMO:
                 content = newLore.replace("${content}", topPlayer.getMcMmoSum() + "").replace("${original_content}", topPlayer.getMcMmoSum() + "");
                 break;
@@ -102,12 +111,6 @@ public class TopUtil {
                 break;
             case MC_MMO_WOODCUTTING:
                 content = newLore.replace("${content}", topPlayer.getMcMmoWoodcutting() + "").replace("${original_content}", topPlayer.getMcMmoWoodcutting() + "");
-                break;
-            case PLAYER_GUILD_KILL:
-                content = newLore.replace("${content}", topPlayer.getPlayerGuildKill() + "").replace("${original_content}", topPlayer.getPlayerGuildKill() + "");
-                break;
-            case PLAYER_GUILD_DIE:
-                content = newLore.replace("${content}", topPlayer.getPlayerGuildDie() + "").replace("${original_content}", topPlayer.getPlayerGuildDie() + "");
                 break;
             case JOBS_BREWER:
                 content = newLore.replace("${content}", topPlayer.getJobBrewer() + "").replace("${original_content}", topPlayer.getJobBrewer() + "");

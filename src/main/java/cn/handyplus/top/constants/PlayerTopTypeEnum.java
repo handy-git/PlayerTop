@@ -19,10 +19,17 @@ public enum PlayerTopTypeEnum {
      */
     VAULT(1, "金币", "vault", ""),
     PLAYER_POINTS(2, "点券", "playerPoints", ""),
+
     PLAYER_TITLE_COIN(3, "称号币", "playerTitleCoin", ""),
     PLAYER_TITLE_NUMBER(4, "称号数量", "playerTitleNumber", ""),
+
     PLAYER_TASK_COIN(5, "任务币", "playerTaskCoin", ""),
+
     PLAYER_GUILD_MONEY(6, "玩家公会贡献", "playerGuildMoney", ""),
+    PLAYER_GUILD_KILL(23, "玩家公会战击杀", "playerGuildKill", ""),
+    PLAYER_GUILD_DIE(24, "玩家公会战死亡", "playerGuildDie", ""),
+    PLAYER_GUILD_DONATED_MONEY(37, "玩家公会捐赠贡献", "playerGuildDonatedMoney", ""),
+
     MC_MMO(7, "McMmo等级", "mcMmo", ""),
     MC_MMO_ACROBATICS(8, "McMmo杂技等级", "mcMmoAcrobatics", ""),
     MC_MMO_ALCHEMY(9, "McMmo炼金等级", "mcMmoAlchemy", ""),
@@ -39,8 +46,6 @@ public enum PlayerTopTypeEnum {
     MC_MMO_TAMING(20, "McMmo驯兽等级", "mcMmoTaming", ""),
     MC_MMO_UNARMED(21, "McMmo格斗等级", "mcMmoUnarmed", ""),
     MC_MMO_WOODCUTTING(22, "McMmo伐木等级", "mcMmoWoodcutting", ""),
-    PLAYER_GUILD_KILL(23, "玩家公会战击杀", "playerGuildKill", ""),
-    PLAYER_GUILD_DIE(24, "玩家公会战死亡", "playerGuildDie", ""),
 
     JOBS_BREWER(25, "Jobs 酿造师", "jobsBrewer", "Brewer"),
     JOBS_BUILDER(26, "Jobs 建筑家", "jobsBuilder", "Builder"),
