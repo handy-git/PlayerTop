@@ -3,7 +3,6 @@ package cn.handyplus.top.util;
 import cn.handyplus.lib.api.MessageApi;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
-import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPlayer;
@@ -236,12 +235,7 @@ public class TopTaskUtil {
             List<PlayerPapi> playerPapiChildList = playerPapiListMap.get(papi);
             if (CollUtil.isNotEmpty(playerPapiChildList)) {
                 // 排序并取出数据
-                List<PlayerPapi> playerPapiTopList;
-                if (playerPapiChildList.get(0).getPapiLongValue() != null) {
-                    playerPapiTopList = playerPapiChildList.stream().sorted(Comparator.comparing(PlayerPapi::getPapiLongValue).reversed()).limit(line).collect(Collectors.toList());
-                } else {
-                    playerPapiTopList = playerPapiChildList.stream().sorted(Comparator.comparing(PlayerPapi::getPapiValue).reversed()).limit(line).collect(Collectors.toList());
-                }
+                List<PlayerPapi> playerPapiTopList = playerPapiChildList.stream().sorted(Comparator.comparing(PlayerPapi::getPapiValue).reversed()).limit(line).collect(Collectors.toList());
                 // 判断有数据 进行构建行
                 for (int i = 0; i < playerPapiTopList.size(); i++) {
                     textLineList.add(TopUtil.getPapiContent(lore, playerPapiTopList.get(i), i + 1));
@@ -323,9 +317,8 @@ public class TopTaskUtil {
                 continue;
             }
             for (String papiType : papiTypeList) {
-                String papiValue = PlaceholderApiUtil.set(offlinePlayer, papiType);
+                String papiValue = PlaceholderApiUtil.set(offlinePlayer, papiType).trim();
                 PlayerPapi playerPapi = PlayerPapi.builder().playerName(playerName).playerUuid(offlinePlayer.getUniqueId()).papiType(papiType).papiValue(papiValue).build();
-                playerPapi.setPapiLongValue(BaseUtil.isNumericToLong(papiValue));
                 playerPapiList.add(playerPapi);
             }
         }

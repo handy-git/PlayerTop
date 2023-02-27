@@ -22,5 +22,4 @@ public class PlayerPapi {
 
     private String papiValue;
 
-    private Long papiLongValue;
 }
