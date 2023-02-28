@@ -4,6 +4,8 @@ import cn.handyplus.lib.api.LangMsgApi;
 import cn.handyplus.lib.util.HandyConfigUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.Arrays;
+
 /**
  * 配置
  *
@@ -48,6 +50,15 @@ public class ConfigUtil {
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "jobsSucceedMsg", "&a已成功加载Jobs 兼容Jobs功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "jobsFailureMsg", "&7你的服务端没有安装Jobs 未兼容Jobs功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
         LANG_CONFIG = HandyConfigUtil.load("languages/" + CONFIG.getString("language") + ".yml");
+
+        // 1.1.8
+        HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "format.playerGuildDonatedMoney", "&e${rank}   &f玩家:&e${player}   &f捐赠贡献:&e${content}", Arrays.asList("公会战捐赠贡献格式"), "format.yml");
+        HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "hdFormat.playerGuildDonatedMoney.line", 10, null, "format.yml");
+        HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "hdFormat.playerGuildDonatedMoney.material", "APPLE", null, "format.yml");
+        HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "hdFormat.playerGuildDonatedMoney.title", "&e======全服公会捐赠贡献排行榜======", null, "format.yml");
+        HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "hdFormat.playerGuildDonatedMoney.lore", "&e${rank}   &f玩家:&e${player}   &f捐赠贡献:&e${content}", null, "format.yml");
+        FORMAT_CONFIG = HandyConfigUtil.load("format.yml");
+
     }
 
 }
