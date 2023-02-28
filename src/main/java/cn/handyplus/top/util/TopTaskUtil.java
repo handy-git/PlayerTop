@@ -27,7 +27,6 @@ import org.bukkit.configuration.MemorySection;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
@@ -192,12 +191,12 @@ public class TopTaskUtil {
             if (playerTopTypeEnum == null) {
                 continue;
             }
-            Location location = new Location(Bukkit.getWorld(world), x, y, z);
             // 判断是否开启状态
             boolean enable = memorySection.getBoolean("enable");
             if (!enable) {
                 continue;
             }
+            Location location = new Location(Bukkit.getWorld(world), x, y, z);
             // 新增全息图
             TopUtil.createHd(playerTopTypeEnum, location);
         }
@@ -244,11 +243,9 @@ public class TopTaskUtil {
             // 对应节点数据
             List<TopPapiPlayer> topPapiPlayerList = TopPapiPlayerService.getInstance().page(papi, 1, line);
             if (CollUtil.isNotEmpty(topPapiPlayerList)) {
-                // 排序并取出数据
-                List<TopPapiPlayer> playerPapiTopList = topPapiPlayerList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault).reversed()).limit(line).collect(Collectors.toList());
                 // 判断有数据 进行构建行
-                for (int i = 0; i < playerPapiTopList.size(); i++) {
-                    textLineList.add(TopUtil.getPapiContent(lore, playerPapiTopList.get(i), i + 1));
+                for (int i = 0; i < topPapiPlayerList.size(); i++) {
+                    textLineList.add(TopUtil.getPapiContent(lore, topPapiPlayerList.get(i), i + 1));
                 }
             }
             PlayerPapiHd playerPapiHd = PlayerPapiHd.builder().textLineList(textLineList).location(location).material(material).build();
@@ -276,7 +273,7 @@ public class TopTaskUtil {
         if (CollUtil.isEmpty(papiTypeList)) {
             return new ArrayList<>();
         }
-        return papiTypeList;
+        return papiTypeList.stream().distinct().collect(Collectors.toList());
     }
 
     /**
