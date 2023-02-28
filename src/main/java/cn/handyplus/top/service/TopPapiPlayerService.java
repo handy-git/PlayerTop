@@ -89,12 +89,10 @@ public class TopPapiPlayerService {
      */
     private void update(TopPapiPlayer topPapiPlayer) {
         Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
-        use.update()
-                .set(TopPapiPlayer::getPapi, topPapiPlayer.getPapi())
-                .set(TopPapiPlayer::getOp, topPapiPlayer.getOp())
-                .set(TopPapiPlayer::getVault, topPapiPlayer.getVault())
-        ;
-        use.where().eq(TopPapiPlayer::getPlayerName, topPapiPlayer.getPlayerName());
+        use.update().set(TopPapiPlayer::getOp, topPapiPlayer.getOp())
+                .set(TopPapiPlayer::getVault, topPapiPlayer.getVault());
+        use.where().eq(TopPapiPlayer::getPlayerName, topPapiPlayer.getPlayerName())
+                .eq(TopPapiPlayer::getPapi, topPapiPlayer.getPapi());
         use.execution().update();
     }
 
