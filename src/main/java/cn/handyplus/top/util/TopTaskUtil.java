@@ -107,6 +107,7 @@ public class TopTaskUtil {
                 topPlayer.setPlayerGuildMoney(PlayerGuildUtil.getInstance().getPlayerGuildMoney(playerName));
                 topPlayer.setPlayerGuildKill(PlayerGuildUtil.getInstance().getPlayerGuildKill(playerName));
                 topPlayer.setPlayerGuildDie(PlayerGuildUtil.getInstance().getPlayerGuildDie(playerName));
+                topPlayer.setPlayerGuildDonatedMoney(PlayerGuildUtil.getInstance().getPlayerDonatedGuildMoney(playerName));
             }
             // McMmo
             if (PlayerTop.USE_MC_MMO) {
