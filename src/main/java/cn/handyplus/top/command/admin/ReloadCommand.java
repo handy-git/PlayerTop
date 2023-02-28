@@ -33,7 +33,7 @@ public class ReloadCommand implements IHandyCommandEvent {
             @Override
             public void run() {
                 ConfigUtil.init();
-                TopTaskUtil.setToDataToLock();
+                TopTaskUtil.setToDataToLock(true);
                 MessageApi.sendMessage(sender, BaseUtil.getLangMsg("reloadMsg"));
             }
         }.runTaskAsynchronously(PlayerTop.getInstance());

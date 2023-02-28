@@ -5,6 +5,8 @@ import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
+import cn.handyplus.top.hook.HdUtil;
+import cn.handyplus.top.param.PlayerPapiHd;
 import cn.handyplus.top.util.TopUtil;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -43,8 +45,12 @@ public class CreateHdCommand implements IHandyCommandEvent {
         // 进行生成
         Location playerLocation = player.getLocation();
         Location location = new Location(player.getWorld(), playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
+        // 删除现有全息
         TopUtil.deleteHd(topTypeEnum.getType());
-        TopUtil.createHd(topTypeEnum, location);
+        // 生成全息数据
+        PlayerPapiHd playerPapiHd = TopUtil.createHd(topTypeEnum, location);
+        // 创建全息
+        HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial());
     }
 
 }

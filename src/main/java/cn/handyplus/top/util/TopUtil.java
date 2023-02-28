@@ -9,6 +9,7 @@ import cn.handyplus.top.enter.TopPapiPlayer;
 import cn.handyplus.top.enter.TopPlayer;
 import cn.handyplus.top.hook.HdUtil;
 import cn.handyplus.top.hook.PlaceholderApiUtil;
+import cn.handyplus.top.param.PlayerPapiHd;
 import cn.handyplus.top.service.TopPlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -178,7 +179,7 @@ public class TopUtil {
      * @param topTypeEnum 类型
      * @param location    生成位置
      */
-    public static void createHd(PlayerTopTypeEnum topTypeEnum, Location location) {
+    public static PlayerPapiHd createHd(PlayerTopTypeEnum topTypeEnum, Location location) {
         String type = topTypeEnum.getType();
         int line = ConfigUtil.FORMAT_CONFIG.getInt("hdFormat." + type + ".line", 10);
         String material = ConfigUtil.FORMAT_CONFIG.getString("hdFormat." + type + ".material");
@@ -213,8 +214,6 @@ public class TopUtil {
                 textLineList.add(getContent(topTypeEnum, lore, topPlayerList.get(i), i + 1));
             }
         }
-        // 创建全息
-        HdUtil.create(textLineList, location, material);
         // 保存全息配置
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".enable", true, Collections.singletonList("是否开启"), "/hologram.yml");
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".world", Objects.requireNonNull(location.getWorld()).getName(), null, "/hologram.yml");
@@ -222,6 +221,8 @@ public class TopUtil {
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".y", location.getY(), null, "/hologram.yml");
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".z", location.getZ(), null, "/hologram.yml");
         ConfigUtil.HD_CONFIG = HandyConfigUtil.load("hologram.yml");
+        // 全息配置
+        return PlayerPapiHd.builder().textLineList(textLineList).location(location).material(material).build();
     }
 
     /**

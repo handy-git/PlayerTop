@@ -47,7 +47,7 @@ public class TopTaskUtil {
         new BukkitRunnable() {
             @Override
             public void run() {
-                setToDataToLock();
+                setToDataToLock(false);
             }
         }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 30, ConfigUtil.CONFIG.getLong("task", 300) * 20);
     }
@@ -55,13 +55,13 @@ public class TopTaskUtil {
     /**
      * 加锁可外部调用
      */
-    public static void setToDataToLock() {
+    public static void setToDataToLock(boolean msgRst) {
         if (!TASK_LOCK.tryAcquire()) {
             return;
         }
         try {
             // 执行
-            setTopData();
+            setTopData(msgRst);
         } finally {
             TASK_LOCK.release();
         }
@@ -70,8 +70,11 @@ public class TopTaskUtil {
     /**
      * 设置变量数据
      */
-    private static void setTopData() {
+    private static void setTopData(boolean msgRst) {
         long start = System.currentTimeMillis();
+        if (msgRst) {
+            MessageApi.sendConsoleMessage("一. 开始获取排行数据,请耐心等待...");
+        }
         // 全部玩家
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
         boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
@@ -161,21 +164,42 @@ public class TopTaskUtil {
                 TopPapiPlayerService.getInstance().saveOrUpdate(topPapiPlayer);
             }
         }
-        MessageApi.sendConsoleDebugMessage("同步" + offlinePlayers.length + "位玩家" + ",消耗ms:" + (System.currentTimeMillis() - start));
-        // 删除现有全息图
-        Bukkit.getScheduler().runTask(PlayerTop.getInstance(), HdUtil::deleteAll);
-        // 刷新papi排行榜
-        Bukkit.getScheduler().runTask(PlayerTop.getInstance(), TopTaskUtil::createPapiHd);
-        // 刷新内部排行榜
-        Bukkit.getScheduler().runTask(PlayerTop.getInstance(), TopTaskUtil::createHd);
+        if (msgRst) {
+            MessageApi.sendConsoleMessage("二. 同步" + offlinePlayers.length + "位玩家" + ",已消耗ms:" + (System.currentTimeMillis() - start));
+        }
+        // 获取数据
+        List<PlayerPapiHd> playerPapiHdList = createHd();
+        playerPapiHdList.addAll(createPapiHd());
+        if (msgRst) {
+            MessageApi.sendConsoleMessage("三. 获取构建全息图的数据,已消耗ms:" + (System.currentTimeMillis() - start));
+        }
+        // 同步处理
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                // 删除现有全息图
+                HdUtil.deleteAll();
+                if (msgRst) {
+                    MessageApi.sendConsoleMessage("四. 删除现有全息图,已消耗ms:" + (System.currentTimeMillis() - start));
+                }
+                // 生成全息排行榜
+                for (PlayerPapiHd playerPapiHd : playerPapiHdList) {
+                    HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial());
+                }
+                if (msgRst) {
+                    MessageApi.sendConsoleMessage("五. 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗ms:" + (System.currentTimeMillis() - start));
+                }
+            }
+        }.runTask(PlayerTop.getInstance());
     }
 
     /**
      * 初始化全息图
      */
-    private static void createHd() {
+    private static List<PlayerPapiHd> createHd() {
         // 一级目录
         Map<String, Object> values = ConfigUtil.HD_CONFIG.getValues(false);
+        List<PlayerPapiHd> playerPapiHdList = new ArrayList<>();
         for (String type : values.keySet()) {
             // 二级目录
             MemorySection memorySection = (MemorySection) values.get(type);
@@ -198,20 +222,20 @@ public class TopTaskUtil {
             }
             Location location = new Location(Bukkit.getWorld(world), x, y, z);
             // 新增全息图
-            TopUtil.createHd(playerTopTypeEnum, location);
+            PlayerPapiHd playerPapiHd = TopUtil.createHd(playerTopTypeEnum, location);
+            playerPapiHdList.add(playerPapiHd);
         }
+        return playerPapiHdList;
     }
 
     /**
      * 同步处理papi全息图
-     *
-     * @param playerPapiHdList papi全息图信息
      */
-    private static void createPapiHd() {
+    private static List<PlayerPapiHd> createPapiHd() {
         // 一级目录
         Map<String, Object> values = ConfigUtil.PAPI_CONFIG.getValues(false);
         if (values.isEmpty()) {
-            return;
+            return new ArrayList<>();
         }
         // 设置对应属性
         List<PlayerPapiHd> playerPapiHdList = new ArrayList<>();
@@ -251,10 +275,7 @@ public class TopTaskUtil {
             PlayerPapiHd playerPapiHd = PlayerPapiHd.builder().textLineList(textLineList).location(location).material(material).build();
             playerPapiHdList.add(playerPapiHd);
         }
-        // 处理papi全息图
-        for (PlayerPapiHd playerPapiHd : playerPapiHdList) {
-            HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial());
-        }
+        return playerPapiHdList;
     }
 
     /**
