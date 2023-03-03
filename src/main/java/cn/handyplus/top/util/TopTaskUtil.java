@@ -3,6 +3,7 @@ package cn.handyplus.top.util;
 import cn.handyplus.lib.api.MessageApi;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
+import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPapiPlayer;
@@ -158,11 +159,17 @@ public class TopTaskUtil {
                     topPapiPlayer.setOp(offlinePlayer.isOp());
                 }
                 topPapiPlayer.setPapi(papiType);
+                // 判断值是否存在
                 String papiValue = PlaceholderApiUtil.set(offlinePlayer, papiType);
                 if (StrUtil.isEmpty(papiValue)) {
                     continue;
                 }
-                topPapiPlayer.setVault(papiValue);
+                // 转化为数字
+                Integer number = BaseUtil.isNumericToInt(papiValue);
+                if (number == null) {
+                    continue;
+                }
+                topPapiPlayer.setVault(number);
                 TopPapiPlayerService.getInstance().saveOrUpdate(topPapiPlayer);
             }
         }

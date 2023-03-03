@@ -168,7 +168,7 @@ public class TopUtil {
      * @since 1.0.3
      */
     public static String getPapiContent(String lore, TopPapiPlayer topPapiPlayer, int rank) {
-        String content = lore.replace("${content}", topPapiPlayer.getVault()).replace("${player}", topPapiPlayer.getPlayerName()).replace("${rank}", rank + "");
+        String content = lore.replace("${content}", topPapiPlayer.getVault().toString()).replace("${player}", topPapiPlayer.getPlayerName()).replace("${rank}", rank + "");
         content = PlaceholderApiUtil.set(UUID.fromString(topPapiPlayer.getPlayerUuid()), content);
         return BaseUtil.replaceChatColor(content);
     }

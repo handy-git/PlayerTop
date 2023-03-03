@@ -32,6 +32,6 @@ public class TopPapiPlayer {
     private String papi;
 
     @TableField(value = "vault", comment = "值")
-    private String vault;
+    private Integer vault;
 
 }

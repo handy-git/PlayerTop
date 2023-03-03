@@ -6,7 +6,7 @@
 
     <groupId>cn.handyplus.top</groupId>
     <artifactId>PlayerTop</artifactId>
-    <version>1.1.8</version>
+    <version>1.1.9</version>
     <description>全能排行榜插件</description>
 
     <properties>
