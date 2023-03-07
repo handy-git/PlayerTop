@@ -19,6 +19,9 @@ public class HdUtil {
      * @param location     位置
      */
     public static void create(List<String> textLineList, Location location, String materialName) {
+        if (location == null) {
+            return;
+        }
         if (PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
             HolographicDisplaysUtil.getInstance().create(textLineList, location, materialName);
             return;
@@ -43,13 +46,15 @@ public class HdUtil {
         }
     }
 
-
     /**
      * 根据位置删除全息图
      *
      * @param location 位置
      */
     public static void delete(Location location) {
+        if (location == null) {
+            return;
+        }
         if (PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
             HolographicDisplaysUtil.getInstance().delete(location);
             return;

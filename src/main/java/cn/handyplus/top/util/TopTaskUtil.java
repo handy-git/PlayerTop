@@ -51,7 +51,7 @@ public class TopTaskUtil {
             public void run() {
                 setToDataToLock(null);
             }
-        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 30, ConfigUtil.CONFIG.getLong("task", 300) * 20);
+        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task", 300) * 20);
     }
 
     /**
