@@ -257,6 +257,11 @@ public class TopTaskUtil {
             if (memorySection == null) {
                 continue;
             }
+            // 判断是否开启
+            boolean enable = memorySection.getBoolean("enable");
+            if (!enable) {
+                continue;
+            }
             String papi = memorySection.getString("papi", "");
             int line = memorySection.getInt("line", 10);
             String material = memorySection.getString("material", "");
