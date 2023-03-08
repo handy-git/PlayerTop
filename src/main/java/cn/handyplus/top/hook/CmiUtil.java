@@ -80,7 +80,7 @@ public class CmiUtil {
         // 删除旧的全息图
         for (Location location : CMI_HD_CACHE.keySet()) {
             CMIHologram cmiHologram = CMI_HD_CACHE.get(location);
-            if (cmiHologram != null) {
+            if (cmiHologram != null && cmiHologram.getWorld() != null) {
                 cmiHologram.remove();
             }
         }

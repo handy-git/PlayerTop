@@ -192,6 +192,9 @@ public class TopTaskUtil {
                     MessageApi.sendMessage(sender, "四. 删除现有全息图,已消耗ms:" + (System.currentTimeMillis() - start));
                 }
                 // 生成全息排行榜
+                if (CollUtil.isEmpty(playerPapiHdList)) {
+                    return;
+                }
                 for (PlayerPapiHd playerPapiHd : playerPapiHdList) {
                     HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial());
                 }
