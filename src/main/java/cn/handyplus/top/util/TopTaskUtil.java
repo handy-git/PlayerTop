@@ -165,11 +165,11 @@ public class TopTaskUtil {
                     continue;
                 }
                 // 转化为数字
-                Integer number = BaseUtil.isNumericToInt(papiValue);
+                Double number = BaseUtil.isNumericToDouble(papiValue);
                 if (number == null) {
                     continue;
                 }
-                topPapiPlayer.setVault(number);
+                topPapiPlayer.setVault(number.intValue());
                 TopPapiPlayerService.getInstance().saveOrUpdate(topPapiPlayer);
             }
         }
