@@ -1,0 +1,24 @@
+name: PlayerTop
+main: cn.handyplus.top.PlayerTop
+version: 1.2.1
+author: handy
+website: https://ricedoc.handyplus.cn/#/PlayerTop/zh_CN/
+api-version: 1.13
+softdepend: [ PlaceholderAPI,Vault,PlayerPoints,PlayerTitle,PlayerTask,PlayerRace,PlayerGuild,HolographicDisplays,mcMMO,CMI,Jobs,Multiverse-Core,lris ]
+description: 玩家排行
+commands:
+  PlayerTop:
+    description: 玩家排行
+    aliases: [ pt ]
+permissions:
+  PlayerTop.*:
+    description: 玩家排行插件
+    children:
+      PlayerTop.reload: true
+      PlayerTop.createHd: true
+  PlayerTop.reload:
+    description: 重新加载配置
+    default: op
+  PlayerTop.createHd:
+    description: 创建全息图
+    default: op

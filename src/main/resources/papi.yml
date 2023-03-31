@@ -1,0 +1,19 @@
+# 这里配置好后 /pt reload 重载插件即可刷新出来排行
+# 变量全息图格式 ${rank}排行 ${player}玩家名  ${content}值 例如 1
+example:
+  # 是否开启
+  enable: false
+  # 例子-使用称号数量变量
+  papi: "%playerTitle_number%"
+  # lore内容循环行数
+  line: 10
+  # 全息物品材质
+  material: "PAPER"
+  # 例子-标题行
+  title: "&e======称号数量变量排行榜======"
+  # 循环的内容行
+  lore: "&e${rank}   &f玩家:&e${player}   &f数量:&e${content}"
+  world: world
+  x: -52.989170504895206
+  y: 78.3681363483699
+  z: 8.282393243673555
