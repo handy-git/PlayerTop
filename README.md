@@ -6,6 +6,7 @@
 
 [MCBBS](https://www.mcbbs.net/thread-1351130-1-1.html)
 
+![](https://bstats.org/signatures/bukkit/PlayerTop.svg)
 
 [WIKI](https://ricedoc.handyplus.cn/#/PlayerTop/zh_CN/)
 
