@@ -22,6 +22,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.MemorySection;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -38,7 +39,34 @@ public class AsyncTask {
      * @param offlinePlayers 玩家
      * @return TopPapiPlayer
      */
+    @SneakyThrows
     public static List<TopPapiPlayer> supplyAsync(OfflinePlayer[] offlinePlayers) {
+        List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
+        List<OfflinePlayer> playerList = new ArrayList<>(offlinePlayers.length);
+        Collections.addAll(playerList, offlinePlayers);
+        // 异步循环获取值
+        List<CompletableFuture<List<TopPapiPlayer>>> completableFutureList = new ArrayList<>();
+        for (List<OfflinePlayer> players : CollUtil.splitList(playerList, 1000)) {
+            CompletableFuture<List<TopPapiPlayer>> completableFuture = CompletableFuture.supplyAsync(() -> getTopPapiPlayerList(players));
+            completableFutureList.add(completableFuture);
+        }
+        if (CollUtil.isEmpty(completableFutureList)) {
+            return topPapiPlayerList;
+        }
+        // 等待获取全部数据出来
+        for (CompletableFuture<List<TopPapiPlayer>> listCompletableFuture : completableFutureList) {
+            topPapiPlayerList.addAll(listCompletableFuture.get());
+        }
+        return topPapiPlayerList;
+    }
+
+    /**
+     * 同步获取数据
+     *
+     * @param offlinePlayers 玩家
+     * @return TopPapiPlayer
+     */
+    private static List<TopPapiPlayer> getTopPapiPlayerList(List<OfflinePlayer> offlinePlayers) {
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         topPapiPlayerList.addAll(supplyAsyncApi(offlinePlayers));
         topPapiPlayerList.addAll(supplyAsyncPapi(offlinePlayers));
@@ -52,7 +80,7 @@ public class AsyncTask {
      * @return TopPapiPlayer
      */
     @SneakyThrows
-    private static List<TopPapiPlayer> supplyAsyncApi(OfflinePlayer[] offlinePlayers) {
+    private static List<TopPapiPlayer> supplyAsyncApi(List<OfflinePlayer> offlinePlayers) {
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         // 开启的数据
         Map<String, String> enableMap = HandyPermissionUtil.getStringMapChild(ConfigUtil.CONFIG, "enable");
@@ -86,7 +114,7 @@ public class AsyncTask {
      * @return TopPapiPlayer
      */
     @SneakyThrows
-    private static List<TopPapiPlayer> supplyAsyncPapi(OfflinePlayer[] offlinePlayers) {
+    private static List<TopPapiPlayer> supplyAsyncPapi(List<OfflinePlayer> offlinePlayers) {
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         // papi数据处理
         List<CompletableFuture<List<TopPapiPlayer>>> completableFutureList = new ArrayList<>();
