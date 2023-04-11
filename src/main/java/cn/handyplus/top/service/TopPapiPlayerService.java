@@ -6,7 +6,10 @@ import cn.handyplus.lib.db.Db;
 import cn.handyplus.top.enter.TopPapiPlayer;
 import cn.handyplus.top.util.ConfigUtil;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 玩家papi排行数据
@@ -37,6 +40,17 @@ public class TopPapiPlayerService {
         this.delete();
         if (CollUtil.isEmpty(topPapiPlayerList)) {
             return;
+        }
+
+        // 分组排序
+        Map<String, List<TopPapiPlayer>> topPapiPlayerGroupList = topPapiPlayerList.stream().collect(Collectors.groupingBy(TopPapiPlayer::getPapi));
+        for (String papi : topPapiPlayerGroupList.keySet()) {
+            List<TopPapiPlayer> papiList = topPapiPlayerGroupList.get(papi);
+            papiList = papiList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault).reversed()).collect(Collectors.toList());
+            for (int i = 0; i < papiList.size(); i++) {
+                papiList.get(i).setVault(i + 1);
+            }
+            topPapiPlayerGroupList.put(papi, papiList);
         }
         // 批量添加
         for (List<TopPapiPlayer> list : CollUtil.splitList(topPapiPlayerList, 500)) {

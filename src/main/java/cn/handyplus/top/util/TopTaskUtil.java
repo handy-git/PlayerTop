@@ -81,6 +81,8 @@ public class TopTaskUtil {
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
         boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
         // 数据处理
+        int topPlayerId = 1;
+        int topPapiPlayerId = 1;
         List<TopPlayer> topPlayerList = new ArrayList<>();
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         for (OfflinePlayer offlinePlayer : offlinePlayers) {
@@ -151,6 +153,7 @@ public class TopTaskUtil {
                 topPlayer.setJobWeaponSmith(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WEAPON_SMITH.getOriginalType(), 0));
                 topPlayer.setJobWoodcutter(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WOODCUTTER.getOriginalType(), 0));
             }
+            topPlayer.setId(topPlayerId++);
             topPlayerList.add(topPlayer);
             // papi数据处理
             for (String papiType : getPapiList()) {
@@ -173,6 +176,7 @@ public class TopTaskUtil {
                     continue;
                 }
                 topPapiPlayer.setVault(number.intValue());
+                topPapiPlayer.setId(topPapiPlayerId++);
                 topPapiPlayerList.add(topPapiPlayer);
             }
         }

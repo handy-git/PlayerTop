@@ -34,4 +34,7 @@ public class TopPapiPlayer {
     @TableField(value = "vault", comment = "值")
     private Integer vault;
 
+    @TableField(value = "rank", comment = "排名")
+    private Integer rank;
+
 }
