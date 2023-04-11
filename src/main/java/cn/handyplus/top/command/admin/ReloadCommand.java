@@ -1,8 +1,6 @@
 package cn.handyplus.top.command.admin;
 
-import cn.handyplus.lib.api.MessageApi;
 import cn.handyplus.lib.command.IHandyCommandEvent;
-import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.util.ConfigUtil;
 import cn.handyplus.top.util.TopTaskUtil;
@@ -34,7 +32,6 @@ public class ReloadCommand implements IHandyCommandEvent {
             public void run() {
                 ConfigUtil.init();
                 TopTaskUtil.setToDataToLock(sender);
-                MessageApi.sendMessage(sender, BaseUtil.getLangMsg("reloadMsg"));
             }
         }.runTaskAsynchronously(PlayerTop.getInstance());
     }

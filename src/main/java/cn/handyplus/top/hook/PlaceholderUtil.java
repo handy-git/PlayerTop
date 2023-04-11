@@ -1,16 +1,13 @@
 package cn.handyplus.top.hook;
 
-import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
-import cn.handyplus.top.enter.TopPlayer;
-import cn.handyplus.top.service.TopPlayerService;
+import cn.handyplus.top.enter.TopPapiPlayer;
+import cn.handyplus.top.service.TopPapiPlayerService;
 import cn.handyplus.top.util.ConfigUtil;
 import cn.handyplus.top.util.TopUtil;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
-
-import java.util.List;
 
 /**
  * 变量扩展
@@ -50,33 +47,49 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         if (placeholderStr.length < 2) {
             return "";
         }
+        // 类型
         String type = placeholderStr[0];
-        int pageNum = Integer.parseInt(placeholderStr[1]);
 
+        // 判断是当前玩家排行
+        if ("rank".equals(placeholderStr[1])) {
+            TopPapiPlayer topPapiPlayer = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
+            return topPapiPlayer != null ? topPapiPlayer.getRank().toString() : "0";
+        }
+
+        // 如果是数字就是排行
+        Integer pageNum = Integer.parseInt(placeholderStr[1]);
+
+        // 判断是 内部变量/papi变量
         PlayerTopTypeEnum topTypeEnum = PlayerTopTypeEnum.getType(type);
-        if (topTypeEnum == null) {
-            return "";
+        String originType = type;
+        if (topTypeEnum != null) {
+            type = topTypeEnum.getType();
+        } else {
+            type = "%" + type + "%";
         }
         // 查询对应记录
-        List<TopPlayer> list = TopPlayerService.getInstance().page(topTypeEnum, pageNum, 1);
+        TopPapiPlayer topPapiPlayer = TopPapiPlayerService.getInstance().findByRankAndType(pageNum, type);
+        if (topPapiPlayer == null) {
+            return "";
+        }
 
         // 判断是否查询玩家name
         if (placeholderStr.length > 2 && "name".equalsIgnoreCase(placeholderStr[2])) {
-            return list.get(0).getPlayerName();
+            return topPapiPlayer.getPlayerName();
         }
 
-        String content = "";
-        if (CollUtil.isNotEmpty(list)) {
-            String format = ConfigUtil.FORMAT_CONFIG.getString("format." + type, "");
-            if (type.contains(PlayerTopTypeEnum.MC_MMO.getType())) {
-                format = ConfigUtil.FORMAT_CONFIG.getString("format." + PlayerTopTypeEnum.MC_MMO.getType(), "");
-            }
-            if (type.contains("jobs")) {
-                format = ConfigUtil.FORMAT_CONFIG.getString("format." + "jobs", "");
-            }
-            content = TopUtil.getContent(topTypeEnum, format, list.get(0), pageNum);
+        // 配置的格式化内容
+        String format = ConfigUtil.FORMAT_CONFIG.getString("format." + originType, "");
+        // McMmo特殊处理
+        if (type.contains(PlayerTopTypeEnum.MC_MMO.getType())) {
+            format = ConfigUtil.FORMAT_CONFIG.getString("format." + PlayerTopTypeEnum.MC_MMO.getType(), "");
         }
-        return plugin.getConfig().getString(placeholder, content);
+        // Jobs特殊处理
+        if (type.contains("jobs")) {
+            format = ConfigUtil.FORMAT_CONFIG.getString("format." + "jobs", "");
+        }
+        // 格式处理
+        return TopUtil.getContent(format, topPapiPlayer);
     }
 
     /**
