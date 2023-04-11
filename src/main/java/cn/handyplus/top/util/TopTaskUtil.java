@@ -185,8 +185,8 @@ public class TopTaskUtil {
             List<TopPapiPlayer> topPapiPlayerList = TopPapiPlayerService.getInstance().page(papi, 1, line);
             if (CollUtil.isNotEmpty(topPapiPlayerList)) {
                 // 判断有数据 进行构建行
-                for (int i = 0; i < topPapiPlayerList.size(); i++) {
-                    textLineList.add(TopUtil.getPapiContent(lore, topPapiPlayerList.get(i), i + 1));
+                for (TopPapiPlayer topPapiPlayer : topPapiPlayerList) {
+                    textLineList.add(TopUtil.getContent(lore, topPapiPlayer));
                 }
             }
             PlayerPapiHd playerPapiHd = PlayerPapiHd.builder().textLineList(textLineList).location(location).material(material).build();

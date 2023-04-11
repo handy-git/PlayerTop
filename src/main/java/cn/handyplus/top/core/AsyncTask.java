@@ -17,18 +17,21 @@ import cn.handyplus.top.hook.PlayerTitleUtil;
 import cn.handyplus.top.hook.VaultUtil;
 import cn.handyplus.top.util.ConfigUtil;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
-import lombok.SneakyThrows;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.MemorySection;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
+ * 核心方法
+ *
  * @author handy
  */
 public class AsyncTask {
@@ -39,7 +42,6 @@ public class AsyncTask {
      * @param offlinePlayers 玩家
      * @return TopPapiPlayer
      */
-    @SneakyThrows
     public static List<TopPapiPlayer> supplyAsync(OfflinePlayer[] offlinePlayers) {
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         List<OfflinePlayer> playerList = new ArrayList<>(offlinePlayers.length);
@@ -55,7 +57,7 @@ public class AsyncTask {
         }
         // 等待获取全部数据出来
         for (CompletableFuture<List<TopPapiPlayer>> listCompletableFuture : completableFutureList) {
-            topPapiPlayerList.addAll(listCompletableFuture.get());
+            topPapiPlayerList.addAll(listCompletableFuture.join());
         }
         return topPapiPlayerList;
     }
@@ -79,7 +81,6 @@ public class AsyncTask {
      * @param offlinePlayers 玩家
      * @return TopPapiPlayer
      */
-    @SneakyThrows
     private static List<TopPapiPlayer> supplyAsyncApi(List<OfflinePlayer> offlinePlayers) {
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         // 开启的数据
@@ -102,7 +103,7 @@ public class AsyncTask {
         }
         // 等待获取全部数据出来
         for (CompletableFuture<List<TopPapiPlayer>> listCompletableFuture : completableFutureList) {
-            topPapiPlayerList.addAll(listCompletableFuture.get());
+            topPapiPlayerList.addAll(listCompletableFuture.join());
         }
         return topPapiPlayerList;
     }
@@ -113,21 +114,24 @@ public class AsyncTask {
      * @param offlinePlayers 玩家
      * @return TopPapiPlayer
      */
-    @SneakyThrows
     private static List<TopPapiPlayer> supplyAsyncPapi(List<OfflinePlayer> offlinePlayers) {
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         // papi数据处理
-        List<CompletableFuture<List<TopPapiPlayer>>> completableFutureList = new ArrayList<>();
+        Map<String, CompletableFuture<List<TopPapiPlayer>>> completableFutureMap = new HashMap<>();
         for (String papiType : getPapiList()) {
             CompletableFuture<List<TopPapiPlayer>> completableFuture = CompletableFuture.supplyAsync(() -> getPapiValue(offlinePlayers, papiType));
-            completableFutureList.add(completableFuture);
+            completableFutureMap.put(papiType, completableFuture);
         }
-        if (CollUtil.isEmpty(completableFutureList)) {
+        if (completableFutureMap.isEmpty()) {
             return topPapiPlayerList;
         }
         // 等待获取全部数据出来
-        for (CompletableFuture<List<TopPapiPlayer>> listCompletableFuture : completableFutureList) {
-            topPapiPlayerList.addAll(listCompletableFuture.get());
+        for (String papiType : completableFutureMap.keySet()) {
+            try {
+                topPapiPlayerList.addAll(completableFutureMap.get(papiType).get(1, TimeUnit.MINUTES));
+            } catch (Exception ignored) {
+                MessageApi.sendConsoleMessage("获取" + papiType + "变量数据超时...");
+            }
         }
         return topPapiPlayerList;
     }

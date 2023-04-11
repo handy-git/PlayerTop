@@ -83,6 +83,37 @@ public class TopPapiPlayerService {
     }
 
     /**
+     * 根据uid和类型查询
+     *
+     * @param uuid uid
+     * @param type 类型
+     * @return TopPapiPlayer
+     * @since 1.2.2
+     */
+    public TopPapiPlayer findByUidAndType(String uuid, String type) {
+        Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
+        db.where().eq(TopPapiPlayer::getPlayerUuid, uuid)
+                .eq(TopPapiPlayer::getPapi, type);
+        return db.execution().selectOne();
+    }
+
+    /**
+     * 根据排行和类型查询
+     *
+     * @param rank rank
+     * @param type 类型
+     * @return TopPapiPlayer
+     * @since 1.2.2
+     */
+    public TopPapiPlayer findByRankAndType(Integer rank, String type) {
+        Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
+        db.where().eq(TopPapiPlayer::getRank, rank)
+                .eq(TopPapiPlayer::getPapi, type);
+        return db.execution().selectOne();
+    }
+
+
+    /**
      * 批量新增
      *
      * @param topPapiPlayerList 入参

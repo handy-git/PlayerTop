@@ -27,32 +27,15 @@ public class TopUtil {
     /**
      * 根据类型获取模板
      *
-     * @param topTypeEnum   类型
-     * @param newLore       替换的lore
-     * @param topPapiPlayer 数据
-     * @param rank          排行
-     * @return 新值
-     * @since 1.0.3
-     */
-    public static String getContent(PlayerTopTypeEnum topTypeEnum, String newLore, TopPapiPlayer topPapiPlayer, Integer rank) {
-        String content = newLore.replace("${content}", topPapiPlayer.getVault().toString())
-                .replace("${player}", topPapiPlayer.getPlayerName())
-                .replace("${rank}", rank.toString());
-        content = PlaceholderApiUtil.set(UUID.fromString(topPapiPlayer.getPlayerUuid()), content);
-        return BaseUtil.replaceChatColor(content);
-    }
-
-    /**
-     * 根据类型获取模板
-     *
      * @param lore          替换的lore
-     * @param topPapiPlayer 玩家排行数据
-     * @param rank          排行
+     * @param topPapiPlayer 数据
      * @return 新值
-     * @since 1.0.3
+     * @since 1.2.2
      */
-    public static String getPapiContent(String lore, TopPapiPlayer topPapiPlayer, int rank) {
-        String content = lore.replace("${content}", topPapiPlayer.getVault().toString()).replace("${player}", topPapiPlayer.getPlayerName()).replace("${rank}", rank + "");
+    public static String getContent(String lore, TopPapiPlayer topPapiPlayer) {
+        String content = lore.replace("${content}", topPapiPlayer.getVault().toString())
+                .replace("${player}", topPapiPlayer.getPlayerName())
+                .replace("${rank}", topPapiPlayer.getRank().toString());
         content = PlaceholderApiUtil.set(UUID.fromString(topPapiPlayer.getPlayerUuid()), content);
         return BaseUtil.replaceChatColor(content);
     }
@@ -94,8 +77,8 @@ public class TopUtil {
         }
         // 判断有数据 进行构建行
         if (CollUtil.isNotEmpty(topPlayerList)) {
-            for (int i = 0; i < topPlayerList.size(); i++) {
-                textLineList.add(getContent(topTypeEnum, lore, topPlayerList.get(i), i + 1));
+            for (TopPapiPlayer topPapiPlayer : topPlayerList) {
+                textLineList.add(getContent(lore, topPapiPlayer));
             }
         }
         // 保存全息配置
