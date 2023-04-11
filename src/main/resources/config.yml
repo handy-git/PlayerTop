@@ -1,10 +1,10 @@
-# 语言文件(Language files) [optional 中文简体:zh_CN;中文繁體:zh_TW;English:en_US]
+# 语言文件[可选 中文简体:zh_CN]
 language: zh_CN
 
-# 是否开启更新提醒,建议开启(Whether to turn on update alerts, recommended)
+# 是否开启更新提醒,建议开启
 isCheckUpdate: true
 
-# op登录时候是否发送更新提醒(Whether to send update alerts when op logs in)
+# op登录时候是否发送更新提醒
 isCheckUpdateToOpMsg: true
 
 # 多久异步同步一次数据并刷新排行榜 单位秒(改动需重启生效)
