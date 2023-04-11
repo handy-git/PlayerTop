@@ -1,6 +1,7 @@
 package cn.handyplus.top.util;
 
 import cn.handyplus.lib.util.HandyConfigUtil;
+import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
@@ -57,6 +58,11 @@ public class ConfigUtil {
         HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "hdFormat.playerGuildDonatedMoney.lore", "&e${rank}   &f玩家:&e${player}   &f捐赠贡献:&e${content}", null, "format.yml");
         FORMAT_CONFIG = HandyConfigUtil.load("format.yml");
 
+        // 1.2.2 添加配置
+        for (String type : PlayerTopTypeEnum.getTypeList()) {
+            HandyConfigUtil.setPathIsNotContains(CONFIG, "enable." + type, true, null, "config.yml");
+        }
+        CONFIG = HandyConfigUtil.loadConfig();
     }
 
 }
