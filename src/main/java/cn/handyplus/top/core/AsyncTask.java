@@ -139,7 +139,7 @@ public class AsyncTask {
      * @param papiType       papi变量
      * @return TopPapiPlayer
      */
-    private static List<TopPapiPlayer> getPapiValue(OfflinePlayer[] offlinePlayers, String papiType) {
+    private static List<TopPapiPlayer> getPapiValue(List<OfflinePlayer> offlinePlayers, String papiType) {
         long start = System.currentTimeMillis();
         MessageApi.sendConsoleDebugMessage("获取" + papiType + "变量的值开始..");
         boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
@@ -178,7 +178,7 @@ public class AsyncTask {
      * @param typeEnum       类型
      * @return TopPapiPlayer
      */
-    private static List<TopPapiPlayer> getApiValue(OfflinePlayer[] offlinePlayers, PlayerTopTypeEnum typeEnum) {
+    private static List<TopPapiPlayer> getApiValue(List<OfflinePlayer> offlinePlayers, PlayerTopTypeEnum typeEnum) {
         long start = System.currentTimeMillis();
         MessageApi.sendConsoleDebugMessage("获取" + typeEnum.getType() + "变量的值开始..");
         boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
