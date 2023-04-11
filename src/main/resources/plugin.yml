@@ -1,8 +1,8 @@
 name: PlayerTop
 main: cn.handyplus.top.PlayerTop
-version: 1.2.1
+version: 1.2.2
 author: handy
-website: https://ricedoc.handyplus.cn/#/PlayerTop/zh_CN/
+website: https://ricedoc.handyplus.cn/wiki/PlayerTop/log/
 api-version: 1.13
 softdepend: [ PlaceholderAPI,Vault,PlayerPoints,PlayerTitle,PlayerTask,PlayerRace,PlayerGuild,HolographicDisplays,mcMMO,CMI,Jobs,Multiverse-Core,lris ]
 description: 玩家排行

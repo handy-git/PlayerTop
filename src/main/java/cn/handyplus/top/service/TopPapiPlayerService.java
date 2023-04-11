@@ -1,5 +1,6 @@
 package cn.handyplus.top.service;
 
+import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.db.Compare;
 import cn.handyplus.lib.db.Db;
 import cn.handyplus.top.enter.TopPapiPlayer;
@@ -26,17 +27,21 @@ public class TopPapiPlayerService {
     }
 
     /**
-     * 新增或更新数据
+     * 批量新增或更新数据
      *
-     * @param topPapiPlayer 记录
+     * @param topPapiPlayerList 批量记录
+     * @since 1.2.2
      */
-    public synchronized void saveOrUpdate(TopPapiPlayer topPapiPlayer) {
-        TopPapiPlayer top = this.findByPlayerNameAndPapi(topPapiPlayer.getPlayerName(), topPapiPlayer.getPapi());
-        if (top == null) {
-            this.add(topPapiPlayer);
+    public void replace(List<TopPapiPlayer> topPapiPlayerList) {
+        // 先删除
+        this.delete();
+        if (CollUtil.isEmpty(topPapiPlayerList)) {
             return;
         }
-        this.update(topPapiPlayer);
+        // 批量添加
+        for (List<TopPapiPlayer> list : CollUtil.splitList(topPapiPlayerList, 500)) {
+            this.addBatch(list);
+        }
     }
 
     /**
@@ -60,40 +65,22 @@ public class TopPapiPlayerService {
     }
 
     /**
-     * 新增
+     * 批量新增
      *
-     * @param topPapiPlayer 入参
+     * @param topPapiPlayerList 入参
+     * @since 1.2.2
      */
-    private void add(TopPapiPlayer topPapiPlayer) {
-        Db.use(TopPapiPlayer.class).execution().insert(topPapiPlayer);
+    private void addBatch(List<TopPapiPlayer> topPapiPlayerList) {
+        Db.use(TopPapiPlayer.class).execution().insertBatch(topPapiPlayerList);
     }
 
     /**
-     * 根据玩家名查询
+     * 删除
      *
-     * @param playerName 玩家名
-     * @param papi       变量
-     * @return 数据
+     * @since 1.2.2
      */
-    private TopPapiPlayer findByPlayerNameAndPapi(String playerName, String papi) {
-        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
-        use.where().eq(TopPapiPlayer::getPlayerName, playerName)
-                .eq(TopPapiPlayer::getPapi, papi);
-        return use.execution().selectOne();
-    }
-
-    /**
-     * 根据玩家名更新
-     *
-     * @param topPapiPlayer 入参
-     */
-    private void update(TopPapiPlayer topPapiPlayer) {
-        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
-        use.update().set(TopPapiPlayer::getOp, topPapiPlayer.getOp())
-                .set(TopPapiPlayer::getVault, topPapiPlayer.getVault());
-        use.where().eq(TopPapiPlayer::getPlayerName, topPapiPlayer.getPlayerName())
-                .eq(TopPapiPlayer::getPapi, topPapiPlayer.getPapi());
-        use.execution().update();
+    private void delete() {
+        Db.use(TopPapiPlayer.class).execution().delete();
     }
 
 }

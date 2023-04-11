@@ -11,7 +11,9 @@
 [WIKI](https://ricedoc.handyplus.cn/#/PlayerTop/zh_CN/)
 
 ### 爱发电购买
+
 [爱发电](https://afdian.net/item?plan_id=3ccf4a54e3f611ec984c52540025c377)
 
 #### 如果你没有钱购买支持作者
+
 请点个star支持下也可

@@ -75,11 +75,14 @@ public class TopTaskUtil {
     private static void setTopData(CommandSender sender) {
         long start = System.currentTimeMillis();
         if (sender != null) {
-            MessageApi.sendMessage(sender, "一. 开始获取排行数据,请耐心等待...");
+            MessageApi.sendMessage(sender, "一. 开始获取排行数据,请耐心等待,当前进度: 1/6");
         }
         // 全部玩家
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
         boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
+        // 数据处理
+        List<TopPlayer> topPlayerList = new ArrayList<>();
+        List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         for (OfflinePlayer offlinePlayer : offlinePlayers) {
             String playerName = offlinePlayer.getName();
             if (StrUtil.isEmpty(playerName)) {
@@ -148,7 +151,7 @@ public class TopTaskUtil {
                 topPlayer.setJobWeaponSmith(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WEAPON_SMITH.getOriginalType(), 0));
                 topPlayer.setJobWoodcutter(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WOODCUTTER.getOriginalType(), 0));
             }
-            TopPlayerService.getInstance().saveOrUpdate(topPlayer);
+            topPlayerList.add(topPlayer);
             // papi数据处理
             for (String papiType : getPapiList()) {
                 TopPapiPlayer topPapiPlayer = new TopPapiPlayer();
@@ -170,17 +173,25 @@ public class TopTaskUtil {
                     continue;
                 }
                 topPapiPlayer.setVault(number.intValue());
-                TopPapiPlayerService.getInstance().saveOrUpdate(topPapiPlayer);
+                topPapiPlayerList.add(topPapiPlayer);
             }
         }
         if (sender != null) {
-            MessageApi.sendMessage(sender, "二. 同步" + offlinePlayers.length + "位玩家" + ",已消耗ms:" + (System.currentTimeMillis() - start));
+            MessageApi.sendMessage(sender, "二. 同步" + offlinePlayers.length + "位玩家变量" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6");
+        }
+
+        // 替换数据
+        TopPlayerService.getInstance().replace(topPlayerList);
+        TopPapiPlayerService.getInstance().replace(topPapiPlayerList);
+
+        if (sender != null) {
+            MessageApi.sendMessage(sender, "三. 报错" + offlinePlayers.length + "位玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
         }
         // 获取数据
         List<PlayerPapiHd> playerPapiHdList = createHd();
         playerPapiHdList.addAll(createPapiHd());
         if (sender != null) {
-            MessageApi.sendMessage(sender, "三. 获取构建全息图的数据,已消耗ms:" + (System.currentTimeMillis() - start));
+            MessageApi.sendMessage(sender, "四. 获取构建全息图的数据,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 4/6");
         }
         // 同步处理
         new BukkitRunnable() {
@@ -189,7 +200,7 @@ public class TopTaskUtil {
                 // 删除现有全息图
                 HdUtil.deleteAll();
                 if (sender != null) {
-                    MessageApi.sendMessage(sender, "四. 删除现有全息图,已消耗ms:" + (System.currentTimeMillis() - start));
+                    MessageApi.sendMessage(sender, "五. 删除现有全息图,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 5/6");
                 }
                 // 生成全息排行榜
                 if (CollUtil.isEmpty(playerPapiHdList)) {
@@ -199,7 +210,7 @@ public class TopTaskUtil {
                     HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial());
                 }
                 if (sender != null) {
-                    MessageApi.sendMessage(sender, "五. 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗ms:" + (System.currentTimeMillis() - start));
+                    MessageApi.sendMessage(sender, "六. 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 6/6");
                 }
             }
         }.runTask(PlayerTop.getInstance());

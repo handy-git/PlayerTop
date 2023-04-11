@@ -1,5 +1,6 @@
 package cn.handyplus.top.service;
 
+import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.db.Compare;
 import cn.handyplus.lib.db.Db;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
@@ -26,18 +27,21 @@ public class TopPlayerService {
     }
 
     /**
-     * 新增或更新数据
+     * 批量新增或更新数据
      *
-     * @param topPlayer 记录
-     * @since 1.0.3
+     * @param topPlayerList 批量记录
+     * @since 1.2.2
      */
-    public synchronized void saveOrUpdate(TopPlayer topPlayer) {
-        TopPlayer top = this.findByPlayerName(topPlayer.getPlayerName());
-        if (top == null) {
-            this.add(topPlayer);
+    public void replace(List<TopPlayer> topPlayerList) {
+        // 先删除
+        this.delete();
+        if (CollUtil.isEmpty(topPlayerList)) {
             return;
         }
-        this.update(topPlayer);
+        // 批量添加
+        for (List<TopPlayer> list : CollUtil.splitList(topPlayerList, 500)) {
+            this.addBatch(list);
+        }
     }
 
     /**
@@ -175,75 +179,22 @@ public class TopPlayerService {
     }
 
     /**
-     * 新增
+     * 批量新增
      *
-     * @param topPlayer 入参
+     * @param topPlayerList 入参
+     * @since 1.2.2
      */
-    private void add(TopPlayer topPlayer) {
-        Db.use(TopPlayer.class).execution().insert(topPlayer);
+    private void addBatch(List<TopPlayer> topPlayerList) {
+        Db.use(TopPlayer.class).execution().insertBatch(topPlayerList);
     }
 
     /**
-     * 根据玩家名查询
+     * 删除
      *
-     * @param playerName 玩家名
-     * @return 数据
+     * @since 1.2.2
      */
-    private TopPlayer findByPlayerName(String playerName) {
-        Db<TopPlayer> use = Db.use(TopPlayer.class);
-        use.where().eq(TopPlayer::getPlayerName, playerName);
-        return use.execution().selectOne();
-    }
-
-    /**
-     * 根据玩家名更新
-     *
-     * @param topPlayer 入参
-     * @since 1.0.3
-     */
-    private void update(TopPlayer topPlayer) {
-        Db<TopPlayer> use = Db.use(TopPlayer.class);
-        use.update()
-                .set(TopPlayer::getOp, topPlayer.getOp())
-                .set(TopPlayer::getPlayerPoints, topPlayer.getPlayerPoints())
-                .set(TopPlayer::getVault, topPlayer.getVault())
-                .set(TopPlayer::getPlayerGuildMoney, topPlayer.getPlayerGuildMoney())
-                .set(TopPlayer::getPlayerTaskCoin, topPlayer.getPlayerTaskCoin())
-                .set(TopPlayer::getPlayerTitleCoin, topPlayer.getPlayerTitleCoin())
-                .set(TopPlayer::getPlayerTitleNumber, topPlayer.getPlayerTitleNumber())
-                .set(TopPlayer::getMcMmoSum, topPlayer.getMcMmoSum())
-                .set(TopPlayer::getMcMmoAcrobatics, topPlayer.getMcMmoAcrobatics())
-                .set(TopPlayer::getMcMmoAlchemy, topPlayer.getMcMmoAlchemy())
-                .set(TopPlayer::getMcMmoAxes, topPlayer.getMcMmoAxes())
-                .set(TopPlayer::getMcMmoExcavation, topPlayer.getMcMmoExcavation())
-                .set(TopPlayer::getMcMmoFishing, topPlayer.getMcMmoFishing())
-                .set(TopPlayer::getMcMmoHerbalism, topPlayer.getMcMmoHerbalism())
-                .set(TopPlayer::getMcMmoMining, topPlayer.getMcMmoMining())
-                .set(TopPlayer::getMcMmoRepair, topPlayer.getMcMmoRepair())
-                .set(TopPlayer::getMcMmoSalvage, topPlayer.getMcMmoSalvage())
-                .set(TopPlayer::getMcMmoSmelting, topPlayer.getMcMmoSmelting())
-                .set(TopPlayer::getMcMmoSwords, topPlayer.getMcMmoSwords())
-                .set(TopPlayer::getMcMmoTaming, topPlayer.getMcMmoTaming())
-                .set(TopPlayer::getMcMmoUnarmed, topPlayer.getMcMmoUnarmed())
-                .set(TopPlayer::getMcMmoWoodcutting, topPlayer.getMcMmoWoodcutting())
-                .set(TopPlayer::getMcMmoArchery, topPlayer.getMcMmoArchery())
-                .set(TopPlayer::getPlayerGuildKill, topPlayer.getPlayerGuildKill())
-                .set(TopPlayer::getPlayerGuildDie, topPlayer.getPlayerGuildDie())
-                .set(TopPlayer::getJobBrewer, topPlayer.getJobBrewer())
-                .set(TopPlayer::getJobBuilder, topPlayer.getJobBuilder())
-                .set(TopPlayer::getJobCrafter, topPlayer.getJobCrafter())
-                .set(TopPlayer::getJobDigger, topPlayer.getJobDigger())
-                .set(TopPlayer::getJobEnchanter, topPlayer.getJobEnchanter())
-                .set(TopPlayer::getJobExplorer, topPlayer.getJobExplorer())
-                .set(TopPlayer::getJobFarmer, topPlayer.getJobFarmer())
-                .set(TopPlayer::getJobFisherman, topPlayer.getJobFisherman())
-                .set(TopPlayer::getJobHunter, topPlayer.getJobHunter())
-                .set(TopPlayer::getJobMiner, topPlayer.getJobMiner())
-                .set(TopPlayer::getJobWeaponSmith, topPlayer.getJobWeaponSmith())
-                .set(TopPlayer::getJobWoodcutter, topPlayer.getJobWoodcutter())
-        ;
-        use.where().eq(TopPlayer::getPlayerName, topPlayer.getPlayerName());
-        use.execution().update();
+    private void delete() {
+        Db.use(TopPlayer.class).execution().delete();
     }
 
 }

@@ -1,6 +1,5 @@
 package cn.handyplus.top.util;
 
-import cn.handyplus.lib.api.LangMsgApi;
 import cn.handyplus.lib.util.HandyConfigUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -22,8 +21,7 @@ public class ConfigUtil {
         // 加载config
         CONFIG = HandyConfigUtil.loadConfig();
         // 加载语言到jar
-        LANG_CONFIG = HandyConfigUtil.load("languages/" + CONFIG.getString("language") + ".yml");
-        LangMsgApi.initLangMsg(LANG_CONFIG);
+        LANG_CONFIG = HandyConfigUtil.loadLangConfig(CONFIG.getString("language"), false);
         // 全息配置
         HD_CONFIG = HandyConfigUtil.load("hologram.yml");
         // 全息配置
@@ -49,7 +47,7 @@ public class ConfigUtil {
         // 1.1.1 添加語言文件
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "jobsSucceedMsg", "&a已成功加载Jobs 兼容Jobs功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "jobsFailureMsg", "&7你的服务端没有安装Jobs 未兼容Jobs功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
-        LANG_CONFIG = HandyConfigUtil.load("languages/" + CONFIG.getString("language") + ".yml");
+        LANG_CONFIG = HandyConfigUtil.loadLangConfig(CONFIG.getString("language"), false);
 
         // 1.1.8
         HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "format.playerGuildDonatedMoney", "&e${rank}   &f玩家:&e${player}   &f捐赠贡献:&e${content}", Arrays.asList("公会战捐赠贡献格式"), "format.yml");
