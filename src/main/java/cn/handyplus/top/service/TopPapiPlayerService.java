@@ -48,7 +48,7 @@ public class TopPapiPlayerService {
             List<TopPapiPlayer> papiList = topPapiPlayerGroupList.get(papi);
             papiList = papiList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault).reversed()).collect(Collectors.toList());
             for (int i = 0; i < papiList.size(); i++) {
-                papiList.get(i).setVault(i + 1);
+                papiList.get(i).setRank(i + 1);
             }
             topPapiPlayerGroupList.put(papi, papiList);
         }
