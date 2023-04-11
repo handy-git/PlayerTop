@@ -5,6 +5,7 @@ import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.HandyPermissionUtil;
+import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPapiPlayer;
 import cn.handyplus.top.hook.JobUtil;
@@ -214,6 +215,14 @@ public class AsyncTask {
      */
     private static Integer getDataValue(OfflinePlayer offlinePlayer, PlayerTopTypeEnum typeEnum) {
         Integer dataValue = 0;
+        // 处理McMmo未加载
+        if (typeEnum.getType().contains("mcMmo") && !PlayerTop.USE_MC_MMO) {
+            return dataValue;
+        }
+        // 处理jobs未加载
+        if (typeEnum.getType().contains("jobs") && !PlayerTop.USE_JOB) {
+            return dataValue;
+        }
         Map<String, Integer> jobLevelMap;
         switch (typeEnum) {
             case VAULT:
