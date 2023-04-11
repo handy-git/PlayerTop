@@ -3,24 +3,13 @@ package cn.handyplus.top.util;
 import cn.handyplus.lib.api.MessageApi;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
-import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
+import cn.handyplus.top.core.AsyncTask;
 import cn.handyplus.top.enter.TopPapiPlayer;
-import cn.handyplus.top.enter.TopPlayer;
 import cn.handyplus.top.hook.HdUtil;
-import cn.handyplus.top.hook.JobUtil;
-import cn.handyplus.top.hook.McMmoUtil;
-import cn.handyplus.top.hook.PlaceholderApiUtil;
-import cn.handyplus.top.hook.PlayerGuildUtil;
-import cn.handyplus.top.hook.PlayerPointsUtil;
-import cn.handyplus.top.hook.PlayerTaskUtil;
-import cn.handyplus.top.hook.PlayerTitleUtil;
-import cn.handyplus.top.hook.VaultUtil;
 import cn.handyplus.top.param.PlayerPapiHd;
 import cn.handyplus.top.service.TopPapiPlayerService;
-import cn.handyplus.top.service.TopPlayerService;
-import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -32,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
-import java.util.stream.Collectors;
 
 /**
  * 定时任务
@@ -77,119 +65,16 @@ public class TopTaskUtil {
         if (sender != null) {
             MessageApi.sendMessage(sender, "一. 开始获取排行数据,请耐心等待,当前进度: 1/6");
         }
-        // 全部玩家
+        // 获取要刷新的玩家信息
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
-        boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
-        // 数据处理
-        int topPlayerId = 1;
-        int topPapiPlayerId = 1;
-        List<TopPlayer> topPlayerList = new ArrayList<>();
-        List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
-        for (OfflinePlayer offlinePlayer : offlinePlayers) {
-            String playerName = offlinePlayer.getName();
-            if (StrUtil.isEmpty(playerName)) {
-                continue;
-            }
-            // 构建内部数据
-            TopPlayer topPlayer = new TopPlayer();
-            topPlayer.setPlayerName(playerName);
-            topPlayer.setPlayerUuid(offlinePlayer.getUniqueId().toString());
-            topPlayer.setOp(false);
-            if (isOp) {
-                topPlayer.setOp(offlinePlayer.isOp());
-            }
-            // 金币
-            topPlayer.setVault(VaultUtil.getInstance().getPlayerVault(playerName));
-            // 点券
-            topPlayer.setPlayerPoints(PlayerPointsUtil.getInstance().getPlayerPoints(offlinePlayer.getUniqueId()));
-            // 称号币
-            topPlayer.setPlayerTitleCoin(PlayerTitleUtil.getInstance().getPlayerTitleCoin(playerName));
-            // 称号数量
-            topPlayer.setPlayerTitleNumber(PlayerTitleUtil.getInstance().getPlayerTitleNumber(playerName));
-            // 任务币数量
-            topPlayer.setPlayerTaskCoin(PlayerTaskUtil.getInstance().getPlayerTaskCoin(playerName));
-            // 公会贡献数量和kd
-            if (PlayerTop.USE_GUILD) {
-                topPlayer.setPlayerGuildMoney(PlayerGuildUtil.getInstance().getPlayerGuildMoney(playerName));
-                topPlayer.setPlayerGuildKill(PlayerGuildUtil.getInstance().getPlayerGuildKill(playerName));
-                topPlayer.setPlayerGuildDie(PlayerGuildUtil.getInstance().getPlayerGuildDie(playerName));
-                topPlayer.setPlayerGuildDonatedMoney(PlayerGuildUtil.getInstance().getPlayerDonatedGuildMoney(playerName));
-            }
-            // McMmo
-            if (PlayerTop.USE_MC_MMO) {
-                try {
-                    topPlayer.setMcMmoSum(McMmoUtil.getInstance().getPowerLevelOffline(offlinePlayer.getUniqueId()));
-                    topPlayer.setMcMmoAxes(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.AXES.name()));
-                    topPlayer.setMcMmoMining(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.MINING.name()));
-                    topPlayer.setMcMmoRepair(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.REPAIR.name()));
-                    topPlayer.setMcMmoTaming(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.TAMING.name()));
-                    topPlayer.setMcMmoSwords(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.SWORDS.name()));
-                    topPlayer.setMcMmoAlchemy(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.ALCHEMY.name()));
-                    topPlayer.setMcMmoArchery(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.ARCHERY.name()));
-                    topPlayer.setMcMmoFishing(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.FISHING.name()));
-                    topPlayer.setMcMmoSalvage(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.SALVAGE.name()));
-                    topPlayer.setMcMmoUnarmed(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.UNARMED.name()));
-                    topPlayer.setMcMmoSmelting(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.SMELTING.name()));
-                    topPlayer.setMcMmoHerbalism(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.HERBALISM.name()));
-                    topPlayer.setMcMmoAcrobatics(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.ACROBATICS.name()));
-                    topPlayer.setMcMmoExcavation(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.EXCAVATION.name()));
-                    topPlayer.setMcMmoWoodcutting(McMmoUtil.getInstance().getLevelOffline(playerName, PrimarySkillType.WOODCUTTING.name()));
-                } catch (Throwable ignored) {
-                }
-            }
-            // jobs
-            if (PlayerTop.USE_JOB) {
-                Map<String, Integer> levelMap = JobUtil.getInstance().getLevelMap(playerName);
-                topPlayer.setJobBrewer(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_BREWER.getOriginalType(), 0));
-                topPlayer.setJobBuilder(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_BUILDER.getOriginalType(), 0));
-                topPlayer.setJobCrafter(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_CRAFTER.getOriginalType(), 0));
-                topPlayer.setJobDigger(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_DIGGER.getOriginalType(), 0));
-                topPlayer.setJobEnchanter(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_ENCHANTER.getOriginalType(), 0));
-                topPlayer.setJobExplorer(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_EXPLORER.getOriginalType(), 0));
-                topPlayer.setJobFarmer(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_FARMER.getOriginalType(), 0));
-                topPlayer.setJobFisherman(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_FISHERMAN.getOriginalType(), 0));
-                topPlayer.setJobHunter(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_HUNTER.getOriginalType(), 0));
-                topPlayer.setJobMiner(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_MINER.getOriginalType(), 0));
-                topPlayer.setJobWeaponSmith(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WEAPON_SMITH.getOriginalType(), 0));
-                topPlayer.setJobWoodcutter(levelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WOODCUTTER.getOriginalType(), 0));
-            }
-            topPlayer.setId(topPlayerId++);
-            topPlayerList.add(topPlayer);
-            // papi数据处理
-            for (String papiType : getPapiList()) {
-                TopPapiPlayer topPapiPlayer = new TopPapiPlayer();
-                topPapiPlayer.setPlayerName(offlinePlayer.getName());
-                topPapiPlayer.setPlayerUuid(offlinePlayer.getUniqueId().toString());
-                topPapiPlayer.setOp(false);
-                if (isOp) {
-                    topPapiPlayer.setOp(offlinePlayer.isOp());
-                }
-                topPapiPlayer.setPapi(papiType);
-                // 判断值是否存在
-                String papiValue = PlaceholderApiUtil.set(offlinePlayer, papiType);
-                if (StrUtil.isEmpty(papiValue)) {
-                    continue;
-                }
-                // 转化为数字
-                Double number = BaseUtil.isNumericToDouble(papiValue);
-                if (number == null) {
-                    continue;
-                }
-                topPapiPlayer.setVault(number.intValue());
-                topPapiPlayer.setId(topPapiPlayerId++);
-                topPapiPlayerList.add(topPapiPlayer);
-            }
-        }
+        List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyAsync(offlinePlayers);
         if (sender != null) {
             MessageApi.sendMessage(sender, "二. 同步" + offlinePlayers.length + "位玩家变量" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6");
         }
-
         // 替换数据
-        TopPlayerService.getInstance().replace(topPlayerList);
         TopPapiPlayerService.getInstance().replace(topPapiPlayerList);
-
         if (sender != null) {
-            MessageApi.sendMessage(sender, "三. 报错" + offlinePlayers.length + "位玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
+            MessageApi.sendMessage(sender, "三. 保存" + offlinePlayers.length + "位玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
         }
         // 获取数据
         List<PlayerPapiHd> playerPapiHdList = createHd();
@@ -308,52 +193,6 @@ public class TopTaskUtil {
             playerPapiHdList.add(playerPapiHd);
         }
         return playerPapiHdList;
-    }
-
-    /**
-     * 获取配置的变量
-     *
-     * @return 变量合集
-     */
-    private static List<String> getPapiList() {
-        // 一级目录
-        Map<String, Object> values = ConfigUtil.PAPI_CONFIG.getValues(false);
-        if (values.isEmpty()) {
-            return new ArrayList<>();
-        }
-        // 获取变量类型
-        List<String> papiTypeList = getPapiTypeList(values);
-        if (CollUtil.isEmpty(papiTypeList)) {
-            return new ArrayList<>();
-        }
-        return papiTypeList.stream().distinct().collect(Collectors.toList());
-    }
-
-    /**
-     * 获取启用的papi类型
-     *
-     * @param values 类型
-     * @return papi类型
-     */
-    private static List<String> getPapiTypeList(Map<String, Object> values) {
-        List<String> papiTypeList = new ArrayList<>();
-        for (String type : values.keySet()) {
-            // 二级目录
-            MemorySection memorySection = (MemorySection) values.get(type);
-            if (memorySection == null) {
-                continue;
-            }
-            // 判断是否开启状态
-            boolean enable = memorySection.getBoolean("enable");
-            if (!enable) {
-                continue;
-            }
-            String papi = memorySection.getString("papi", "");
-            if (StrUtil.isNotEmpty(papi)) {
-                papiTypeList.add(papi);
-            }
-        }
-        return papiTypeList;
     }
 
 }

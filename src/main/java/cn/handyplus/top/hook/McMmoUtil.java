@@ -1,6 +1,5 @@
 package cn.handyplus.top.hook;
 
-import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.top.PlayerTop;
 import com.gmail.nossr50.api.DatabaseAPI;
 import com.gmail.nossr50.api.ExperienceAPI;
@@ -28,20 +27,20 @@ public class McMmoUtil {
     /**
      * 查询玩家技能等级
      *
-     * @param playerName 玩家
+     * @param playerUuid 玩家
      * @param type       类型
      * @return 技能等级
      * @since 1.0.2
      */
-    public int getLevelOffline(String playerName, String type) {
-        if (!PlayerTop.USE_MC_MMO || StrUtil.isEmpty(playerName)) {
+    public int getLevelOffline(UUID playerUuid, String type) {
+        if (!PlayerTop.USE_MC_MMO || playerUuid == null) {
             return 0;
         }
         DatabaseAPI databaseApi = new DatabaseAPI();
-        if (!databaseApi.doesPlayerExistInDB(playerName)) {
+        if (!databaseApi.doesPlayerExistInDB(playerUuid)) {
             return 0;
         }
-        return ExperienceAPI.getLevelOffline(playerName, type);
+        return ExperienceAPI.getLevelOffline(playerUuid, type);
     }
 
     /**

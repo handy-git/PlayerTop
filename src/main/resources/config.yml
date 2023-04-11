@@ -13,3 +13,45 @@ task: 300
 
 # 排行榜是否过滤 op true过滤, false不过滤
 isOp: false
+
+# 根据内部api获取的排行数据
+# 这些数据 可以使用 /pt createHd [类型] 指令生成全息排行榜
+# 类型意义可在 https://ricedoc.handyplus.cn/wiki/PlayerTop/command/ 查看
+enable:
+  vault: true
+  playerPoints: true
+  playerTitleCoin: true
+  playerTitleNumber: true
+  playerTaskCoin: true
+  playerGuildMoney: true
+  playerGuildKill: true
+  playerGuildDie: true
+  playerGuildDonatedMoney: true
+  mcMmo: true
+  mcMmoAcrobatics: true
+  mcMmoAlchemy: true
+  mcMmoArchery: true
+  mcMmoAxes: true
+  mcMmoExcavation: true
+  mcMmoFishing: true
+  mcMmoHerbalism: true
+  mcMmoMining: true
+  mcMmoRepair: true
+  mcMmoSalvage: true
+  mcMmoSmelting: true
+  mcMmoSwords: true
+  mcMmoTaming: true
+  mcMmoUnarmed: true
+  mcMmoWoodcutting: true
+  jobsBrewer: true
+  jobsBuilder: true
+  jobsCrafter: true
+  jobsDigger: true
+  jobsEnchanter: true
+  jobsExplorer: true
+  jobsFarmer: true
+  jobsFisherman: true
+  jobsHunter: true
+  jobsMiner: true
+  jobsWeaponSmith: true
+  jobsWoodcutter: true

@@ -1,10 +1,7 @@
 package cn.handyplus.top.hook;
 
-import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.top.PlayerTop;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import org.bukkit.OfflinePlayer;
 
 /**
  * 金币util
@@ -27,16 +24,15 @@ public class VaultUtil {
     /**
      * 查询玩家金币
      *
-     * @param playerName 玩家名
+     * @param offlinePlayer 玩家
      * @return 玩家金币
      */
-    public double getPlayerVault(String playerName) {
-        if (PlayerTop.getEconomy() == null || StrUtil.isEmpty(playerName)) {
-            return 0.0;
+    public Integer getPlayerVault(OfflinePlayer offlinePlayer) {
+        if (PlayerTop.getEconomy() == null) {
+            return 0;
         }
-        double dou = PlayerTop.getEconomy().getBalance(playerName);
-        BigDecimal bigDecimal = new BigDecimal(dou).setScale(2, RoundingMode.HALF_UP);
-        return bigDecimal.doubleValue();
+        double dou = PlayerTop.getEconomy().getBalance(offlinePlayer);
+        return (int) dou;
     }
 
 }

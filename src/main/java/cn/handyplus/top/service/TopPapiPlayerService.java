@@ -52,6 +52,10 @@ public class TopPapiPlayerService {
             }
             topPapiPlayerGroupList.put(papi, papiList);
         }
+        // ID赋值
+        for (int i = 0; i < topPapiPlayerList.size(); i++) {
+            topPapiPlayerList.get(i).setId(i + 1);
+        }
         // 批量添加
         for (List<TopPapiPlayer> list : CollUtil.splitList(topPapiPlayerList, 500)) {
             this.addBatch(list);

@@ -19,10 +19,10 @@ public class TopPapiPlayer {
     @TableField(value = "id", comment = "ID")
     private Integer id;
 
-    @TableField(value = "player_name", comment = "玩家名称", notNull = true, indexEnum = IndexEnum.INDEX)
+    @TableField(value = "player_name", comment = "玩家名称")
     private String playerName;
 
-    @TableField(value = "player_uuid", comment = "玩家uuid")
+    @TableField(value = "player_uuid", comment = "玩家uuid", notNull = true, indexEnum = IndexEnum.INDEX)
     private String playerUuid;
 
     @TableField(value = "op", comment = "是否op")

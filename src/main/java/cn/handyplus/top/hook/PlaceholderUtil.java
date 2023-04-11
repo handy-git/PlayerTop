@@ -3,8 +3,8 @@ package cn.handyplus.top.hook;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
-import cn.handyplus.top.enter.TopPlayer;
-import cn.handyplus.top.service.TopPlayerService;
+import cn.handyplus.top.enter.TopPapiPlayer;
+import cn.handyplus.top.service.TopPapiPlayerService;
 import cn.handyplus.top.util.ConfigUtil;
 import cn.handyplus.top.util.TopUtil;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -51,14 +51,16 @@ public class PlaceholderUtil extends PlaceholderExpansion {
             return "";
         }
         String type = placeholderStr[0];
-        int pageNum = Integer.parseInt(placeholderStr[1]);
+        Integer pageNum = Integer.parseInt(placeholderStr[1]);
 
         PlayerTopTypeEnum topTypeEnum = PlayerTopTypeEnum.getType(type);
-        if (topTypeEnum == null) {
-            return "";
+        if (topTypeEnum != null) {
+            type = topTypeEnum.getType();
+        } else {
+            type = "%" + type + "%";
         }
         // 查询对应记录
-        List<TopPlayer> list = TopPlayerService.getInstance().page(topTypeEnum, pageNum, 1);
+        List<TopPapiPlayer> list = TopPapiPlayerService.getInstance().page(type, pageNum, 1);
 
         // 判断是否查询玩家name
         if (placeholderStr.length > 2 && "name".equalsIgnoreCase(placeholderStr[2])) {

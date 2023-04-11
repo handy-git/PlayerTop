@@ -1,6 +1,5 @@
 package cn.handyplus.top.hook;
 
-import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.top.PlayerTop;
 import com.gamingmesh.jobs.Jobs;
 import com.gamingmesh.jobs.container.JobProgression;
@@ -9,6 +8,7 @@ import com.gamingmesh.jobs.container.JobsPlayer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author handy
@@ -31,12 +31,12 @@ public class JobUtil {
      * @param playerName 玩家
      * @return 等级map key 职业名 value 等级
      */
-    public Map<String, Integer> getLevelMap(String playerName) {
+    public Map<String, Integer> getLevelMap(UUID playerUuid) {
         Map<String, Integer> map = new HashMap<>();
-        if (!PlayerTop.USE_JOB || StrUtil.isEmpty(playerName)) {
+        if (!PlayerTop.USE_JOB || playerUuid == null) {
             return map;
         }
-        JobsPlayer jobsPlayer = Jobs.getPlayerManager().getJobsPlayer(playerName);
+        JobsPlayer jobsPlayer = Jobs.getPlayerManager().getJobsPlayer(playerUuid);
         if (jobsPlayer == null) {
             return map;
         }
