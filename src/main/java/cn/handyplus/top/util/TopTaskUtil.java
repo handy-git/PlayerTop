@@ -69,7 +69,12 @@ public class TopTaskUtil {
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
         List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyAsync(offlinePlayers);
         if (sender != null) {
-            MessageApi.sendMessage(sender, "二. 同步" + offlinePlayers.length + "位玩家变量" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6");
+            boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
+            String msg = "二. 同步" + offlinePlayers.length + "位玩家变量(未过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
+            if (isOp) {
+                msg = "二. 同步" + offlinePlayers.length + "位玩家变量(已过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
+            }
+            MessageApi.sendMessage(sender, msg);
         }
         // 替换数据
         TopPapiPlayerService.getInstance().replace(topPapiPlayerList);

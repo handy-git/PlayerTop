@@ -47,6 +47,12 @@ public class AsyncTask {
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         List<OfflinePlayer> playerList = new ArrayList<>(offlinePlayers.length);
         Collections.addAll(playerList, offlinePlayers);
+
+        boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
+        if (isOp) {
+            playerList = playerList.stream().filter(s -> !s.isOp()).collect(Collectors.toList());
+        }
+
         // 异步循环获取值
         List<CompletableFuture<List<TopPapiPlayer>>> completableFutureList = new ArrayList<>();
         for (List<OfflinePlayer> players : CollUtil.splitList(playerList, 1000)) {
@@ -147,17 +153,12 @@ public class AsyncTask {
     private static List<TopPapiPlayer> getPapiValue(List<OfflinePlayer> offlinePlayers, String papiType) {
         long start = System.currentTimeMillis();
         MessageApi.sendConsoleDebugMessage("获取" + papiType + "变量的值开始..");
-        boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         for (OfflinePlayer offlinePlayer : offlinePlayers) {
             // 构建内部数据
             TopPapiPlayer topPapiPlayer = new TopPapiPlayer();
             topPapiPlayer.setPlayerName(offlinePlayer.getName());
             topPapiPlayer.setPlayerUuid(offlinePlayer.getUniqueId().toString());
-            topPapiPlayer.setOp(false);
-            if (isOp) {
-                topPapiPlayer.setOp(offlinePlayer.isOp());
-            }
             topPapiPlayer.setPapi(papiType);
             // 判断值是否存在
             String papiValue = PlaceholderApiUtil.set(offlinePlayer, papiType);
@@ -186,17 +187,12 @@ public class AsyncTask {
     private static List<TopPapiPlayer> getApiValue(List<OfflinePlayer> offlinePlayers, PlayerTopTypeEnum typeEnum) {
         long start = System.currentTimeMillis();
         MessageApi.sendConsoleDebugMessage("获取" + typeEnum.getType() + "变量的值开始..");
-        boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         for (OfflinePlayer offlinePlayer : offlinePlayers) {
             // 构建内部数据
             TopPapiPlayer topPapiPlayer = new TopPapiPlayer();
             topPapiPlayer.setPlayerName(offlinePlayer.getName());
             topPapiPlayer.setPlayerUuid(offlinePlayer.getUniqueId().toString());
-            topPapiPlayer.setOp(false);
-            if (isOp) {
-                topPapiPlayer.setOp(offlinePlayer.isOp());
-            }
             topPapiPlayer.setPapi(typeEnum.getType());
             topPapiPlayer.setVault(getDataValue(offlinePlayer, typeEnum));
             topPapiPlayerList.add(topPapiPlayer);

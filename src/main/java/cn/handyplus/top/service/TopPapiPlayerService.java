@@ -4,7 +4,6 @@ import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.db.Compare;
 import cn.handyplus.lib.db.Db;
 import cn.handyplus.top.enter.TopPapiPlayer;
-import cn.handyplus.top.util.ConfigUtil;
 
 import java.util.Comparator;
 import java.util.List;
@@ -74,10 +73,6 @@ public class TopPapiPlayerService {
         Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
         Compare<TopPapiPlayer> where = db.where();
         where.limit(pageNum, pageSize).eq(TopPapiPlayer::getPapi, papi);
-        // 是否包含op
-        if (ConfigUtil.CONFIG.getBoolean("isOp")) {
-            where.eq(TopPapiPlayer::getOp, false);
-        }
         where.orderByDesc(TopPapiPlayer::getVault);
         return db.execution().page().getRecords();
     }

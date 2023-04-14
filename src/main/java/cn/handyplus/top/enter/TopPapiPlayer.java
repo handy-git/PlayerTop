@@ -25,9 +25,6 @@ public class TopPapiPlayer {
     @TableField(value = "player_uuid", comment = "玩家uuid", notNull = true, indexEnum = IndexEnum.INDEX)
     private String playerUuid;
 
-    @TableField(value = "op", comment = "是否op")
-    private Boolean op;
-
     @TableField(value = "papi", comment = "变量类型", indexEnum = IndexEnum.INDEX)
     private String papi;
 
