@@ -47,12 +47,13 @@ public class AsyncTask {
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         List<OfflinePlayer> playerList = new ArrayList<>(offlinePlayers.length);
         Collections.addAll(playerList, offlinePlayers);
-
+        // 判断是否过滤op
         boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
         if (isOp) {
             playerList = playerList.stream().filter(s -> !s.isOp()).collect(Collectors.toList());
         }
-
+        // 过滤掉空名称的
+        playerList = playerList.stream().filter(s -> StrUtil.isNotEmpty(s.getName())).collect(Collectors.toList());
         // 异步循环获取值
         List<CompletableFuture<List<TopPapiPlayer>>> completableFutureList = new ArrayList<>();
         for (List<OfflinePlayer> players : CollUtil.splitList(playerList, 1000)) {
