@@ -29,7 +29,7 @@ public class TopPapiPlayer {
     private String papi;
 
     @TableField(value = "vault", comment = "值")
-    private Integer vault;
+    private Long vault;
 
     @TableField(value = "rank", comment = "排名")
     private Integer rank;

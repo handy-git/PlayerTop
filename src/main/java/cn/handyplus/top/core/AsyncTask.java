@@ -171,7 +171,7 @@ public class AsyncTask {
             if (number == null) {
                 continue;
             }
-            topPapiPlayer.setVault(number.intValue());
+            topPapiPlayer.setVault(number.longValue());
             topPapiPlayerList.add(topPapiPlayer);
         }
         MessageApi.sendConsoleDebugMessage("获取" + papiType + "变量的值结束,耗时ms:" + (System.currentTimeMillis() - start));
@@ -210,8 +210,8 @@ public class AsyncTask {
      * @return 值
      * @since 1.2.2
      */
-    private static Integer getDataValue(OfflinePlayer offlinePlayer, PlayerTopTypeEnum typeEnum) {
-        Integer dataValue = 0;
+    private static Long getDataValue(OfflinePlayer offlinePlayer, PlayerTopTypeEnum typeEnum) {
+        Long dataValue = 0L;
         // 处理McMmo未加载
         if (typeEnum.getType().contains("mcMmo") && !PlayerTop.USE_MC_MMO) {
             return dataValue;
@@ -220,7 +220,7 @@ public class AsyncTask {
         if (typeEnum.getType().contains("jobs") && !PlayerTop.USE_JOB) {
             return dataValue;
         }
-        Map<String, Integer> jobLevelMap;
+        Map<String, Long> jobLevelMap;
         switch (typeEnum) {
             case VAULT:
                 dataValue = VaultUtil.getInstance().getPlayerVault(offlinePlayer);
@@ -299,47 +299,47 @@ public class AsyncTask {
                 break;
             case JOBS_BUILDER:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_BREWER.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_BREWER.getOriginalType(), 0L);
                 break;
             case JOBS_CRAFTER:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_CRAFTER.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_CRAFTER.getOriginalType(), 0L);
                 break;
             case JOBS_DIGGER:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_DIGGER.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_DIGGER.getOriginalType(), 0L);
                 break;
             case JOBS_ENCHANTER:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_ENCHANTER.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_ENCHANTER.getOriginalType(), 0L);
                 break;
             case JOBS_EXPLORER:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_EXPLORER.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_EXPLORER.getOriginalType(), 0L);
                 break;
             case JOBS_FARMER:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_FARMER.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_FARMER.getOriginalType(), 0L);
                 break;
             case JOBS_FISHERMAN:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_FISHERMAN.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_FISHERMAN.getOriginalType(), 0L);
                 break;
             case JOBS_HUNTER:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_HUNTER.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_HUNTER.getOriginalType(), 0L);
                 break;
             case JOBS_MINER:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_MINER.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_MINER.getOriginalType(), 0L);
                 break;
             case JOBS_WEAPON_SMITH:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WEAPON_SMITH.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WEAPON_SMITH.getOriginalType(), 0L);
                 break;
             case JOBS_WOODCUTTER:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
-                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WOODCUTTER.getOriginalType(), 0);
+                dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_WOODCUTTER.getOriginalType(), 0L);
                 break;
             default:
                 break;

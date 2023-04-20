@@ -32,7 +32,7 @@ public class McMmoUtil {
      * @return 技能等级
      * @since 1.0.2
      */
-    public int getLevelOffline(UUID playerUuid, String type) {
+    public long getLevelOffline(UUID playerUuid, String type) {
         if (!PlayerTop.USE_MC_MMO || playerUuid == null) {
             return 0;
         }
@@ -50,7 +50,7 @@ public class McMmoUtil {
      * @return 技能总等级
      * @since 1.0.2
      */
-    public int getPowerLevelOffline(UUID playerUuid) {
+    public long getPowerLevelOffline(UUID playerUuid) {
         if (!PlayerTop.USE_MC_MMO || playerUuid == null) {
             return 0;
         }

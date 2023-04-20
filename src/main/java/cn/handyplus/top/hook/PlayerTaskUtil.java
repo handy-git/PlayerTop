@@ -27,12 +27,12 @@ public class PlayerTaskUtil {
      * @param playerName 玩家名
      * @return 玩家任务币
      */
-    public int getPlayerTaskCoin(String playerName) {
+    public long getPlayerTaskCoin(String playerName) {
         if (!PlayerTop.USE_TASK || StrUtil.isEmpty(playerName)) {
             return 0;
         }
         Integer playerTaskCoin = PlayerTaskApi.getInstance().findAmountByPlayer(playerName);
-        return playerTaskCoin != null ? playerTaskCoin : 0;
+        return playerTaskCoin != null ? playerTaskCoin : 0L;
     }
 
 }

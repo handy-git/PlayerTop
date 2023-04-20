@@ -28,7 +28,7 @@ public class PlayerPointsUtil {
      * @param playerUuid 玩家UUID
      * @return 玩家点券
      */
-    public int getPlayerPoints(UUID playerUuid) {
+    public long getPlayerPoints(UUID playerUuid) {
         if (PlayerTop.getPlayerPoints() == null || playerUuid == null) {
             return 0;
         }
