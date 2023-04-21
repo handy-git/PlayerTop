@@ -52,7 +52,7 @@ public class TopPapiPlayerService {
         for (String papi : topPapiPlayerGroupList.keySet()) {
             List<TopPapiPlayer> papiList = topPapiPlayerGroupList.get(papi);
             // 保存离线数据
-            List<String> playerUuidList = topPapiPlayerList.stream().map(TopPapiPlayer::getPlayerUuid).distinct().collect(Collectors.toList());
+            List<String> playerUuidList = papiList.stream().map(TopPapiPlayer::getPlayerUuid).distinct().collect(Collectors.toList());
             playerUuidList.addAll(opUidList);
             List<TopPapiPlayer> offTopPapiPlayerList = this.findByPlayerUuids(playerUuidList, papi);
             papiList.addAll(offTopPapiPlayerList);
