@@ -64,8 +64,8 @@ public class TopPapiPlayerService {
             }
             saveTopPapiPlayerList.addAll(papiList);
         }
-        // 先删除
-        this.delete();
+        // 先删除获取到的变量类型
+        this.deleteByPapi(new ArrayList<>(topPapiPlayerGroupList.keySet()));
         // ID赋值
         for (int i = 0; i < saveTopPapiPlayerList.size(); i++) {
             saveTopPapiPlayerList.get(i).setId(i + 1);
@@ -135,10 +135,12 @@ public class TopPapiPlayerService {
     /**
      * 删除
      *
-     * @since 1.2.2
+     * @since 1.2.5
      */
-    private void delete() {
-        Db.use(TopPapiPlayer.class).execution().delete();
+    private void deleteByPapi(List<String> papiList) {
+        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
+        use.where().in(TopPapiPlayer::getPapi, papiList);
+        use.execution().delete();
     }
 
     /**
