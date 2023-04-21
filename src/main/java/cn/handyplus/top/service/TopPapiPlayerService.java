@@ -5,6 +5,7 @@ import cn.handyplus.lib.db.Compare;
 import cn.handyplus.lib.db.Db;
 import cn.handyplus.top.enter.TopPapiPlayer;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -35,12 +36,15 @@ public class TopPapiPlayerService {
      * @since 1.2.2
      */
     public void replace(List<TopPapiPlayer> topPapiPlayerList) {
-        // 先删除
-        this.delete();
         if (CollUtil.isEmpty(topPapiPlayerList)) {
             return;
         }
-
+        // 保存离线数据
+        List<String> playerUuidList = topPapiPlayerList.stream().map(TopPapiPlayer::getPlayerUuid).distinct().collect(Collectors.toList());
+        List<TopPapiPlayer> offTopPapiPlayerList = this.findByPlayerUuids(playerUuidList);
+        topPapiPlayerList.addAll(offTopPapiPlayerList);
+        // 先删除
+        this.delete();
         // 分组排序
         Map<String, List<TopPapiPlayer>> topPapiPlayerGroupList = topPapiPlayerList.stream().collect(Collectors.groupingBy(TopPapiPlayer::getPapi));
         for (String papi : topPapiPlayerGroupList.keySet()) {
@@ -107,7 +111,6 @@ public class TopPapiPlayerService {
         return db.execution().selectOne();
     }
 
-
     /**
      * 批量新增
      *
@@ -125,6 +128,26 @@ public class TopPapiPlayerService {
      */
     private void delete() {
         Db.use(TopPapiPlayer.class).execution().delete();
+    }
+
+    /**
+     * 根据uid not in查询
+     *
+     * @param playerUuidList 用户uid
+     * @return TopPapiPlayer
+     * @since 1.2.5
+     */
+    public List<TopPapiPlayer> findByPlayerUuids(List<String> playerUuidList) {
+        List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
+        if (CollUtil.isEmpty(playerUuidList)) {
+            return topPapiPlayerList;
+        }
+        for (List<String> playerUuids : CollUtil.partition(playerUuidList, 1000)) {
+            Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
+            db.where().notIn(TopPapiPlayer::getPlayerUuid, playerUuids);
+            topPapiPlayerList.addAll(db.execution().list());
+        }
+        return topPapiPlayerList;
     }
 
 }
