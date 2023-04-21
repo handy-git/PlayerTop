@@ -28,11 +28,11 @@ public class JobUtil {
     /**
      * 获取玩家职业等级
      *
-     * @param playerName 玩家
+     * @param playerUuid 玩家uid
      * @return 等级map key 职业名 value 等级
      */
-    public Map<String, Integer> getLevelMap(UUID playerUuid) {
-        Map<String, Integer> map = new HashMap<>();
+    public Map<String, Long> getLevelMap(UUID playerUuid) {
+        Map<String, Long> map = new HashMap<>();
         if (!PlayerTop.USE_JOB || playerUuid == null) {
             return map;
         }
@@ -42,7 +42,7 @@ public class JobUtil {
         }
         List<JobProgression> jobs = jobsPlayer.getJobProgression();
         for (JobProgression jobProgression : jobs) {
-            map.put(jobProgression.getJob().getName(), jobProgression.getLevel());
+            map.put(jobProgression.getJob().getName(), (long) jobProgression.getLevel());
         }
         return map;
     }

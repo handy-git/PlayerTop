@@ -28,12 +28,12 @@ public class PlayerTitleUtil {
      * @param playerName 玩家名
      * @return 称号数量
      */
-    public int getPlayerTitleNumber(String playerName) {
+    public long getPlayerTitleNumber(String playerName) {
         if (!PlayerTop.USE_TITLE || StrUtil.isEmpty(playerName)) {
             return 0;
         }
         Integer playerTitleNum = PlayerTitleApi.getInstance().getPlayerTitleNum(playerName);
-        return playerTitleNum != null ? playerTitleNum : 0;
+        return playerTitleNum != null ? playerTitleNum : 0L;
     }
 
     /**
@@ -42,12 +42,12 @@ public class PlayerTitleUtil {
      * @param playerName 玩家名
      * @return 称号币数量
      */
-    public int getPlayerTitleCoin(String playerName) {
+    public long getPlayerTitleCoin(String playerName) {
         if (!PlayerTop.USE_TITLE || StrUtil.isEmpty(playerName)) {
-            return 0;
+            return 0L;
         }
         Long playerCoinNum = PlayerTitleApi.getInstance().getPlayerCoinNum(playerName);
-        return playerCoinNum != null ? playerCoinNum.intValue() : 0;
+        return playerCoinNum != null ? playerCoinNum : 0L;
     }
 
 }
