@@ -5,7 +5,6 @@ import cn.handyplus.lib.db.Compare;
 import cn.handyplus.lib.db.Db;
 import cn.handyplus.top.enter.TopPapiPlayer;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -138,16 +137,9 @@ public class TopPapiPlayerService {
      * @since 1.2.5
      */
     public List<TopPapiPlayer> findByPlayerUuids(List<String> playerUuidList) {
-        List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
-        if (CollUtil.isEmpty(playerUuidList)) {
-            return topPapiPlayerList;
-        }
-        for (List<String> playerUuids : CollUtil.partition(playerUuidList, 1000)) {
-            Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
-            db.where().notIn(TopPapiPlayer::getPlayerUuid, playerUuids);
-            topPapiPlayerList.addAll(db.execution().list());
-        }
-        return topPapiPlayerList;
+        Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
+        db.where().notIn(TopPapiPlayer::getPlayerUuid, playerUuidList);
+        return db.execution().list();
     }
 
 }
