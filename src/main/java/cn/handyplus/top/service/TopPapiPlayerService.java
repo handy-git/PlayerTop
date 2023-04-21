@@ -48,6 +48,7 @@ public class TopPapiPlayerService {
             opUidList = AsyncTask.getOpUidList();
         }
         // 分组排序
+        List<TopPapiPlayer> saveTopPapiPlayerList = new ArrayList<>();
         Map<String, List<TopPapiPlayer>> topPapiPlayerGroupList = topPapiPlayerList.stream().collect(Collectors.groupingBy(TopPapiPlayer::getPapi));
         for (String papi : topPapiPlayerGroupList.keySet()) {
             List<TopPapiPlayer> papiList = topPapiPlayerGroupList.get(papi);
@@ -61,16 +62,16 @@ public class TopPapiPlayerService {
             for (int i = 0; i < papiList.size(); i++) {
                 papiList.get(i).setRank(i + 1);
             }
-            topPapiPlayerGroupList.put(papi, papiList);
+            saveTopPapiPlayerList.addAll(papiList);
         }
         // 先删除
         this.delete();
         // ID赋值
-        for (int i = 0; i < topPapiPlayerList.size(); i++) {
-            topPapiPlayerList.get(i).setId(i + 1);
+        for (int i = 0; i < saveTopPapiPlayerList.size(); i++) {
+            saveTopPapiPlayerList.get(i).setId(i + 1);
         }
         // 批量添加
-        for (List<TopPapiPlayer> list : CollUtil.splitList(topPapiPlayerList, 1000)) {
+        for (List<TopPapiPlayer> list : CollUtil.splitList(saveTopPapiPlayerList, 1000)) {
             this.addBatch(list);
         }
     }
