@@ -18,6 +18,7 @@ import cn.handyplus.top.hook.PlayerTitleUtil;
 import cn.handyplus.top.hook.VaultUtil;
 import cn.handyplus.top.util.ConfigUtil;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.MemorySection;
 
@@ -68,6 +69,16 @@ public class AsyncTask {
             topPapiPlayerList.addAll(listCompletableFuture.join());
         }
         return topPapiPlayerList;
+    }
+
+    /**
+     * 获取服务器ops
+     *
+     * @return op uid
+     */
+    public static List<String> getOpUidList() {
+        List<OfflinePlayer> opList = new ArrayList<>(Bukkit.getOperators());
+        return opList.stream().map(s -> s.getUniqueId().toString()).collect(Collectors.toList());
     }
 
     /**
