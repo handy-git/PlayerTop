@@ -12,4 +12,9 @@ public abstract class TopConstants {
      */
     public final static String PLUGIN_VERSION_URL = "https://api.github.com/repos/handy-git/PlayerTop/releases/latest";
 
+    /**
+     * 是否初始化
+     */
+    public static boolean IS_INIT;
+
 }

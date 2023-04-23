@@ -2,6 +2,7 @@ package cn.handyplus.top.util;
 
 import cn.handyplus.lib.util.HandyConfigUtil;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
+import cn.handyplus.top.constants.TopConstants;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
@@ -19,6 +20,8 @@ public class ConfigUtil {
      * 加载全部配置
      */
     public static void init() {
+        // 是否初始化
+        TopConstants.IS_INIT = HandyConfigUtil.exists("config.yml");
         // 加载config
         CONFIG = HandyConfigUtil.loadConfig();
         // 加载语言到jar

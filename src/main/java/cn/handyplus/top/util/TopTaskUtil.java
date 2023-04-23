@@ -5,6 +5,7 @@ import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
+import cn.handyplus.top.constants.TopConstants;
 import cn.handyplus.top.core.AsyncTask;
 import cn.handyplus.top.enter.TopPapiPlayer;
 import cn.handyplus.top.hook.HdUtil;
@@ -31,12 +32,21 @@ public class TopTaskUtil {
     private static final Semaphore TASK_LOCK = new Semaphore(1);
 
     /**
-     * 30s后初始化定时任务
+     * 60s后初始化定时任务
      */
     public static void init() {
+        // 开启定时任务
         new BukkitRunnable() {
             @Override
             public void run() {
+                // 初始化数据
+                if (!TopConstants.IS_INIT) {
+                    TopConstants.IS_INIT = true;
+                    // 获取要刷新的玩家信息
+                    List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyOfflineAsync(AsyncTask.getOfflineList());
+                    // 替换数据
+                    TopPapiPlayerService.getInstance().replace(topPapiPlayerList);
+                }
                 setToDataToLock(null);
             }
         }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task", 300) * 20);
@@ -66,20 +76,20 @@ public class TopTaskUtil {
             MessageApi.sendMessage(sender, "一. 开始获取排行数据,请耐心等待,当前进度: 1/6");
         }
         // 获取要刷新的玩家信息
-        OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
-        List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyAsync(offlinePlayers);
+        List<OfflinePlayer> offlinePlayers = AsyncTask.getOnlineList();
+        List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyOfflineAsync(offlinePlayers);
         if (sender != null) {
             boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
-            String msg = "二. 同步" + offlinePlayers.length + "位玩家变量(未过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
+            String msg = "二. 同步" + offlinePlayers.size() + "位在线玩家变量(未过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
             if (isOp) {
-                msg = "二. 同步" + offlinePlayers.length + "位玩家变量(已过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
+                msg = "二. 同步" + offlinePlayers.size() + "位在线玩家变量(已过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
             }
             MessageApi.sendMessage(sender, msg);
         }
         // 替换数据
         TopPapiPlayerService.getInstance().replace(topPapiPlayerList);
         if (sender != null) {
-            MessageApi.sendMessage(sender, "三. 保存" + offlinePlayers.length + "位玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
+            MessageApi.sendMessage(sender, "三. 保存" + offlinePlayers.size() + "位在线玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
         }
         // 获取数据
         List<PlayerPapiHd> playerPapiHdList = createHd();

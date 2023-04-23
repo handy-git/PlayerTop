@@ -39,15 +39,37 @@ import java.util.stream.Collectors;
 public class AsyncTask {
 
     /**
-     * 获取刷新的数据 TopPapiPlayer
+     * 获取在线玩家
      *
-     * @param offlinePlayers 玩家
      * @return TopPapiPlayer
      */
-    public static List<TopPapiPlayer> supplyAsync(OfflinePlayer[] offlinePlayers) {
-        List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
+    public static List<OfflinePlayer> getOnlineList() {
+        return new ArrayList<>(Bukkit.getOnlinePlayers());
+    }
+
+    /**
+     * 获取离线玩家
+     *
+     * @return TopPapiPlayer
+     */
+    public static List<OfflinePlayer> getOfflineList() {
+        OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
         List<OfflinePlayer> playerList = new ArrayList<>(offlinePlayers.length);
         Collections.addAll(playerList, offlinePlayers);
+        return playerList;
+    }
+
+    /**
+     * 刷新玩家排行数据
+     *
+     * @param playerList 玩家
+     * @return TopPapiPlayer
+     */
+    public static List<TopPapiPlayer> supplyOfflineAsync(List<OfflinePlayer> playerList) {
+        List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
+        if (CollUtil.isEmpty(playerList)) {
+            return topPapiPlayerList;
+        }
         // 判断是否过滤op
         boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
         if (isOp) {
