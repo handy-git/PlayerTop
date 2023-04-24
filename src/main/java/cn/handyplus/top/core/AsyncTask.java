@@ -169,7 +169,7 @@ public class AsyncTask {
         // 等待获取全部数据出来
         for (String papiType : completableFutureMap.keySet()) {
             try {
-                topPapiPlayerList.addAll(completableFutureMap.get(papiType).get(1, TimeUnit.MINUTES));
+                topPapiPlayerList.addAll(completableFutureMap.get(papiType).get(2, TimeUnit.MINUTES));
             } catch (Exception ignored) {
                 MessageApi.sendConsoleMessage("获取" + papiType + "变量数据超时...");
             }
