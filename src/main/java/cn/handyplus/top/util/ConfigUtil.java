@@ -6,6 +6,7 @@ import cn.handyplus.top.constants.TopConstants;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * 配置
@@ -65,6 +66,8 @@ public class ConfigUtil {
         for (String type : PlayerTopTypeEnum.getTypeList()) {
             HandyConfigUtil.setPathIsNotContains(CONFIG, "enable." + type, true, null, "config.yml");
         }
+        // 1.2.8 添加黑名单
+        HandyConfigUtil.setPathIsNotContains(CONFIG, "blacklist", Collections.singletonList("md5"), Collections.singletonList("黑名单,该名单内的玩家会被过滤掉"), "config.yml");
         CONFIG = HandyConfigUtil.loadConfig();
     }
 

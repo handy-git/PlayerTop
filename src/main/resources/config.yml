@@ -14,6 +14,10 @@ task: 60
 # 排行榜是否过滤 op true过滤, false不过滤
 isOp: false
 
+# 黑名单,该名单内的玩家会被过滤掉
+blacklist:
+  - "md5"
+
 # 根据内部api获取的排行数据
 # 这些数据 可以使用 /pt createHd [类型] 指令生成全息排行榜
 # 类型意义可在 https://ricedoc.handyplus.cn/wiki/PlayerTop/command/ 查看

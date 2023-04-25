@@ -6,6 +6,8 @@ import cn.handyplus.lib.db.Db;
 import cn.handyplus.top.core.AsyncTask;
 import cn.handyplus.top.enter.TopPapiPlayer;
 import cn.handyplus.top.util.ConfigUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -45,7 +47,15 @@ public class TopPapiPlayerService {
         List<String> opUidList = new ArrayList<>();
         boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
         if (isOp) {
-            opUidList = AsyncTask.getOpUidList();
+            opUidList.addAll(AsyncTask.getOpUidList());
+        }
+        // 过滤掉黑名单的
+        List<String> blacklist = ConfigUtil.CONFIG.getStringList("blacklist");
+        if (CollUtil.isNotEmpty(blacklist)) {
+            for (String blackPlayerName : blacklist) {
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(blackPlayerName);
+                opUidList.add(offlinePlayer.getUniqueId().toString());
+            }
         }
         // 分组排序
         List<TopPapiPlayer> saveTopPapiPlayerList = new ArrayList<>();
