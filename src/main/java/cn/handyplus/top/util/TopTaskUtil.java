@@ -39,14 +39,6 @@ public class TopTaskUtil {
         new BukkitRunnable() {
             @Override
             public void run() {
-                // 初始化数据
-                if (!TopConstants.IS_INIT) {
-                    TopConstants.IS_INIT = true;
-                    // 获取要刷新的玩家信息
-                    List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyOfflineAsync(AsyncTask.getOfflineList());
-                    // 替换数据
-                    TopPapiPlayerService.getInstance().replace(topPapiPlayerList);
-                }
                 setToDataToLock(null, true);
             }
         }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task", 300) * 20);
@@ -63,6 +55,15 @@ public class TopTaskUtil {
             return;
         }
         try {
+            // 初始化数据
+            if (!TopConstants.IS_INIT) {
+                TopConstants.IS_INIT = true;
+                // 获取要刷新的玩家信息
+                List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyOfflineAsync(AsyncTask.getOfflineList());
+                // 替换数据
+                TopPapiPlayerService.getInstance().replace(topPapiPlayerList);
+                return;
+            }
             // 执行
             setTopData(sender, isOnline);
         } finally {
