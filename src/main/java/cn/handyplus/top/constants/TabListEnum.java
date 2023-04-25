@@ -18,7 +18,7 @@ public enum TabListEnum {
     /**
      * 第一层提醒
      */
-    FIRST(Arrays.asList("reload", "createHd"), 0, null, 1),
+    FIRST(Arrays.asList("reload", "createHd", "init"), 0, null, 1),
 
     CREATE_HD_TWO(PlayerTopTypeEnum.getTypeList(), 1, "createHd", 2),
     ;
