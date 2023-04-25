@@ -47,21 +47,24 @@ public class TopTaskUtil {
                     // 替换数据
                     TopPapiPlayerService.getInstance().replace(topPapiPlayerList);
                 }
-                setToDataToLock(null);
+                setToDataToLock(null, true);
             }
         }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20 * 60, ConfigUtil.CONFIG.getLong("task", 300) * 20);
     }
 
     /**
      * 加锁可外部调用
+     *
+     * @param sender   控制台
+     * @param isOnline 是否在线
      */
-    public static void setToDataToLock(CommandSender sender) {
+    public static void setToDataToLock(CommandSender sender, boolean isOnline) {
         if (!TASK_LOCK.tryAcquire()) {
             return;
         }
         try {
             // 执行
-            setTopData(sender);
+            setTopData(sender, isOnline);
         } finally {
             TASK_LOCK.release();
         }
@@ -70,13 +73,18 @@ public class TopTaskUtil {
     /**
      * 设置变量数据
      */
-    private static void setTopData(CommandSender sender) {
+    private static void setTopData(CommandSender sender, boolean isOnline) {
         long start = System.currentTimeMillis();
         if (sender != null) {
             MessageApi.sendMessage(sender, "一. 开始获取排行数据,请耐心等待,当前进度: 1/6");
         }
         // 获取要刷新的玩家信息
-        List<OfflinePlayer> offlinePlayers = AsyncTask.getOnlineList();
+        List<OfflinePlayer> offlinePlayers;
+        if (isOnline) {
+            offlinePlayers = AsyncTask.getOnlineList();
+        } else {
+            offlinePlayers = AsyncTask.getOfflineList();
+        }
         List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyOfflineAsync(offlinePlayers);
         if (sender != null) {
             boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");

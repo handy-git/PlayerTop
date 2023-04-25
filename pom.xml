@@ -6,7 +6,7 @@
 
     <groupId>cn.handyplus.top</groupId>
     <artifactId>PlayerTop</artifactId>
-    <version>1.2.6</version>
+    <version>1.2.7</version>
     <description>一款有点好用的排行榜插件</description>
 
     <properties>

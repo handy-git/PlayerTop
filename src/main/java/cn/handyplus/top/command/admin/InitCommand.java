@@ -9,20 +9,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * 重载配置
+ * 初始化离线数据
  *
  * @author handy
  */
-public class ReloadCommand implements IHandyCommandEvent {
+public class InitCommand implements IHandyCommandEvent {
 
     @Override
     public String command() {
-        return "reload";
+        return "init";
     }
 
     @Override
     public String permission() {
-        return "playerTop.reload";
+        return "playerTop.init";
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ReloadCommand implements IHandyCommandEvent {
             @Override
             public void run() {
                 ConfigUtil.init();
-                TopTaskUtil.setToDataToLock(sender, true);
+                TopTaskUtil.setToDataToLock(sender, false);
             }
         }.runTaskAsynchronously(PlayerTop.getInstance());
     }

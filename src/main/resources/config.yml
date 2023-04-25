@@ -9,7 +9,7 @@ isCheckUpdateToOpMsg: true
 
 # 多久异步同步一次数据并刷新排行榜 单位秒(改动需重启生效)
 # 如果设置为0,不会执行同步操作
-task: 300
+task: 60
 
 # 排行榜是否过滤 op true过滤, false不过滤
 isOp: false
