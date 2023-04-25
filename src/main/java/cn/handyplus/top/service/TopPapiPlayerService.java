@@ -6,8 +6,6 @@ import cn.handyplus.lib.db.Db;
 import cn.handyplus.top.core.AsyncTask;
 import cn.handyplus.top.enter.TopPapiPlayer;
 import cn.handyplus.top.util.ConfigUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -51,12 +49,6 @@ public class TopPapiPlayerService {
         }
         // 过滤掉黑名单的
         List<String> blacklist = ConfigUtil.CONFIG.getStringList("blacklist");
-        if (CollUtil.isNotEmpty(blacklist)) {
-            for (String blackPlayerName : blacklist) {
-                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(blackPlayerName);
-                opUidList.add(offlinePlayer.getUniqueId().toString());
-            }
-        }
         // 分组排序
         List<TopPapiPlayer> saveTopPapiPlayerList = new ArrayList<>();
         Map<String, List<TopPapiPlayer>> topPapiPlayerGroupList = topPapiPlayerList.stream().collect(Collectors.groupingBy(TopPapiPlayer::getPapi));
@@ -65,7 +57,7 @@ public class TopPapiPlayerService {
             // 保存离线数据
             List<String> playerUuidList = papiList.stream().map(TopPapiPlayer::getPlayerUuid).distinct().collect(Collectors.toList());
             playerUuidList.addAll(opUidList);
-            List<TopPapiPlayer> offTopPapiPlayerList = this.findByPlayerUuids(playerUuidList, papi);
+            List<TopPapiPlayer> offTopPapiPlayerList = this.findByPlayerUuids(playerUuidList, blacklist, papi);
             papiList.addAll(offTopPapiPlayerList);
             // 排序
             papiList = papiList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault).reversed()).collect(Collectors.toList());
@@ -157,13 +149,15 @@ public class TopPapiPlayerService {
      * 根据uid not in查询
      *
      * @param playerUuidList 用户uid
+     * @param blackNameList  黑名单name
      * @param papi           变量
      * @return TopPapiPlayer
      * @since 1.2.5
      */
-    public List<TopPapiPlayer> findByPlayerUuids(List<String> playerUuidList, String papi) {
+    public List<TopPapiPlayer> findByPlayerUuids(List<String> playerUuidList, List<String> blackNameList, String papi) {
         Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
-        db.where().notIn(TopPapiPlayer::getPlayerUuid, playerUuidList)
+        db.where().notIn(CollUtil.isNotEmpty(playerUuidList), TopPapiPlayer::getPlayerUuid, playerUuidList)
+                .notIn(CollUtil.isNotEmpty(blackNameList), TopPapiPlayer::getPlayerName, blackNameList)
                 .eq(TopPapiPlayer::getPapi, papi);
         return db.execution().list();
     }
