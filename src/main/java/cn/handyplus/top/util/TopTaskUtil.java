@@ -197,7 +197,6 @@ public class TopTaskUtil {
             // 获取位置
             String world = memorySection.getString("world", "");
             if (StrUtil.isEmpty(world)) {
-                MessageApi.sendConsoleMessage("papi.yml里节点:" + type + ",配置异常");
                 continue;
             }
             double x = memorySection.getDouble("x");
