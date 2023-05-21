@@ -143,6 +143,9 @@ public class TopTaskUtil {
                 continue;
             }
             String world = memorySection.getString("world", "");
+            if (StrUtil.isEmpty(world)) {
+                continue;
+            }
             double x = memorySection.getDouble("x");
             double y = memorySection.getDouble("y");
             double z = memorySection.getDouble("z");
