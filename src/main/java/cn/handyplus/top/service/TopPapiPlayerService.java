@@ -90,7 +90,7 @@ public class TopPapiPlayerService {
         Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
         Compare<TopPapiPlayer> where = db.where();
         where.limit(pageNum, pageSize).eq(TopPapiPlayer::getPapi, papi);
-        where.orderByDesc(TopPapiPlayer::getVault);
+        where.orderByAsc(TopPapiPlayer::getRank);
         return db.execution().page().getRecords();
     }
 
