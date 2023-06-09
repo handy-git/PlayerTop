@@ -42,3 +42,7 @@
 ### 如果你没有钱购买支持作者
 
 请点个star支持下也可
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=handy-git/PlayerTop&type=Date)](https://star-history.com/#handy-git/PlayerTop&Date)
