@@ -68,6 +68,10 @@ public class TopPapiPlayerService {
         }
         // 先删除获取到的变量类型
         this.deleteByPapi(new ArrayList<>(topPapiPlayerGroupList.keySet()));
+        // 判断空
+        if (CollUtil.isEmpty(saveTopPapiPlayerList)) {
+            return;
+        }
         // ID赋值
         for (int i = 0; i < saveTopPapiPlayerList.size(); i++) {
             saveTopPapiPlayerList.get(i).setId(i + 1);
