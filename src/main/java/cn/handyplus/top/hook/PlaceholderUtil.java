@@ -47,18 +47,27 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         if (placeholderStr.length < 2) {
             return "";
         }
-        // 类型
-        String type = placeholderStr[0];
+        // 处理后缀
+        String suffix = placeholderStr[placeholderStr.length - 1];
 
         // 判断是当前玩家排行
-        if ("rank".equals(placeholderStr[1])) {
+        if ("rank".equals(suffix)) {
+            String type = placeholder.replace("_" + suffix, "");
             TopPapiPlayer topPapiPlayer = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
             return topPapiPlayer != null ? topPapiPlayer.getRank().toString() : "0";
         }
 
-        // 如果是数字就是排行
-        Integer pageNum = Integer.parseInt(placeholderStr[1]);
-
+        // 判断是name
+        boolean isName = "name".equals(suffix);
+        String type;
+        int pageNum;
+        if (isName) {
+            pageNum = Integer.parseInt(placeholderStr[placeholderStr.length - 2]);
+            type = placeholder.replace("_" + pageNum + "_" + suffix, "");
+        } else {
+            pageNum = Integer.parseInt(suffix);
+            type = placeholder.replace("_" + suffix, "");
+        }
         // 判断是 内部变量/papi变量
         PlayerTopTypeEnum topTypeEnum = PlayerTopTypeEnum.getType(type);
         String originType = type;
@@ -72,12 +81,6 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         if (topPapiPlayer == null) {
             return "";
         }
-
-        // 判断是否查询玩家name
-        if (placeholderStr.length > 2 && "name".equalsIgnoreCase(placeholderStr[2])) {
-            return topPapiPlayer.getPlayerName();
-        }
-
         // 配置的格式化内容
         String format = ConfigUtil.FORMAT_CONFIG.getString("format." + originType, "");
         // McMmo特殊处理
@@ -89,7 +92,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
             format = ConfigUtil.FORMAT_CONFIG.getString("format." + "jobs", "");
         }
         // 格式处理
-        return TopUtil.getContent(format, topPapiPlayer);
+        return isName ? topPapiPlayer.getPlayerName() : TopUtil.getContent(format, topPapiPlayer);
     }
 
     /**
