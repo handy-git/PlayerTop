@@ -1,5 +1,6 @@
 package cn.handyplus.top.hook;
 
+import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPapiPlayer;
@@ -92,7 +93,8 @@ public class PlaceholderUtil extends PlaceholderExpansion {
             format = ConfigUtil.FORMAT_CONFIG.getString("format." + "jobs", "");
         }
         // 格式处理
-        return isName ? topPapiPlayer.getPlayerName() : TopUtil.getContent(format, topPapiPlayer);
+        String content = StrUtil.isNotEmpty(format) ? TopUtil.getContent(format, topPapiPlayer) : topPapiPlayer.getRank().toString();
+        return isName ? topPapiPlayer.getPlayerName() : content;
     }
 
     /**
