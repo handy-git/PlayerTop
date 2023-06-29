@@ -162,6 +162,10 @@ public class TopTaskUtil {
             Location location = new Location(Bukkit.getWorld(world), x, y, z);
             // 新增全息图
             PlayerPapiHd playerPapiHd = TopUtil.createHd(playerTopTypeEnum, location);
+            if (playerPapiHd == null) {
+                MessageApi.sendConsoleMessage(ConfigUtil.LANG_CONFIG.getString("noWorld"));
+                continue;
+            }
             playerPapiHdList.add(playerPapiHd);
         }
         return playerPapiHdList;

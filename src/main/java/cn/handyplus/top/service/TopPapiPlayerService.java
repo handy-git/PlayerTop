@@ -37,7 +37,7 @@ public class TopPapiPlayerService {
      * @param topPapiPlayerList 批量记录
      * @since 1.2.2
      */
-    public void replace(List<TopPapiPlayer> topPapiPlayerList) {
+    public synchronized void replace(List<TopPapiPlayer> topPapiPlayerList) {
         if (CollUtil.isEmpty(topPapiPlayerList)) {
             return;
         }

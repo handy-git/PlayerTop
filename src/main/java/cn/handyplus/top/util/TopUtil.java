@@ -12,11 +12,11 @@ import cn.handyplus.top.param.PlayerPapiHd;
 import cn.handyplus.top.service.TopPapiPlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -81,9 +81,13 @@ public class TopUtil {
                 textLineList.add(getContent(lore, topPapiPlayer));
             }
         }
+        World world = location.getWorld();
+        if (world == null) {
+            return null;
+        }
         // 保存全息配置
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".enable", true, Collections.singletonList("是否开启"), "/hologram.yml");
-        HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".world", Objects.requireNonNull(location.getWorld()).getName(), null, "/hologram.yml");
+        HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".world", world.getName(), null, "/hologram.yml");
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".x", location.getX(), null, "/hologram.yml");
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".y", location.getY(), null, "/hologram.yml");
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".z", location.getZ(), null, "/hologram.yml");

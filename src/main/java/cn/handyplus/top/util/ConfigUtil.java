@@ -52,6 +52,8 @@ public class ConfigUtil {
         // 1.1.1 添加語言文件
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "jobsSucceedMsg", "&a已成功加载Jobs 兼容Jobs功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "jobsFailureMsg", "&7你的服务端没有安装Jobs 未兼容Jobs功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
+        // 1.3.2 添加没有世界的提醒
+        HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "noWorld", "&c生成全息排行榜没有找到对应世界:${world}", null, "languages/" + CONFIG.getString("language") + ".yml");
         LANG_CONFIG = HandyConfigUtil.loadLangConfig(CONFIG.getString("language"));
 
         // 1.1.8
