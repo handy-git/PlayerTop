@@ -37,7 +37,7 @@ public class TopPapiPlayerService {
      * @param topPapiPlayerList 批量记录
      * @since 1.2.2
      */
-    public synchronized void replace(List<TopPapiPlayer> topPapiPlayerList) {
+    public void replace(List<TopPapiPlayer> topPapiPlayerList) {
         if (CollUtil.isEmpty(topPapiPlayerList)) {
             return;
         }
@@ -68,8 +68,10 @@ public class TopPapiPlayerService {
             }
             // 判断排序
             if ("desc".equalsIgnoreCase(papiList.get(0).getSort())) {
+                papiList = papiList.stream().peek(player -> player.setSort("desc")).collect(Collectors.toList());
                 papiList = papiList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault).reversed()).collect(Collectors.toList());
             } else {
+                papiList = papiList.stream().peek(player -> player.setSort("asc")).collect(Collectors.toList());
                 papiList = papiList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault)).collect(Collectors.toList());
             }
             for (int i = 0; i < papiList.size(); i++) {
@@ -77,8 +79,8 @@ public class TopPapiPlayerService {
             }
             saveTopPapiPlayerList.addAll(papiList);
         }
-        // 先删除获取到的变量类型
-        this.deleteByPapi(new ArrayList<>(topPapiPlayerGroupList.keySet()));
+        // 先删除全部
+        this.delete();
         // 判断空
         if (CollUtil.isEmpty(saveTopPapiPlayerList)) {
             return;
@@ -154,10 +156,8 @@ public class TopPapiPlayerService {
      *
      * @since 1.2.5
      */
-    private void deleteByPapi(List<String> papiList) {
-        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
-        use.where().in(TopPapiPlayer::getPapi, papiList);
-        use.execution().delete();
+    private void delete() {
+        Db.use(TopPapiPlayer.class).execution().delete();
     }
 
     /**
