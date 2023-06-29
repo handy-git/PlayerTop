@@ -163,7 +163,7 @@ public class TopTaskUtil {
             // 新增全息图
             PlayerPapiHd playerPapiHd = TopUtil.createHd(playerTopTypeEnum, location);
             if (playerPapiHd == null) {
-                MessageApi.sendConsoleMessage(ConfigUtil.LANG_CONFIG.getString("noWorld"));
+                MessageApi.sendConsoleMessage(ConfigUtil.LANG_CONFIG.getString("noWorld", "").replace("${world}", world));
                 continue;
             }
             playerPapiHdList.add(playerPapiHd);

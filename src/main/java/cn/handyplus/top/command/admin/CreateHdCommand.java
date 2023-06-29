@@ -1,6 +1,5 @@
 package cn.handyplus.top.command.admin;
 
-import cn.handyplus.lib.api.MessageApi;
 import cn.handyplus.lib.command.IHandyCommandEvent;
 import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
@@ -8,7 +7,6 @@ import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.hook.HdUtil;
 import cn.handyplus.top.param.PlayerPapiHd;
-import cn.handyplus.top.util.ConfigUtil;
 import cn.handyplus.top.util.TopUtil;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -52,7 +50,6 @@ public class CreateHdCommand implements IHandyCommandEvent {
         // 生成全息数据
         PlayerPapiHd playerPapiHd = TopUtil.createHd(topTypeEnum, location);
         if (playerPapiHd == null) {
-            MessageApi.sendMessage(player, ConfigUtil.LANG_CONFIG.getString("noWorld"));
             return;
         }
         // 创建全息
