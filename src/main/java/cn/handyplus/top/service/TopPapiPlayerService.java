@@ -63,6 +63,9 @@ public class TopPapiPlayerService {
             playerUuidList.addAll(opUidList);
             List<TopPapiPlayer> offTopPapiPlayerList = this.findByPlayerUuids(playerUuidList, blacklist, papi, filterList);
             papiList.addAll(offTopPapiPlayerList);
+            if (CollUtil.isEmpty(papiList)) {
+                continue;
+            }
             // 判断排序
             if ("desc".equalsIgnoreCase(papiList.get(0).getSort())) {
                 papiList = papiList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault).reversed()).collect(Collectors.toList());
