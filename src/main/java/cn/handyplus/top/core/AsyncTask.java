@@ -236,6 +236,7 @@ public class AsyncTask {
             topPapiPlayer.setPlayerName(offlinePlayer.getName());
             topPapiPlayer.setPlayerUuid(offlinePlayer.getUniqueId().toString());
             topPapiPlayer.setPapi(typeEnum.getType());
+            topPapiPlayer.setSort("desc");
             topPapiPlayer.setVault(getDataValue(offlinePlayer, typeEnum));
             topPapiPlayerList.add(topPapiPlayer);
         }
