@@ -70,6 +70,8 @@ public class ConfigUtil {
         }
         // 1.2.8 添加黑名单
         HandyConfigUtil.setPathIsNotContains(CONFIG, "blacklist", Collections.singletonList("md5"), Collections.singletonList("黑名单,该名单内的玩家会被过滤掉"), "config.yml");
+        // 1.3.2 添加过滤值
+        HandyConfigUtil.setPathIsNotContains(CONFIG, "filter", Collections.singletonList(""), Collections.singletonList("papi需要过滤的值(只能为数字) 如果变量获取到这个值就会过滤掉"), "config.yml");
         CONFIG = HandyConfigUtil.loadConfig();
     }
 

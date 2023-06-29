@@ -28,6 +28,9 @@ public class TopPapiPlayer {
     @TableField(value = "papi", comment = "变量类型", indexEnum = IndexEnum.INDEX)
     private String papi;
 
+    @TableField(value = "sort", comment = "排序方式")
+    private String sort;
+
     @TableField(value = "vault", comment = "值")
     private Long vault;
 

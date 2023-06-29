@@ -164,8 +164,9 @@ public class AsyncTask {
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         // papi数据处理
         Map<String, CompletableFuture<List<TopPapiPlayer>>> completableFutureMap = new HashMap<>();
-        for (String papiType : getPapiList()) {
-            CompletableFuture<List<TopPapiPlayer>> completableFuture = CompletableFuture.supplyAsync(() -> getPapiValue(offlinePlayers, papiType));
+        Map<String, String> papiMap = getPapiMap();
+        for (String papiType : papiMap.keySet()) {
+            CompletableFuture<List<TopPapiPlayer>> completableFuture = CompletableFuture.supplyAsync(() -> getPapiValue(offlinePlayers, papiType, papiMap.get(papiType)));
             completableFutureMap.put(papiType, completableFuture);
         }
         if (completableFutureMap.isEmpty()) {
@@ -187,9 +188,10 @@ public class AsyncTask {
      *
      * @param offlinePlayers 玩家集合
      * @param papiType       papi变量
+     * @param sort           排序方式
      * @return TopPapiPlayer
      */
-    private static List<TopPapiPlayer> getPapiValue(List<OfflinePlayer> offlinePlayers, String papiType) {
+    private static List<TopPapiPlayer> getPapiValue(List<OfflinePlayer> offlinePlayers, String papiType, String sort) {
         long start = System.currentTimeMillis();
         MessageApi.sendConsoleDebugMessage("获取" + papiType + "变量的值开始..");
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
@@ -199,6 +201,7 @@ public class AsyncTask {
             topPapiPlayer.setPlayerName(offlinePlayer.getName());
             topPapiPlayer.setPlayerUuid(offlinePlayer.getUniqueId().toString());
             topPapiPlayer.setPapi(papiType);
+            topPapiPlayer.setSort(sort);
             // 判断值是否存在
             String papiValue = PlaceholderApiUtil.set(offlinePlayer, papiType);
             if (StrUtil.isEmpty(papiValue)) {
@@ -390,20 +393,19 @@ public class AsyncTask {
      *
      * @return 变量合集
      */
-    private static List<String> getPapiList() {
+    private static Map<String, String> getPapiMap() {
         // 一级目录
         Map<String, Object> values = ConfigUtil.PAPI_CONFIG.getValues(false);
         if (values.isEmpty()) {
-            return new ArrayList<>();
+            return new HashMap<>();
         }
         // 获取变量类型
-        List<String> papiTypeList = getPapiTypeList(values);
-        if (CollUtil.isEmpty(papiTypeList)) {
-            return new ArrayList<>();
+        Map<String, String> papiTypeList = getPapiTypeList(values);
+        if (papiTypeList.isEmpty()) {
+            return new HashMap<>();
         }
-        return papiTypeList.stream().distinct().collect(Collectors.toList());
+        return papiTypeList;
     }
-
 
     /**
      * 获取启用的papi类型
@@ -411,8 +413,8 @@ public class AsyncTask {
      * @param values 类型
      * @return papi类型
      */
-    private static List<String> getPapiTypeList(Map<String, Object> values) {
-        List<String> papiTypeList = new ArrayList<>();
+    private static Map<String, String> getPapiTypeList(Map<String, Object> values) {
+        Map<String, String> papiTypeMap = new HashMap<>();
         for (String type : values.keySet()) {
             // 二级目录
             MemorySection memorySection = (MemorySection) values.get(type);
@@ -425,11 +427,12 @@ public class AsyncTask {
                 continue;
             }
             String papi = memorySection.getString("papi", "");
+            String sort = memorySection.getString("sort", "desc");
             if (StrUtil.isNotEmpty(papi)) {
-                papiTypeList.add(papi);
+                papiTypeMap.put(papi, sort);
             }
         }
-        return papiTypeList;
+        return papiTypeMap;
     }
 
 }

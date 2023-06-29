@@ -18,6 +18,10 @@ isOp: false
 blacklist:
   - "CMI-Fake-Operator"
 
+# papi需要过滤的值(只能为数字) 如果变量获取到这个值就会过滤掉
+filter:
+  - ''
+
 # 根据内部api获取的排行数据
 # 这些数据 可以使用 /pt createHd [类型] 指令生成全息排行榜
 # 类型意义可在 https://ricedoc.handyplus.cn/wiki/PlayerTop/command/ 查看

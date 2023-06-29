@@ -49,18 +49,26 @@ public class TopPapiPlayerService {
         }
         // 过滤掉黑名单的
         List<String> blacklist = ConfigUtil.CONFIG.getStringList("blacklist");
+        // 过滤掉值
+        List<Long> filterList = ConfigUtil.CONFIG.getLongList("filter");
         // 分组排序
         List<TopPapiPlayer> saveTopPapiPlayerList = new ArrayList<>();
         Map<String, List<TopPapiPlayer>> topPapiPlayerGroupList = topPapiPlayerList.stream().collect(Collectors.groupingBy(TopPapiPlayer::getPapi));
         for (String papi : topPapiPlayerGroupList.keySet()) {
             List<TopPapiPlayer> papiList = topPapiPlayerGroupList.get(papi);
+            // 进行过滤配置的值
+            papiList = CollUtil.isNotEmpty(filterList) ? papiList.stream().filter(s -> !filterList.contains(s.getVault())).collect(Collectors.toList()) : papiList;
             // 保存离线数据
             List<String> playerUuidList = papiList.stream().map(TopPapiPlayer::getPlayerUuid).distinct().collect(Collectors.toList());
             playerUuidList.addAll(opUidList);
-            List<TopPapiPlayer> offTopPapiPlayerList = this.findByPlayerUuids(playerUuidList, blacklist, papi);
+            List<TopPapiPlayer> offTopPapiPlayerList = this.findByPlayerUuids(playerUuidList, blacklist, papi, filterList);
             papiList.addAll(offTopPapiPlayerList);
-            // 排序
-            papiList = papiList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault).reversed()).collect(Collectors.toList());
+            // 判断排序
+            if ("desc".equalsIgnoreCase(papiList.get(0).getSort())) {
+                papiList = papiList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault).reversed()).collect(Collectors.toList());
+            } else {
+                papiList = papiList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault)).collect(Collectors.toList());
+            }
             for (int i = 0; i < papiList.size(); i++) {
                 papiList.get(i).setRank(i + 1);
             }
@@ -155,13 +163,15 @@ public class TopPapiPlayerService {
      * @param playerUuidList 用户uid
      * @param blackNameList  黑名单name
      * @param papi           变量
+     * @param filterList     需要过滤的值
      * @return TopPapiPlayer
      * @since 1.2.5
      */
-    public List<TopPapiPlayer> findByPlayerUuids(List<String> playerUuidList, List<String> blackNameList, String papi) {
+    public List<TopPapiPlayer> findByPlayerUuids(List<String> playerUuidList, List<String> blackNameList, String papi, List<Long> filterList) {
         Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
         db.where().notIn(CollUtil.isNotEmpty(playerUuidList), TopPapiPlayer::getPlayerUuid, playerUuidList)
                 .notIn(CollUtil.isNotEmpty(blackNameList), TopPapiPlayer::getPlayerName, blackNameList)
+                .notIn(CollUtil.isNotEmpty(filterList), TopPapiPlayer::getVault, filterList)
                 .eq(TopPapiPlayer::getPapi, papi);
         return db.execution().list();
     }
