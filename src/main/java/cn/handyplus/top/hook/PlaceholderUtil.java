@@ -10,6 +10,8 @@ import cn.handyplus.top.util.TopUtil;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 
+import java.util.Optional;
+
 /**
  * 变量扩展
  *
@@ -54,8 +56,8 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         // 判断是当前玩家排行
         if ("rank".equals(suffix)) {
             String type = placeholder.replace("_" + suffix, "");
-            TopPapiPlayer topPapiPlayer = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
-            return topPapiPlayer != null ? topPapiPlayer.getRank().toString() : "0";
+            Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
+            return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getRank().toString()).orElse("0");
         }
 
         // 判断是name
@@ -78,10 +80,11 @@ public class PlaceholderUtil extends PlaceholderExpansion {
             type = "%" + type + "%";
         }
         // 查询对应记录
-        TopPapiPlayer topPapiPlayer = TopPapiPlayerService.getInstance().findByRankAndType(pageNum, type);
-        if (topPapiPlayer == null) {
+        Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByRankAndType(pageNum, type);
+        if (!topPapiPlayerOptional.isPresent()) {
             return "";
         }
+        TopPapiPlayer topPapiPlayer = topPapiPlayerOptional.get();
         // 配置的格式化内容
         String format = ConfigUtil.FORMAT_CONFIG.getString("format." + originType, "");
         // McMmo特殊处理

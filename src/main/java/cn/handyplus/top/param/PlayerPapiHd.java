@@ -20,4 +20,11 @@ public class PlayerPapiHd {
     private Location location;
 
     private String material;
+
+    /**
+     * 自定义材质
+     *
+     * @since 1.3.3
+     */
+    private int customModelData;
 }

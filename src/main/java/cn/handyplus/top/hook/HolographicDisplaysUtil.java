@@ -7,7 +7,6 @@ import cn.handyplus.top.PlayerTop;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -32,10 +31,12 @@ public class HolographicDisplaysUtil {
     /**
      * 创建
      *
-     * @param textLineList 内容
-     * @param location     位置
+     * @param textLineList    内容
+     * @param location        位置
+     * @param material        材质
+     * @param customModelData 模型
      */
-    public void create(List<String> textLineList, Location location, String materialName) {
+    public void create(List<String> textLineList, Location location, String material, int customModelData) {
         if (!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
             return;
         }
@@ -43,8 +44,9 @@ public class HolographicDisplaysUtil {
         // 内容
         hologram.clearLines();
         // 第一排的材质
-        if (StrUtil.isNotEmpty(materialName)) {
-            hologram.appendItemLine(new ItemStack(ItemStackUtil.getMaterial(materialName, Material.PAPER)));
+        if (StrUtil.isNotEmpty(material)) {
+            ItemStack itemStack = ItemStackUtil.getItemStack(material, null, null, false, customModelData);
+            hologram.appendItemLine(itemStack);
         }
         for (String textLine : textLineList) {
             hologram.appendTextLine(BaseUtil.replaceChatColor(textLine));

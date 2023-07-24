@@ -15,19 +15,21 @@ public class HdUtil {
     /**
      * 创建
      *
-     * @param textLineList 内容
-     * @param location     位置
+     * @param textLineList    内容
+     * @param location        位置
+     * @param material        材质
+     * @param customModelData 模型
      */
-    public static void create(List<String> textLineList, Location location, String materialName) {
+    public static void create(List<String> textLineList, Location location, String material, int customModelData) {
         if (location == null) {
             return;
         }
         if (PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
-            HolographicDisplaysUtil.getInstance().create(textLineList, location, materialName);
+            HolographicDisplaysUtil.getInstance().create(textLineList, location, material, customModelData);
             return;
         }
         if (PlayerTop.USE_CMI) {
-            CmiUtil.getInstance().create(textLineList, location, materialName);
+            CmiUtil.getInstance().create(textLineList, location);
         }
     }
 

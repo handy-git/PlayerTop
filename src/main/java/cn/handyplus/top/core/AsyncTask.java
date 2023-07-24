@@ -1,10 +1,10 @@
 package cn.handyplus.top.core;
 
-import cn.handyplus.lib.api.MessageApi;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.lib.util.BaseUtil;
-import cn.handyplus.lib.util.HandyPermissionUtil;
+import cn.handyplus.lib.util.HandyConfigUtil;
+import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPapiPlayer;
@@ -130,7 +130,7 @@ public class AsyncTask {
     private static List<TopPapiPlayer> supplyAsyncApi(List<OfflinePlayer> offlinePlayers) {
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         // 开启的数据
-        Map<String, String> enableMap = HandyPermissionUtil.getStringMapChild(ConfigUtil.CONFIG, "enable");
+        Map<String, String> enableMap = HandyConfigUtil.getStringMapChild(ConfigUtil.CONFIG, "enable");
         // 异步循环获取值
         List<CompletableFuture<List<TopPapiPlayer>>> completableFutureList = new ArrayList<>();
         for (String type : enableMap.keySet()) {
@@ -177,7 +177,7 @@ public class AsyncTask {
             try {
                 topPapiPlayerList.addAll(completableFutureMap.get(papiType).get(2, TimeUnit.MINUTES));
             } catch (Exception ignored) {
-                MessageApi.sendConsoleMessage("获取" + papiType + "变量数据超时...");
+                MessageUtil.sendConsoleMessage("获取" + papiType + "变量数据超时...");
             }
         }
         return topPapiPlayerList;
@@ -193,7 +193,7 @@ public class AsyncTask {
      */
     private static List<TopPapiPlayer> getPapiValue(List<OfflinePlayer> offlinePlayers, String papiType, String sort) {
         long start = System.currentTimeMillis();
-        MessageApi.sendConsoleDebugMessage("获取" + papiType + "变量的值开始..");
+        MessageUtil.sendConsoleDebugMessage("获取" + papiType + "变量的值开始..");
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         for (OfflinePlayer offlinePlayer : offlinePlayers) {
             // 构建内部数据
@@ -215,7 +215,7 @@ public class AsyncTask {
             topPapiPlayer.setVault(number.longValue());
             topPapiPlayerList.add(topPapiPlayer);
         }
-        MessageApi.sendConsoleDebugMessage("获取" + papiType + "变量的值结束,耗时ms:" + (System.currentTimeMillis() - start));
+        MessageUtil.sendConsoleDebugMessage("获取" + papiType + "变量的值结束,耗时ms:" + (System.currentTimeMillis() - start));
         return topPapiPlayerList;
     }
 
@@ -228,7 +228,7 @@ public class AsyncTask {
      */
     private static List<TopPapiPlayer> getApiValue(List<OfflinePlayer> offlinePlayers, PlayerTopTypeEnum typeEnum) {
         long start = System.currentTimeMillis();
-        MessageApi.sendConsoleDebugMessage("获取" + typeEnum.getType() + "变量的值开始..");
+        MessageUtil.sendConsoleDebugMessage("获取" + typeEnum.getType() + "变量的值开始..");
         List<TopPapiPlayer> topPapiPlayerList = new ArrayList<>();
         for (OfflinePlayer offlinePlayer : offlinePlayers) {
             // 构建内部数据
@@ -240,7 +240,7 @@ public class AsyncTask {
             topPapiPlayer.setVault(getDataValue(offlinePlayer, typeEnum));
             topPapiPlayerList.add(topPapiPlayer);
         }
-        MessageApi.sendConsoleDebugMessage("获取" + typeEnum.getType() + "变量的值结束,耗时ms:" + (System.currentTimeMillis() - start));
+        MessageUtil.sendConsoleDebugMessage("获取" + typeEnum.getType() + "变量的值结束,耗时ms:" + (System.currentTimeMillis() - start));
         return topPapiPlayerList;
     }
 

@@ -50,6 +50,8 @@ public class TopUtil {
         String type = topTypeEnum.getType();
         int line = ConfigUtil.FORMAT_CONFIG.getInt("hdFormat." + type + ".line", 10);
         String material = ConfigUtil.FORMAT_CONFIG.getString("hdFormat." + type + ".material");
+        int customModelData = ConfigUtil.FORMAT_CONFIG.getInt("hdFormat." + type + ".custom-model-data");
+
         String title = ConfigUtil.FORMAT_CONFIG.getString("hdFormat." + type + ".title");
         String lore = ConfigUtil.FORMAT_CONFIG.getString("hdFormat." + type + ".lore", "");
 
@@ -93,7 +95,7 @@ public class TopUtil {
         HandyConfigUtil.setPath(ConfigUtil.HD_CONFIG, type + ".z", location.getZ(), null, "/hologram.yml");
         ConfigUtil.HD_CONFIG = HandyConfigUtil.load("hologram.yml");
         // 全息配置
-        return PlayerPapiHd.builder().textLineList(textLineList).location(location).material(material).build();
+        return PlayerPapiHd.builder().textLineList(textLineList).location(location).material(material).customModelData(customModelData).build();
     }
 
     /**

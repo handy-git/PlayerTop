@@ -32,6 +32,8 @@ hdFormat:
     line: 10
     # 全息物品材质
     material: "APPLE"
+    # 全息物品模型
+    custom-model-data: 0
     # 标题行
     title: "&e======全服金币排行榜======"
     # 循环的内容行

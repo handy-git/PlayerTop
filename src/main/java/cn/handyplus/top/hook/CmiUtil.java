@@ -39,7 +39,7 @@ public class CmiUtil {
      * @param textLineList 内容
      * @param location     位置
      */
-    public void create(List<String> textLineList, Location location, String materialName) {
+    public void create(List<String> textLineList, Location location) {
         if (!PlayerTop.USE_CMI) {
             return;
         }

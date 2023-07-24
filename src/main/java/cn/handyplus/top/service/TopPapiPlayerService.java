@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -119,7 +120,7 @@ public class TopPapiPlayerService {
      * @return TopPapiPlayer
      * @since 1.2.2
      */
-    public TopPapiPlayer findByUidAndType(String uuid, String type) {
+    public Optional<TopPapiPlayer> findByUidAndType(String uuid, String type) {
         Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
         db.where().eq(TopPapiPlayer::getPlayerUuid, uuid)
                 .eq(TopPapiPlayer::getPapi, type);
@@ -134,7 +135,7 @@ public class TopPapiPlayerService {
      * @return TopPapiPlayer
      * @since 1.2.2
      */
-    public TopPapiPlayer findByRankAndType(Integer rank, String type) {
+    public Optional<TopPapiPlayer> findByRankAndType(Integer rank, String type) {
         Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
         db.where().eq(TopPapiPlayer::getRank, rank)
                 .eq(TopPapiPlayer::getPapi, type);

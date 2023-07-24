@@ -1,6 +1,6 @@
 package cn.handyplus.top.util;
 
-import cn.handyplus.lib.api.MessageApi;
+import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.top.PlayerTop;
@@ -77,7 +77,7 @@ public class TopTaskUtil {
     private static void setTopData(CommandSender sender, boolean isOnline) {
         long start = System.currentTimeMillis();
         if (sender != null) {
-            MessageApi.sendMessage(sender, "一. 开始获取排行数据,请耐心等待,当前进度: 1/6");
+            MessageUtil.sendMessage(sender, "一. 开始获取排行数据,请耐心等待,当前进度: 1/6");
         }
         // 获取要刷新的玩家信息
         List<OfflinePlayer> offlinePlayers;
@@ -93,18 +93,18 @@ public class TopTaskUtil {
             if (isOp) {
                 msg = "二. 同步" + offlinePlayers.size() + "位在线玩家变量(已过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
             }
-            MessageApi.sendMessage(sender, msg);
+            MessageUtil.sendMessage(sender, msg);
         }
         // 替换数据
         TopPapiPlayerService.getInstance().replace(topPapiPlayerList);
         if (sender != null) {
-            MessageApi.sendMessage(sender, "三. 保存" + offlinePlayers.size() + "位在线玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
+            MessageUtil.sendMessage(sender, "三. 保存" + offlinePlayers.size() + "位在线玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
         }
         // 获取数据
         List<PlayerPapiHd> playerPapiHdList = createHd();
         playerPapiHdList.addAll(createPapiHd());
         if (sender != null) {
-            MessageApi.sendMessage(sender, "四. 获取构建全息图的数据,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 4/6");
+            MessageUtil.sendMessage(sender, "四. 获取构建全息图的数据,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 4/6");
         }
         // 同步处理
         new BukkitRunnable() {
@@ -113,17 +113,17 @@ public class TopTaskUtil {
                 // 删除现有全息图
                 HdUtil.deleteAll();
                 if (sender != null) {
-                    MessageApi.sendMessage(sender, "五. 删除现有全息图,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 5/6");
+                    MessageUtil.sendMessage(sender, "五. 删除现有全息图,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 5/6");
                 }
                 // 生成全息排行榜
                 if (CollUtil.isEmpty(playerPapiHdList)) {
                     return;
                 }
                 for (PlayerPapiHd playerPapiHd : playerPapiHdList) {
-                    HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial());
+                    HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial(),playerPapiHd.getCustomModelData());
                 }
                 if (sender != null) {
-                    MessageApi.sendMessage(sender, "六. 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 6/6");
+                    MessageUtil.sendMessage(sender, "六. 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 6/6");
                 }
             }
         }.runTask(PlayerTop.getInstance());
@@ -163,7 +163,7 @@ public class TopTaskUtil {
             // 新增全息图
             PlayerPapiHd playerPapiHd = TopUtil.createHd(playerTopTypeEnum, location);
             if (playerPapiHd == null) {
-                MessageApi.sendConsoleMessage(ConfigUtil.LANG_CONFIG.getString("noWorld", "").replace("${world}", world));
+                MessageUtil.sendConsoleMessage(ConfigUtil.LANG_CONFIG.getString("noWorld", "").replace("${world}", world));
                 continue;
             }
             playerPapiHdList.add(playerPapiHd);

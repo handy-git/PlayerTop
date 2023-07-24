@@ -53,7 +53,7 @@ public class CreateHdCommand implements IHandyCommandEvent {
             return;
         }
         // 创建全息
-        HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial());
+        HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial(), playerPapiHd.getCustomModelData());
     }
 
 }
