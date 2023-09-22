@@ -1,8 +1,8 @@
 package cn.handyplus.top.core;
 
 import cn.handyplus.lib.core.CollUtil;
+import cn.handyplus.lib.core.NumberUtil;
 import cn.handyplus.lib.core.StrUtil;
-import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.HandyConfigUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.top.PlayerTop;
@@ -208,11 +208,11 @@ public class AsyncTask {
                 continue;
             }
             // 转化为数字
-            Double number = BaseUtil.isNumericToDouble(papiValue);
+            Long number = NumberUtil.isNumericToLong(papiValue);
             if (number == null) {
                 continue;
             }
-            topPapiPlayer.setVault(number.longValue());
+            topPapiPlayer.setVault(number);
             topPapiPlayerList.add(topPapiPlayer);
         }
         MessageUtil.sendConsoleDebugMessage("获取" + papiType + "变量的值结束,耗时ms:" + (System.currentTimeMillis() - start));
