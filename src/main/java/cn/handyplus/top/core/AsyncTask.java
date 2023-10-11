@@ -22,11 +22,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.MemorySection;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -208,11 +210,11 @@ public class AsyncTask {
                 continue;
             }
             // 转化为数字
-            Long number = NumberUtil.isNumericToLong(papiValue);
-            if (number == null) {
+            Optional<BigDecimal> numericToBigDecimal = NumberUtil.isNumericToBigDecimal(papiValue);
+            if (!numericToBigDecimal.isPresent()) {
                 continue;
             }
-            topPapiPlayer.setVault(number);
+            topPapiPlayer.setVault(numericToBigDecimal.get());
             topPapiPlayerList.add(topPapiPlayer);
         }
         MessageUtil.sendConsoleDebugMessage("获取" + papiType + "变量的值结束,耗时ms:" + (System.currentTimeMillis() - start));
@@ -252,15 +254,15 @@ public class AsyncTask {
      * @return 值
      * @since 1.2.2
      */
-    private static Long getDataValue(OfflinePlayer offlinePlayer, PlayerTopTypeEnum typeEnum) {
+    private static BigDecimal getDataValue(OfflinePlayer offlinePlayer, PlayerTopTypeEnum typeEnum) {
         Long dataValue = 0L;
         // 处理McMmo未加载
         if (typeEnum.getType().contains("mcMmo") && !PlayerTop.USE_MC_MMO) {
-            return dataValue;
+            return BigDecimal.ZERO;
         }
         // 处理jobs未加载
         if (typeEnum.getType().contains("jobs") && !PlayerTop.USE_JOB) {
-            return dataValue;
+            return BigDecimal.ZERO;
         }
         Map<String, Long> jobLevelMap;
         switch (typeEnum) {
@@ -386,7 +388,7 @@ public class AsyncTask {
             default:
                 break;
         }
-        return dataValue;
+        return BigDecimal.valueOf(dataValue);
     }
 
     /**

@@ -6,6 +6,8 @@ import cn.handyplus.lib.db.enums.IndexEnum;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 /**
  * 玩家Papi排行数据
  *
@@ -32,7 +34,7 @@ public class TopPapiPlayer {
     private String sort;
 
     @TableField(value = "vault", comment = "值")
-    private Long vault;
+    private BigDecimal vault;
 
     @TableField(value = "rank", comment = "排名")
     private Integer rank;
