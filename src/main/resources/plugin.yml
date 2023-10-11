@@ -17,6 +17,7 @@ permissions:
       playerTop.reload: true
       playerTop.createHd: true
       playerTop.init: true
+      playerTop.delete: true
   playerTop.reload:
     description: 重新加载配置
     default: op
@@ -25,4 +26,7 @@ permissions:
     default: op
   playerTop.init:
     description: 初始化数据
+    default: op
+  playerTop.delete:
+    description: 删除数据
     default: op

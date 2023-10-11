@@ -162,6 +162,19 @@ public class TopPapiPlayerService {
     }
 
     /**
+     * 删除
+     *
+     * @param papi 变量
+     * @return 数量
+     * @since 1.3.4
+     */
+    public int deleteByPapi(String papi) {
+        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
+        use.where().eq(TopPapiPlayer::getPapi, papi);
+        return use.execution().delete();
+    }
+
+    /**
      * 根据uid not in查询
      *
      * @param playerUuidList 用户uid
