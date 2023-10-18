@@ -35,8 +35,6 @@ public class HdUtil {
 
     /**
      * 删除全息图
-     *
-     * @param location 位置
      */
     public static void deleteAll() {
         if (PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {

@@ -397,8 +397,7 @@ public class AsyncTask {
      * @return 变量合集
      */
     private static Map<String, String> getPapiMap() {
-        // 一级目录
-        Map<String, Object> values = ConfigUtil.PAPI_CONFIG.getValues(false);
+        Map<String, Object> values = ConfigUtil.getPapiOneChildMap();
         if (values.isEmpty()) {
             return new HashMap<>();
         }

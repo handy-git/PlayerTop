@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
 
 /**
  * 配置
@@ -73,6 +74,16 @@ public class ConfigUtil {
         // 1.3.2 添加过滤值
         HandyConfigUtil.setPathIsNotContains(CONFIG, "filter", Collections.singletonList(""), Collections.singletonList("papi需要过滤的值(只能为数字) 如果变量获取到这个值就会过滤掉"), "config.yml");
         CONFIG = HandyConfigUtil.loadConfig();
+    }
+
+    /**
+     * 获取Papi一级目录
+     *
+     * @return 一级目录
+     * @since 1.3.5
+     */
+    public static Map<String, Object> getPapiOneChildMap() {
+        return ConfigUtil.PAPI_CONFIG.getValues(false);
     }
 
 }

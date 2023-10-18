@@ -17,6 +17,7 @@ import org.bukkit.World;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -99,15 +100,77 @@ public class TopUtil {
     }
 
     /**
+     * 移动Papi全息图
+     *
+     * @param type     类型
+     * @param location 生成位置
+     */
+    public static void movePapiHd(String type, Location location) {
+        // 设置全息配置
+        HandyConfigUtil.setPath(ConfigUtil.PAPI_CONFIG, type + ".enable", true, null, "/papi.yml");
+        HandyConfigUtil.setPath(ConfigUtil.PAPI_CONFIG, type + ".world", Objects.requireNonNull(location.getWorld()).getName(), null, "/papi.yml");
+        HandyConfigUtil.setPath(ConfigUtil.PAPI_CONFIG, type + ".x", location.getX(), null, "/papi.yml");
+        HandyConfigUtil.setPath(ConfigUtil.PAPI_CONFIG, type + ".y", location.getY(), null, "/papi.yml");
+        HandyConfigUtil.setPath(ConfigUtil.PAPI_CONFIG, type + ".z", location.getZ(), null, "/papi.yml");
+        // 重新读取配置
+        ConfigUtil.PAPI_CONFIG = HandyConfigUtil.load("papi.yml");
+    }
+
+    /**
+     * 设置Papi全息图
+     *
+     * @param type     类型
+     * @param location 生成位置
+     */
+    public static void createPapiHd(String type, Location location) {
+        // 设置全息配置
+        HandyConfigUtil.setPath(ConfigUtil.PAPI_CONFIG, type + ".enable", true, null, "/papi.yml");
+        HandyConfigUtil.setPath(ConfigUtil.PAPI_CONFIG, type + ".world", Objects.requireNonNull(location.getWorld()).getName(), null, "/papi.yml");
+        HandyConfigUtil.setPath(ConfigUtil.PAPI_CONFIG, type + ".x", location.getX(), null, "/papi.yml");
+        HandyConfigUtil.setPath(ConfigUtil.PAPI_CONFIG, type + ".y", location.getY(), null, "/papi.yml");
+        HandyConfigUtil.setPath(ConfigUtil.PAPI_CONFIG, type + ".z", location.getZ(), null, "/papi.yml");
+        // 设置非必填配置
+        HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".papi", "%" + type + "%", null, "/papi.yml");
+        HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".line", 10, null, "/papi.yml");
+        HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".material", "PAPER", null, "/papi.yml");
+        HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".title", "&e======" + type + "变量排行榜======", null, "/papi.yml");
+        HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".lore", "&e${rank}   &f玩家:&e${player}   &f数量:&e${content}", null, "/papi.yml");
+        HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".sort", "desc", null, "/papi.yml");
+        HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".custom-model-data", 0, null, "/papi.yml");
+        // 重新读取配置
+        ConfigUtil.PAPI_CONFIG = HandyConfigUtil.load("papi.yml");
+    }
+
+    /**
      * 删除全息
      *
      * @param type 类型
      */
     public static void deleteHd(String type) {
         String world = ConfigUtil.HD_CONFIG.getString(type + ".world", "");
+        if (StrUtil.isEmpty(world)) {
+            return;
+        }
         double x = ConfigUtil.HD_CONFIG.getDouble(type + ".x");
         double y = ConfigUtil.HD_CONFIG.getDouble(type + ".y");
         double z = ConfigUtil.HD_CONFIG.getDouble(type + ".z");
+        HdUtil.delete(new Location(Bukkit.getWorld(world), x, y, z));
+    }
+
+    /**
+     * 删除Papi全息
+     *
+     * @param type 类型
+     * @since 1.3.5
+     */
+    public static void deletePapiHd(String type) {
+        String world = ConfigUtil.PAPI_CONFIG.getString(type + ".world", "");
+        if (StrUtil.isEmpty(world)) {
+            return;
+        }
+        double x = ConfigUtil.PAPI_CONFIG.getDouble(type + ".x");
+        double y = ConfigUtil.PAPI_CONFIG.getDouble(type + ".y");
+        double z = ConfigUtil.PAPI_CONFIG.getDouble(type + ".z");
         HdUtil.delete(new Location(Bukkit.getWorld(world), x, y, z));
     }
 

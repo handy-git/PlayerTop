@@ -18,23 +18,24 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
- * 创建全息图配置
+ * 移动全息图配置
  *
  * @author handy
  */
-public class CreateHdCommand implements IHandyCommandEvent {
+public class MoveHdCommand implements IHandyCommandEvent {
 
     @Override
     public String command() {
-        return "createHd";
+        return "moveHd";
     }
 
     @Override
     public String permission() {
-        return "playerTop.createHd";
+        return "playerTop.moveHd";
     }
 
     @Override
@@ -45,10 +46,10 @@ public class CreateHdCommand implements IHandyCommandEvent {
         Player player = AssertUtil.notPlayer(sender, BaseUtil.getLangMsg("noPlayerFailureMsg"));
         // 是否加载全息图
         AssertUtil.notTrue(!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS && !PlayerTop.USE_CMI, sender, BaseUtil.getLangMsg("HolographicDisplaysFailureMsg"));
+        String type = args[1];
         // 当前位置
         Location playerLocation = player.getLocation();
         Location location = new Location(player.getWorld(), playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
-        String type = args[1];
         // 内置类型
         PlayerTopTypeEnum topTypeEnum = PlayerTopTypeEnum.getType(type);
         if (topTypeEnum != null) {
@@ -64,14 +65,17 @@ public class CreateHdCommand implements IHandyCommandEvent {
             return;
         }
         // 变量类型
-        if (PlaceholderAPI.containsPlaceholders(type)) {
-            // 如果是移除%
-            type = StrUtil.replace(type, "%", "");
+        Map<String, Object> oneChildPapiMap = ConfigUtil.getPapiOneChildMap();
+        if (oneChildPapiMap.get(type) != null) {
+            // 如果是变量,移除%
+            if (PlaceholderAPI.containsPlaceholders(type)) {
+                type = StrUtil.replace(type, "%", "");
+            }
             // 删除现有全息
             TopUtil.deletePapiHd(type);
-            // 生成全息数据
-            TopUtil.createPapiHd(type, location);
-            Optional<PlayerPapiHd> playerPapiHdOptional = TopTaskUtil.getPapiData(type, ConfigUtil.getPapiOneChildMap());
+            // 修改全息位置
+            TopUtil.movePapiHd(type, location);
+            Optional<PlayerPapiHd> playerPapiHdOptional = TopTaskUtil.getPapiData(type, oneChildPapiMap);
             if (playerPapiHdOptional.isPresent()) {
                 PlayerPapiHd playerPapiHd = playerPapiHdOptional.get();
                 // 创建全息

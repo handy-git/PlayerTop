@@ -1,8 +1,8 @@
 package cn.handyplus.top.util;
 
-import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
+import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.constants.TopConstants;
@@ -21,6 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -120,7 +121,7 @@ public class TopTaskUtil {
                     return;
                 }
                 for (PlayerPapiHd playerPapiHd : playerPapiHdList) {
-                    HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial(),playerPapiHd.getCustomModelData());
+                    HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial(), playerPapiHd.getCustomModelData());
                 }
                 if (sender != null) {
                     MessageUtil.sendMessage(sender, "六. 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 6/6");
@@ -176,53 +177,59 @@ public class TopTaskUtil {
      */
     private static List<PlayerPapiHd> createPapiHd() {
         // 一级目录
-        Map<String, Object> values = ConfigUtil.PAPI_CONFIG.getValues(false);
+        Map<String, Object> values = ConfigUtil.getPapiOneChildMap();
         if (values.isEmpty()) {
             return new ArrayList<>();
         }
         // 设置对应属性
         List<PlayerPapiHd> playerPapiHdList = new ArrayList<>();
         for (String type : values.keySet()) {
-            // 二级目录
-            MemorySection memorySection = (MemorySection) values.get(type);
-            if (memorySection == null) {
-                continue;
-            }
-            // 判断是否开启
-            boolean enable = memorySection.getBoolean("enable");
-            if (!enable) {
-                continue;
-            }
-            String papi = memorySection.getString("papi", "");
-            int line = memorySection.getInt("line", 10);
-            String material = memorySection.getString("material", "");
-            String title = memorySection.getString("title", "");
-            String lore = memorySection.getString("lore", "");
-            // 获取位置
-            String world = memorySection.getString("world", "");
-            if (StrUtil.isEmpty(world)) {
-                continue;
-            }
-            double x = memorySection.getDouble("x");
-            double y = memorySection.getDouble("y");
-            double z = memorySection.getDouble("z");
-            Location location = new Location(Bukkit.getWorld(world), x, y, z);
-            List<String> textLineList = new ArrayList<>();
-            if (StrUtil.isNotEmpty(title)) {
-                textLineList.add(title);
-            }
-            // 对应节点数据
-            List<TopPapiPlayer> topPapiPlayerList = TopPapiPlayerService.getInstance().page(papi, 1, line);
-            if (CollUtil.isNotEmpty(topPapiPlayerList)) {
-                // 判断有数据 进行构建行
-                for (TopPapiPlayer topPapiPlayer : topPapiPlayerList) {
-                    textLineList.add(TopUtil.getContent(lore, topPapiPlayer));
-                }
-            }
-            PlayerPapiHd playerPapiHd = PlayerPapiHd.builder().textLineList(textLineList).location(location).material(material).build();
-            playerPapiHdList.add(playerPapiHd);
+            Optional<PlayerPapiHd> papiDataOpt = getPapiData(type, values);
+            papiDataOpt.ifPresent(playerPapiHdList::add);
         }
         return playerPapiHdList;
+    }
+
+    public static Optional<PlayerPapiHd> getPapiData(String type, Map<String, Object> values) {
+        // 二级目录
+        MemorySection memorySection = (MemorySection) values.get(type);
+        if (memorySection == null) {
+            return Optional.empty();
+        }
+        // 判断是否开启
+        boolean enable = memorySection.getBoolean("enable");
+        if (!enable) {
+            return Optional.empty();
+        }
+        String papi = memorySection.getString("papi", "");
+        int line = memorySection.getInt("line", 10);
+        String material = memorySection.getString("material", "");
+        int customModelData = memorySection.getInt("custom-model-data", 0);
+
+        String title = memorySection.getString("title", "");
+        String lore = memorySection.getString("lore", "");
+        // 获取位置
+        String world = memorySection.getString("world", "");
+        if (StrUtil.isEmpty(world)) {
+            return Optional.empty();
+        }
+        double x = memorySection.getDouble("x");
+        double y = memorySection.getDouble("y");
+        double z = memorySection.getDouble("z");
+        Location location = new Location(Bukkit.getWorld(world), x, y, z);
+        List<String> textLineList = new ArrayList<>();
+        if (StrUtil.isNotEmpty(title)) {
+            textLineList.add(title);
+        }
+        // 对应节点数据
+        List<TopPapiPlayer> topPapiPlayerList = TopPapiPlayerService.getInstance().page(papi, 1, line);
+        if (CollUtil.isNotEmpty(topPapiPlayerList)) {
+            // 判断有数据 进行构建行
+            for (TopPapiPlayer topPapiPlayer : topPapiPlayerList) {
+                textLineList.add(TopUtil.getContent(lore, topPapiPlayer));
+            }
+        }
+        return Optional.of(PlayerPapiHd.builder().textLineList(textLineList).location(location).material(material).customModelData(customModelData).build());
     }
 
 }
