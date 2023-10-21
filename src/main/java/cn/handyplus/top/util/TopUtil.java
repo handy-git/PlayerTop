@@ -133,10 +133,10 @@ public class TopUtil {
         HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".papi", "%" + type + "%", null, "/papi.yml");
         HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".line", 10, null, "/papi.yml");
         HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".material", "PAPER", null, "/papi.yml");
+        HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".custom-model-data", 0, null, "/papi.yml");
         HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".title", "&e======" + type + "变量排行榜======", null, "/papi.yml");
         HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".lore", "&e${rank}   &f玩家:&e${player}   &f数量:&e${content}", null, "/papi.yml");
         HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".sort", "desc", null, "/papi.yml");
-        HandyConfigUtil.setPathIsNotContains(ConfigUtil.PAPI_CONFIG, type + ".custom-model-data", 0, null, "/papi.yml");
         // 重新读取配置
         ConfigUtil.PAPI_CONFIG = HandyConfigUtil.load("papi.yml");
     }

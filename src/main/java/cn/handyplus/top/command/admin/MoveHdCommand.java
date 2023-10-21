@@ -63,13 +63,13 @@ public class MoveHdCommand implements IHandyCommandEvent {
             HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial(), playerPapiHd.getCustomModelData());
             return;
         }
+        // 如果是变量,移除%
+        if (PlaceholderAPI.containsPlaceholders(type)) {
+            type = type.replace("%", "");
+        }
         // 变量类型
         Map<String, Object> oneChildPapiMap = ConfigUtil.getPapiOneChildMap();
         if (oneChildPapiMap.get(type) != null) {
-            // 如果是变量,移除%
-            if (PlaceholderAPI.containsPlaceholders(type)) {
-                type = type.replace("%", "");
-            }
             // 删除现有全息
             TopUtil.deletePapiHd(type);
             // 修改全息位置
