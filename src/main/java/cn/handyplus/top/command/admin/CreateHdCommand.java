@@ -1,7 +1,6 @@
 package cn.handyplus.top.command.admin;
 
 import cn.handyplus.lib.command.IHandyCommandEvent;
-import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
@@ -66,7 +65,7 @@ public class CreateHdCommand implements IHandyCommandEvent {
         // 变量类型
         if (PlaceholderAPI.containsPlaceholders(type)) {
             // 如果是移除%
-            type = StrUtil.replace(type, "%", "");
+            type = type.replace("%", "");
             // 删除现有全息
             TopUtil.deletePapiHd(type);
             // 生成全息数据

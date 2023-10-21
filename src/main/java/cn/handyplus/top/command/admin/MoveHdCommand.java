@@ -1,7 +1,6 @@
 package cn.handyplus.top.command.admin;
 
 import cn.handyplus.lib.command.IHandyCommandEvent;
-import cn.handyplus.lib.core.StrUtil;
 import cn.handyplus.lib.util.AssertUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
@@ -69,7 +68,7 @@ public class MoveHdCommand implements IHandyCommandEvent {
         if (oneChildPapiMap.get(type) != null) {
             // 如果是变量,移除%
             if (PlaceholderAPI.containsPlaceholders(type)) {
-                type = StrUtil.replace(type, "%", "");
+                type = type.replace("%", "");
             }
             // 删除现有全息
             TopUtil.deletePapiHd(type);
