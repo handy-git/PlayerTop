@@ -1,5 +1,6 @@
 package cn.handyplus.top.core;
 
+import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.NumberUtil;
 import cn.handyplus.lib.core.StrUtil;
@@ -178,8 +179,11 @@ public class AsyncTask {
         for (String papiType : completableFutureMap.keySet()) {
             try {
                 topPapiPlayerList.addAll(completableFutureMap.get(papiType).get(2, TimeUnit.MINUTES));
-            } catch (Exception ignored) {
+            } catch (Exception exception) {
                 MessageUtil.sendConsoleMessage("获取" + papiType + "变量数据超时...");
+                if (BaseConstants.DEBUG) {
+                    exception.printStackTrace();
+                }
             }
         }
         return topPapiPlayerList;
