@@ -210,6 +210,7 @@ public class AsyncTask {
             topPapiPlayer.setSort(sort);
             // 判断值是否存在
             String papiValue = PlaceholderApiUtil.set(offlinePlayer, papiType);
+            MessageUtil.sendConsoleDebugMessage("获取" + papiType + "变量的值为:" + papiValue);
             if (StrUtil.isEmpty(papiValue)) {
                 continue;
             }
