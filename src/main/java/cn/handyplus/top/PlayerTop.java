@@ -103,16 +103,16 @@ public class PlayerTop extends JavaPlugin {
      */
     public void loadEconomy() {
         if (getServer().getPluginManager().getPlugin(BaseConstants.VAULT) == null) {
-            MessageUtil.sendConsoleMessage(BaseUtil.getLangMsg("vaultFailureMsg"));
+            MessageUtil.sendConsoleMessage(BaseUtil.getMsgNotColor("vaultFailureMsg"));
             return;
         }
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
-            MessageUtil.sendConsoleMessage(BaseUtil.getLangMsg("vaultFailureMsg"));
+            MessageUtil.sendConsoleMessage(BaseUtil.getMsgNotColor("vaultFailureMsg"));
             return;
         }
         ECON = rsp.getProvider();
-        MessageUtil.sendConsoleMessage(BaseUtil.getLangMsg("vaultSucceedMsg"));
+        MessageUtil.sendConsoleMessage(BaseUtil.getMsgNotColor("vaultSucceedMsg"));
     }
 
     /**
@@ -122,11 +122,11 @@ public class PlayerTop extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin(BaseConstants.PLACEHOLDER_API) != null) {
             new PlaceholderUtil(this).register();
             USE_PAPI = true;
-            MessageUtil.sendConsoleMessage(BaseUtil.getLangMsg("placeholderAPISucceedMsg"));
+            MessageUtil.sendConsoleMessage(BaseUtil.getMsgNotColor("placeholderAPISucceedMsg"));
             return;
         }
         USE_PAPI = false;
-        MessageUtil.sendConsoleMessage(BaseUtil.getLangMsg("placeholderAPIFailureMsg"));
+        MessageUtil.sendConsoleMessage(BaseUtil.getMsgNotColor("placeholderAPIFailureMsg"));
     }
 
     /**
@@ -136,10 +136,10 @@ public class PlayerTop extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin(BaseConstants.PLAYER_POINTS) != null) {
             final Plugin plugin = this.getServer().getPluginManager().getPlugin(BaseConstants.PLAYER_POINTS);
             PLAYER_POINTS = (PlayerPoints) plugin;
-            MessageUtil.sendConsoleMessage(BaseUtil.getLangMsg("playerPointsSucceedMsg"));
+            MessageUtil.sendConsoleMessage(BaseUtil.getMsgNotColor("playerPointsSucceedMsg"));
             return;
         }
-        MessageUtil.sendConsoleMessage(BaseUtil.getLangMsg("playerPointsFailureMsg"));
+        MessageUtil.sendConsoleMessage(BaseUtil.getMsgNotColor("playerPointsFailureMsg"));
     }
 
 }

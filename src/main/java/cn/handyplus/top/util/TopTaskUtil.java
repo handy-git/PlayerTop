@@ -2,8 +2,8 @@ package cn.handyplus.top.util;
 
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
+import cn.handyplus.lib.expand.adapter.HandySchedulerUtil;
 import cn.handyplus.lib.util.MessageUtil;
-import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.constants.TopConstants;
 import cn.handyplus.top.core.AsyncTask;
@@ -16,7 +16,6 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.MemorySection;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +35,8 @@ public class TopTaskUtil {
      * 60s后初始化定时任务
      */
     public static void init() {
-        // 开启定时任务
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                setToDataToLock(null, true);
-            }
-        }.runTaskTimerAsynchronously(PlayerTop.getInstance(), 20, ConfigUtil.CONFIG.getLong("task", 300) * 20);
+        long period = ConfigUtil.CONFIG.getLong("task", 300);
+        HandySchedulerUtil.runTaskTimerAsynchronously(() -> setToDataToLock(null, true), 20, period * 20);
     }
 
     /**
@@ -108,26 +102,23 @@ public class TopTaskUtil {
             MessageUtil.sendMessage(sender, "四. 获取构建全息图的数据,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 4/6");
         }
         // 同步处理
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                // 删除现有全息图
-                HdUtil.deleteAll();
-                if (sender != null) {
-                    MessageUtil.sendMessage(sender, "五. 删除现有全息图,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 5/6");
-                }
-                // 生成全息排行榜
-                if (CollUtil.isEmpty(playerPapiHdList)) {
-                    return;
-                }
-                for (PlayerPapiHd playerPapiHd : playerPapiHdList) {
-                    HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial(), playerPapiHd.getCustomModelData());
-                }
-                if (sender != null) {
-                    MessageUtil.sendMessage(sender, "六. 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 6/6");
-                }
+        HandySchedulerUtil.runTask(() -> {
+            // 删除现有全息图
+            HdUtil.deleteAll();
+            if (sender != null) {
+                MessageUtil.sendMessage(sender, "五. 删除现有全息图,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 5/6");
             }
-        }.runTask(PlayerTop.getInstance());
+            // 生成全息排行榜
+            if (CollUtil.isEmpty(playerPapiHdList)) {
+                return;
+            }
+            for (PlayerPapiHd playerPapiHd : playerPapiHdList) {
+                HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial(), playerPapiHd.getCustomModelData());
+            }
+            if (sender != null) {
+                MessageUtil.sendMessage(sender, "六. 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 6/6");
+            }
+        });
     }
 
     /**

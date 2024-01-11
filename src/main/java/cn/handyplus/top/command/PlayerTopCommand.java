@@ -29,7 +29,7 @@ public class PlayerTopCommand implements TabExecutor {
         if (args.length < 1) {
             return sendHelp(sender);
         }
-        boolean rst = HandyCommandFactory.getInstance().onCommand(sender, cmd, label, args, BaseUtil.getLangMsg("noPermission"));
+        boolean rst = HandyCommandFactory.getInstance().onCommand(sender, cmd, label, args, BaseUtil.getMsgNotColor("noPermission"));
         if (!rst) {
             return sendHelp(sender);
         }

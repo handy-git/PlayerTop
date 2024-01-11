@@ -39,11 +39,11 @@ public class CreateHdCommand implements IHandyCommandEvent {
     @Override
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         // 参数是否正常
-        AssertUtil.notTrue(args.length < 2, sender, BaseUtil.getLangMsg("paramFailureMsg"));
+        AssertUtil.notTrue(args.length < 2, sender, BaseUtil.getMsgNotColor("paramFailureMsg"));
         // 是否为玩家
-        Player player = AssertUtil.notPlayer(sender, BaseUtil.getLangMsg("noPlayerFailureMsg"));
+        Player player = AssertUtil.notPlayer(sender, BaseUtil.getMsgNotColor("noPlayerFailureMsg"));
         // 是否加载全息图
-        AssertUtil.notTrue(!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS && !PlayerTop.USE_CMI, sender, BaseUtil.getLangMsg("HolographicDisplaysFailureMsg"));
+        AssertUtil.notTrue(!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS && !PlayerTop.USE_CMI, sender, BaseUtil.getMsgNotColor("HolographicDisplaysFailureMsg"));
         // 当前位置
         Location playerLocation = player.getLocation();
         Location location = new Location(player.getWorld(), playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
@@ -78,7 +78,7 @@ public class CreateHdCommand implements IHandyCommandEvent {
             }
             return;
         }
-        MessageUtil.sendMessage(sender, BaseUtil.getLangMsg("typeFailureMsg") + ":" + type);
+        MessageUtil.sendMessage(sender, BaseUtil.getMsgNotColor("typeFailureMsg") + ":" + type);
     }
 
 }

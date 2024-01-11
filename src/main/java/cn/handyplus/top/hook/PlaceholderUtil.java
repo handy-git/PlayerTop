@@ -56,6 +56,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         // 判断是当前玩家排行
         if ("rank".equals(suffix)) {
             String type = placeholder.replace("_" + suffix, "");
+            type = type.contains("%") ? type : "%" + type + "%";
             Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
             return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getRank().toString()).orElse("0");
         }

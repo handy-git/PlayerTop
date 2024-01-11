@@ -26,9 +26,14 @@ public class DeleteCommand implements IHandyCommandEvent {
     }
 
     @Override
+    public boolean isAsync() {
+        return true;
+    }
+
+    @Override
     public void onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         // 参数是否正常
-        AssertUtil.notTrue(args.length < 2, sender, BaseUtil.getLangMsg("paramFailureMsg"));
+        AssertUtil.notTrue(args.length < 2, sender, BaseUtil.getMsgNotColor("paramFailureMsg"));
         // 删除对应排行数据
         int num = TopPapiPlayerService.getInstance().deleteByPapi(args[1]);
         MessageUtil.sendMessage(sender, "&a删除完成,本次删除" + num + "条" + args[1] + "对应数据");
