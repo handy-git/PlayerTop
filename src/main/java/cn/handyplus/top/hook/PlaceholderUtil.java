@@ -56,30 +56,25 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         // 判断是当前玩家排行
         if ("rank".equals(suffix)) {
             String type = placeholder.replace("_" + suffix, "");
-            type = type.contains("%") ? type : "%" + type + "%";
+            type = this.getDataType(type);
             Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
             return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getRank().toString()).orElse("0");
         }
 
         // 判断是name
         boolean isName = "name".equals(suffix);
-        String type;
+        String originType;
         int pageNum;
         if (isName) {
             pageNum = Integer.parseInt(placeholderStr[placeholderStr.length - 2]);
-            type = placeholder.replace("_" + pageNum + "_" + suffix, "");
+            originType = placeholder.replace("_" + pageNum + "_" + suffix, "");
         } else {
             pageNum = Integer.parseInt(suffix);
-            type = placeholder.replace("_" + suffix, "");
+            originType = placeholder.replace("_" + suffix, "");
         }
         // 判断是 内部变量/papi变量
-        PlayerTopTypeEnum topTypeEnum = PlayerTopTypeEnum.getType(type);
-        String originType = type;
-        if (topTypeEnum != null) {
-            type = topTypeEnum.getType();
-        } else {
-            type = "%" + type + "%";
-        }
+        String type = this.getDataType(originType);
+
         // 查询对应记录
         Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByRankAndType(pageNum, type);
         if (!topPapiPlayerOptional.isPresent()) {
@@ -99,6 +94,16 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         // 格式处理
         String content = StrUtil.isNotEmpty(format) ? TopUtil.getContent(format, topPapiPlayer) : topPapiPlayer.getRank().toString();
         return isName ? topPapiPlayer.getPlayerName() : content;
+    }
+
+    private String getDataType(String originType) {
+        PlayerTopTypeEnum topTypeEnum = PlayerTopTypeEnum.getType(originType);
+        if (topTypeEnum != null) {
+            originType = topTypeEnum.getType();
+        } else {
+            originType = "%" + originType + "%";
+        }
+        return originType;
     }
 
     /**
