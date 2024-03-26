@@ -29,8 +29,6 @@
 如果你在papi.yml中配置了变量  
 例如你配置了 %playerTitle_number% 那么变量就是 %playerTop_playerTitle_number_1%
 
-[MCBBS](https://www.mcbbs.net/thread-1351130-1-1.html)
-
 ![](https://bstats.org/signatures/bukkit/PlayerTop.svg)
 
 [WIKI](https://ricedoc.handyplus.cn/wiki/PlayerTop/)
