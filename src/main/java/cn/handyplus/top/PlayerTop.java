@@ -2,7 +2,6 @@ package cn.handyplus.top;
 
 import cn.handyplus.lib.InitApi;
 import cn.handyplus.lib.constants.BaseConstants;
-import cn.handyplus.lib.db.SqlManagerUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.top.constants.TopConstants;
@@ -23,10 +22,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author handy
  */
 public class PlayerTop extends JavaPlugin {
-    private static PlayerTop INSTANCE;
+    public static PlayerTop INSTANCE;
     public static boolean USE_TITLE;
     public static boolean USE_TASK;
-    public static boolean USE_RACE;
     public static boolean USE_GUILD;
     public static boolean USE_HOLOGRAPHIC_DISPLAYS;
     public static boolean USE_MC_MMO;
@@ -52,8 +50,6 @@ public class PlayerTop extends JavaPlugin {
         USE_HOLOGRAPHIC_DISPLAYS = BaseUtil.hook("HolographicDisplays", "HolographicDisplaysSucceedMsg", "HolographicDisplaysFailureMsg");
         // 加载PlayerTask
         USE_TASK = BaseUtil.hook("PlayerTask", "playerTaskSucceedMsg", "playerTaskFailureMsg");
-        // 加载PlayerRace
-        USE_RACE = BaseUtil.hook("PlayerRace", "playerRaceSucceedMsg", "playerRaceFailureMsg");
         // 加载PlayerTitle
         USE_TITLE = BaseUtil.hook("PlayerTitle", "playerTitleSucceedMsg", "playerTitleFailureMsg");
         // 加载PlayerGuild
@@ -75,27 +71,12 @@ public class PlayerTop extends JavaPlugin {
         TopTaskUtil.init();
 
         MessageUtil.sendConsoleMessage(ChatColor.GREEN + "已成功载入服务器！");
-        MessageUtil.sendConsoleMessage(ChatColor.GREEN + "Author:handy QQ群:1064982471");
+        MessageUtil.sendConsoleMessage(ChatColor.GREEN + "Author:handy 使用文档: https://ricedoc.handyplus.cn/wiki/PlayerTop/README/");
     }
 
     @Override
     public void onDisable() {
-        // 关闭数据源
-        SqlManagerUtil.getInstance().close();
-        MessageUtil.sendConsoleMessage("§a已成功卸载！");
-        MessageUtil.sendConsoleMessage("§aAuthor:handy QQ群:1064982471");
-    }
-
-    public static PlayerTop getInstance() {
-        return INSTANCE;
-    }
-
-    public static Economy getEconomy() {
-        return ECON;
-    }
-
-    public static PlayerPoints getPlayerPoints() {
-        return PLAYER_POINTS;
+        InitApi.disable();
     }
 
     /**

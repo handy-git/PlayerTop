@@ -1,7 +1,7 @@
 package cn.handyplus.top.command;
 
 import cn.handyplus.lib.annotation.HandyCommand;
-import cn.handyplus.lib.command.HandyCommandFactory;
+import cn.handyplus.lib.command.HandyCommandWrapper;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.top.constants.TabListEnum;
 import cn.handyplus.top.util.ConfigUtil;
@@ -29,7 +29,7 @@ public class PlayerTopCommand implements TabExecutor {
         if (args.length < 1) {
             return sendHelp(sender);
         }
-        boolean rst = HandyCommandFactory.getInstance().onCommand(sender, cmd, label, args, BaseUtil.getMsgNotColor("noPermission"));
+        boolean rst = HandyCommandWrapper.onCommand(sender, cmd, label, args, BaseUtil.getMsgNotColor("noPermission"));
         if (!rst) {
             return sendHelp(sender);
         }

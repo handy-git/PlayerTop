@@ -28,10 +28,10 @@ public class VaultUtil {
      * @return 玩家金币
      */
     public long getPlayerVault(OfflinePlayer offlinePlayer) {
-        if (PlayerTop.getEconomy() == null) {
+        if (PlayerTop.ECON == null) {
             return 0L;
         }
-        double dou = PlayerTop.getEconomy().getBalance(offlinePlayer);
+        double dou = PlayerTop.ECON.getBalance(offlinePlayer);
         return (long) dou;
     }
 

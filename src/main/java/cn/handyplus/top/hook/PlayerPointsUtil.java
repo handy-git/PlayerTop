@@ -29,10 +29,10 @@ public class PlayerPointsUtil {
      * @return 玩家点券
      */
     public long getPlayerPoints(UUID playerUuid) {
-        if (PlayerTop.getPlayerPoints() == null || playerUuid == null) {
+        if (PlayerTop.PLAYER_POINTS == null || playerUuid == null) {
             return 0;
         }
-        return PlayerTop.getPlayerPoints().getAPI().look(playerUuid);
+        return PlayerTop.PLAYER_POINTS.getAPI().look(playerUuid);
     }
 
 }

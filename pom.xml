@@ -6,21 +6,20 @@
 
     <groupId>cn.handyplus.top</groupId>
     <artifactId>PlayerTop</artifactId>
-    <version>1.3.6</version>
+    <version>1.3.7</version>
     <description>一款有点好用的排行榜插件</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spigot-api.vesion>1.20.2-R0.1-SNAPSHOT</spigot-api.vesion>
         <lombok.version>1.18.30</lombok.version>
-        <HandyLib.version>3.7.8</HandyLib.version>
+        <HandyLib.version>3.8.5</HandyLib.version>
         <placeholderapi.version>2.10.5</placeholderapi.version>
         <VaultAPI.vesion>1.7</VaultAPI.vesion>
         <PlayerPoints.version>3.0.3</PlayerPoints.version>
-        <PlayerTitle.version>2.10.1</PlayerTitle.version>
-        <PlayerRace.version>1.2.4</PlayerRace.version>
-        <PlayerTask.version>1.11.0</PlayerTask.version>
-        <PlayerGuild.version>1.7.4</PlayerGuild.version>
+        <PlayerTitle.version>3.5.3</PlayerTitle.version>
+        <PlayerTask.version>2.0.3</PlayerTask.version>
+        <PlayerGuild.version>1.10.0</PlayerGuild.version>
         <holographicdisplays.version>2.3.2</holographicdisplays.version>
         <mcMMO.version>2.1.209</mcMMO.version>
         <cmi.version>8.7.8.2</cmi.version>
@@ -79,12 +78,6 @@
             <groupId>com.handy.playertask</groupId>
             <artifactId>PlayerTask</artifactId>
             <version>${PlayerTask.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.handy.playerrace</groupId>
-            <artifactId>PlayerRace</artifactId>
-            <version>${PlayerRace.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

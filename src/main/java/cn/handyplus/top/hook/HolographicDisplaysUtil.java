@@ -40,7 +40,7 @@ public class HolographicDisplaysUtil {
         if (!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS) {
             return;
         }
-        Hologram hologram = HologramsAPI.createHologram(PlayerTop.getInstance(), location);
+        Hologram hologram = HologramsAPI.createHologram(PlayerTop.INSTANCE, location);
         // 内容
         hologram.clearLines();
         // 第一排的材质
@@ -63,7 +63,7 @@ public class HolographicDisplaysUtil {
             return;
         }
         // 删除旧的全息图
-        for (Hologram hologram : HologramsAPI.getHolograms(PlayerTop.getInstance())) {
+        for (Hologram hologram : HologramsAPI.getHolograms(PlayerTop.INSTANCE)) {
             Location hdLocation = hologram.getLocation();
             if (hdLocation.getX() == location.getX() && hdLocation.getY() == location.getY() && hdLocation.getZ() == location.getZ()) {
                 hologram.delete();
@@ -80,7 +80,7 @@ public class HolographicDisplaysUtil {
             return;
         }
         // 删除旧的全息图
-        for (Hologram hologram : HologramsAPI.getHolograms(PlayerTop.getInstance())) {
+        for (Hologram hologram : HologramsAPI.getHolograms(PlayerTop.INSTANCE)) {
             hologram.delete();
         }
     }
