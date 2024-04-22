@@ -55,7 +55,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
 
         // 判断是当前玩家排行
         if ("rank".equals(suffix)) {
-            String type = placeholder.replaceFirst("_" + suffix, "");
+            String type = StrUtil.replaceLast(placeholder, "_" + suffix, "");
             type = this.getDataType(type);
             Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
             return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getRank().toString()).orElse("0");
@@ -67,10 +67,10 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         int pageNum;
         if (isName) {
             pageNum = Integer.parseInt(placeholderStr[placeholderStr.length - 2]);
-            originType = placeholder.replaceFirst("_" + pageNum + "_" + suffix, "");
+            originType = StrUtil.replaceLast(placeholder, "_" + pageNum + "_" + suffix, "");
         } else {
             pageNum = Integer.parseInt(suffix);
-            originType = placeholder.replaceFirst("_" + suffix, "");
+            originType = StrUtil.replaceLast(placeholder, "_" + suffix, "");
         }
         // 判断是 内部变量/papi变量
         String type = this.getDataType(originType);
