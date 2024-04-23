@@ -5,7 +5,6 @@ import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.constants.TopConstants;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
@@ -58,7 +57,7 @@ public class ConfigUtil {
         LANG_CONFIG = HandyConfigUtil.loadLangConfig(CONFIG.getString("language"));
 
         // 1.1.8
-        HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "format.playerGuildDonatedMoney", "&e${rank}   &f玩家:&e${player}   &f捐赠贡献:&e${content}", Arrays.asList("公会战捐赠贡献格式"), "format.yml");
+        HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "format.playerGuildDonatedMoney", "&e${rank}   &f玩家:&e${player}   &f捐赠贡献:&e${content}", Collections.singletonList("公会战捐赠贡献格式"), "format.yml");
         HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "hdFormat.playerGuildDonatedMoney.line", 10, null, "format.yml");
         HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "hdFormat.playerGuildDonatedMoney.material", "APPLE", null, "format.yml");
         HandyConfigUtil.setPathIsNotContains(FORMAT_CONFIG, "hdFormat.playerGuildDonatedMoney.title", "&e======全服公会捐赠贡献排行榜======", null, "format.yml");
