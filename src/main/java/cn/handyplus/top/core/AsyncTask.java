@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
@@ -182,7 +183,7 @@ public class AsyncTask {
             } catch (Exception exception) {
                 MessageUtil.sendConsoleMessage("获取" + papiType + "变量数据超时...");
                 if (BaseConstants.DEBUG) {
-                    exception.printStackTrace();
+                    Bukkit.getLogger().log(Level.SEVERE, exception.getMessage(), exception);
                 }
             }
         }
