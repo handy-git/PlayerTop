@@ -30,6 +30,10 @@ public class HdUtil {
         }
         if (PlayerTop.USE_CMI) {
             CmiUtil.getInstance().create(textLineList, location);
+            return;
+        }
+        if (PlayerTop.USE_DECENT_HOLOGRAMS) {
+            DecentHologramsUtil.getInstance().create(textLineList, location);
         }
     }
 
@@ -43,6 +47,10 @@ public class HdUtil {
         }
         if (PlayerTop.USE_CMI) {
             CmiUtil.getInstance().deleteAll();
+            return;
+        }
+        if (PlayerTop.USE_DECENT_HOLOGRAMS) {
+            DecentHologramsUtil.getInstance().deleteAll();
         }
     }
 
@@ -61,6 +69,10 @@ public class HdUtil {
         }
         if (PlayerTop.USE_CMI) {
             CmiUtil.getInstance().delete(location);
+            return;
+        }
+        if (PlayerTop.USE_DECENT_HOLOGRAMS) {
+            DecentHologramsUtil.getInstance().delete(location);
         }
     }
 

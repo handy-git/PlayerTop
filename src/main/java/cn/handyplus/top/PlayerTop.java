@@ -27,6 +27,7 @@ public class PlayerTop extends JavaPlugin {
     public static boolean USE_TASK;
     public static boolean USE_GUILD;
     public static boolean USE_HOLOGRAPHIC_DISPLAYS;
+    public static boolean USE_DECENT_HOLOGRAMS;
     public static boolean USE_MC_MMO;
     public static Economy ECON;
     public static PlayerPoints PLAYER_POINTS;
@@ -60,6 +61,8 @@ public class PlayerTop extends JavaPlugin {
         USE_CMI = BaseUtil.hook("CMI", "cmiSucceedMsg", "cmiFailureMsg");
         // 加载jobs
         USE_JOB = BaseUtil.hook("Jobs", "jobsSucceedMsg", "jobsFailureMsg");
+        // 加载decent_holograms
+        USE_DECENT_HOLOGRAMS = BaseUtil.hook("DecentHolograms", "decentHologramsSucceedMsg", "decentHologramsFailureMsg");
 
         initApi.initCommand("cn.handyplus.top.command")
                 .initListener("cn.handyplus.top.listener")

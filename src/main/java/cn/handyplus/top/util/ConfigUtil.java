@@ -47,13 +47,16 @@ public class ConfigUtil {
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "mcMMOSucceedMsg", "&a已成功加载mcMMO 兼容mcMMO功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "mcMMOFailureMsg", "&7你的服务端没有安装mcMMO 未兼容mcMMO功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
         // 1.0.9 添加語言文件
-        HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "cmiSucceedMsg", "&a成功加载CMI,启用CMI全息图功能", null, "languages/" + CONFIG.getString("language") + ".yml");
-        HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "cmiFailureMsg", "&4未找到CMI,未启用CMI全息图功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
+        HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "cmiSucceedMsg", "&a成功加载CMI,可启用CMI全息图功能", null, "languages/" + CONFIG.getString("language") + ".yml");
+        HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "cmiFailureMsg", "&4未找到CMI,不可启用CMI全息图功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
         // 1.1.1 添加語言文件
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "jobsSucceedMsg", "&a已成功加载Jobs 兼容Jobs功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "jobsFailureMsg", "&7你的服务端没有安装Jobs 未兼容Jobs功能.", null, "languages/" + CONFIG.getString("language") + ".yml");
         // 1.3.2 添加没有世界的提醒
         HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "noWorld", "&c生成全息排行榜没有找到对应世界:${world}", null, "languages/" + CONFIG.getString("language") + ".yml");
+        // 1.3.8 添加DecentHolograms
+        HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "decentHologramsSucceedMsg", "&a成功加载DecentHolograms,可启用DecentHolograms全息图功能", null, "languages/" + CONFIG.getString("language") + ".yml");
+        HandyConfigUtil.setPathIsNotContains(LANG_CONFIG, "decentHologramsFailureMsg", "&4未找到DecentHolograms,不可启用DecentHolograms全息图功能", null, "languages/" + CONFIG.getString("language") + ".yml");
         LANG_CONFIG = HandyConfigUtil.loadLangConfig(CONFIG.getString("language"));
 
         // 1.1.8

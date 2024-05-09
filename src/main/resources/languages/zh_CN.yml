@@ -3,9 +3,17 @@ noPermission: "&4你没有权限执行该命令"
 # 重载插件提醒
 reloadMsg: "&a插件重载完成"
 
-# HolographicDisplays提醒
-HolographicDisplaysSucceedMsg: "&a成功加载HolographicDisplays,启用全息图功能!"
-HolographicDisplaysFailureMsg: "&4未找到HolographicDisplays,未启用全息图功能!"
+# cmi提醒
+cmiSucceedMsg: "&a成功加载CMI,可启用CMI全息图功能"
+cmiFailureMsg: "&4未找到CMI,不可启用CMI全息图功能"
+
+# HolographicDisplays 提醒
+HolographicDisplaysSucceedMsg: "&a成功加载HolographicDisplays,可启用HolographicDisplays全息图功能"
+HolographicDisplaysFailureMsg: "&4未找到HolographicDisplays,不可启用HolographicDisplays全息图功能"
+
+# DecentHolograms 提醒
+decentHologramsSucceedMsg: "&a成功加载DecentHolograms,可启用DecentHolograms全息图功能"
+decentHologramsFailureMsg: "&4未找到DecentHolograms,不可启用DecentHolograms全息图功能"
 
 # vault提醒
 vaultSucceedMsg: "&a成功加载Vault,启用经济相关功能!"
@@ -38,10 +46,6 @@ playerGuildFailureMsg: "&7你的服务端没有安装playerGuild 未兼容公会
 # mcMMO提醒
 mcMMOSucceedMsg: "&a已成功加载mcMMO 兼容mcMMO功能."
 mcMMOFailureMsg: "&7你的服务端没有安装mcMMO 未兼容mcMMO功能."
-
-# cmi提醒
-cmiSucceedMsg: "&a成功加载CMI,启用CMI全息图功能."
-cmiFailureMsg: "&4未找到CMI,未启用CMI全息图功能."
 
 # jobs提醒
 jobsSucceedMsg: "&a已成功加载Jobs 兼容Jobs功能."
