@@ -9,6 +9,7 @@ import cn.handyplus.top.util.ConfigUtil;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -58,11 +59,12 @@ public class TopPapiPlayerService {
         for (String papi : topPapiPlayerGroupList.keySet()) {
             List<TopPapiPlayer> papiList = topPapiPlayerGroupList.get(papi);
             // 进行过滤配置的值
-            papiList = CollUtil.isNotEmpty(filterList) ? papiList.stream().filter(s -> !filterList.contains(s.getVault())).collect(Collectors.toList()) : papiList;
+            papiList = CollUtil.isNotEmpty(filterList) ? papiList.stream().filter(s -> !filterList.contains(s.getVault().longValue())).collect(Collectors.toList()) : papiList;
             // 保存离线数据
             List<String> playerUuidList = papiList.stream().map(TopPapiPlayer::getPlayerUuid).distinct().collect(Collectors.toList());
             playerUuidList.addAll(opUidList);
             List<TopPapiPlayer> offTopPapiPlayerList = this.findByPlayerUuids(playerUuidList, blacklist, papi, filterList);
+            offTopPapiPlayerList.forEach(player -> player.setUpdateTime(new Date()));
             papiList.addAll(offTopPapiPlayerList);
             if (CollUtil.isEmpty(papiList)) {
                 continue;

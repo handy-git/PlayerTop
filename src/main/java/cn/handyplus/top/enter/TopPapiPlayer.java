@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 玩家Papi排行数据
@@ -38,5 +39,11 @@ public class TopPapiPlayer {
 
     @TableField(value = "rank", comment = "排名")
     private Integer rank;
+
+    @TableField(value = "create_time", comment = "创建时间")
+    private Date createTime;
+
+    @TableField(value = "update_time", comment = "更新时间")
+    private Date updateTime;
 
 }

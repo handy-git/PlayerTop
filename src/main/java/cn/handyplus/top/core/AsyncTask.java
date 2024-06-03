@@ -26,6 +26,7 @@ import org.bukkit.configuration.MemorySection;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -221,6 +222,7 @@ public class AsyncTask {
                 continue;
             }
             topPapiPlayer.setVault(numericToBigDecimal.get());
+            topPapiPlayer.setCreateTime(new Date());
             topPapiPlayerList.add(topPapiPlayer);
         }
         MessageUtil.sendConsoleDebugMessage("获取" + papiType + "变量的值结束,耗时ms:" + (System.currentTimeMillis() - start));
@@ -246,6 +248,7 @@ public class AsyncTask {
             topPapiPlayer.setPapi(typeEnum.getType());
             topPapiPlayer.setSort("desc");
             topPapiPlayer.setVault(getDataValue(offlinePlayer, typeEnum));
+            topPapiPlayer.setCreateTime(new Date());
             topPapiPlayerList.add(topPapiPlayer);
         }
         MessageUtil.sendConsoleDebugMessage("获取" + typeEnum.getType() + "变量的值结束,耗时ms:" + (System.currentTimeMillis() - start));
