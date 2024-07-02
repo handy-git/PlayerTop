@@ -2,6 +2,7 @@ package cn.handyplus.top;
 
 import cn.handyplus.lib.InitApi;
 import cn.handyplus.lib.constants.BaseConstants;
+import cn.handyplus.lib.hologram.HdUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.top.constants.TopConstants;
@@ -72,6 +73,9 @@ public class PlayerTop extends JavaPlugin {
 
         // 定时任务加载
         TopTaskUtil.init();
+
+        // 加载全息图
+        HdUtil.init();
 
         MessageUtil.sendConsoleMessage(ChatColor.GREEN + "已成功载入服务器！");
         MessageUtil.sendConsoleMessage(ChatColor.GREEN + "Author:handy WIKI: https://ricedoc.handyplus.cn/wiki/PlayerTop/README");

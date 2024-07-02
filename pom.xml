@@ -6,7 +6,7 @@
 
     <groupId>cn.handyplus.top</groupId>
     <artifactId>PlayerTop</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <description>一款有点好用的排行榜插件</description>
 
     <properties>
@@ -20,11 +20,9 @@
         <PlayerTitle.version>3.5.3</PlayerTitle.version>
         <PlayerTask.version>2.0.3</PlayerTask.version>
         <PlayerGuild.version>1.12.9</PlayerGuild.version>
-        <holographicdisplays.version>2.3.2</holographicdisplays.version>
         <mcMMO.version>2.1.209</mcMMO.version>
-        <cmi.version>8.7.8.2</cmi.version>
         <Jobs.version>5.1.0.1</Jobs.version>
-        <decentholograms.version>2.8.6</decentholograms.version>
+        <HologramLib.verison>1.0.0</HologramLib.verison>
     </properties>
 
     <dependencies>
@@ -88,28 +86,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.gmail.filoghost.holographicdisplays</groupId>
-            <artifactId>holographicdisplays-api</artifactId>
-            <version>${holographicdisplays.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.gmail.nossr50</groupId>
             <artifactId>mcMMO</artifactId>
             <version>${mcMMO.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.Zrips.CMI</groupId>
-            <artifactId>CMI</artifactId>
-            <version>${cmi.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.decentsoftware-eu</groupId>
-            <artifactId>decentholograms</artifactId>
-            <version>${decentholograms.version}</version>
-            <scope>provided</scope>
+            <groupId>cn.handyplus.lib.hologram</groupId>
+            <artifactId>HologramLib</artifactId>
+            <version>${HologramLib.verison}</version>
         </dependency>
     </dependencies>
 
@@ -135,12 +120,17 @@
                     <artifactSet>
                         <includes>
                             <include>cn.handyplus.lib:*:*:*</include>
+                            <include>cn.handyplus.lib.hologram*:*:*</include>
                         </includes>
                     </artifactSet>
                     <relocations>
                         <relocation>
                             <pattern>cn.handyplus.lib</pattern>
                             <shadedPattern>cn.handyplus.top.lib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>cn.handyplus.lib.hologram</pattern>
+                            <shadedPattern>cn.handyplus.top.lib.hologram</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

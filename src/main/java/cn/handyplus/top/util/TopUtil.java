@@ -2,11 +2,11 @@ package cn.handyplus.top.util;
 
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.core.StrUtil;
+import cn.handyplus.lib.hologram.HdUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.HandyConfigUtil;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPapiPlayer;
-import cn.handyplus.top.hook.HdUtil;
 import cn.handyplus.top.hook.PlaceholderApiUtil;
 import cn.handyplus.top.param.PlayerPapiHd;
 import cn.handyplus.top.service.TopPapiPlayerService;
