@@ -43,7 +43,7 @@ public class CreateHdCommand implements IHandyCommandEvent {
         // 是否为玩家
         Player player = AssertUtil.notPlayer(sender, BaseUtil.getMsgNotColor("noPlayerFailureMsg"));
         // 是否加载全息图
-        AssertUtil.notTrue(!PlayerTop.USE_HOLOGRAPHIC_DISPLAYS && !PlayerTop.USE_CMI, sender, BaseUtil.getMsgNotColor("HolographicDisplaysFailureMsg"));
+        AssertUtil.notTrue(!PlayerTop.USE_HD, sender, BaseUtil.getMsgNotColor("hdFailureMsg"));
         // 当前位置
         Location playerLocation = player.getLocation();
         Location location = new Location(player.getWorld(), playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());

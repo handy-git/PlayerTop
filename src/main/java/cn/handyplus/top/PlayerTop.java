@@ -27,12 +27,10 @@ public class PlayerTop extends JavaPlugin {
     public static boolean USE_TITLE;
     public static boolean USE_TASK;
     public static boolean USE_GUILD;
-    public static boolean USE_HOLOGRAPHIC_DISPLAYS;
-    public static boolean USE_DECENT_HOLOGRAMS;
+    public static boolean USE_HD;
     public static boolean USE_MC_MMO;
     public static Economy ECON;
     public static PlayerPoints PLAYER_POINTS;
-    public static boolean USE_CMI;
     public static boolean USE_JOB;
     public static boolean USE_PAPI;
 
@@ -48,8 +46,6 @@ public class PlayerTop extends JavaPlugin {
         this.loadPlayerPoints();
         // 加载Placeholder
         this.loadPlaceholder();
-        // 加载HolographicDisplays
-        USE_HOLOGRAPHIC_DISPLAYS = BaseUtil.hook("HolographicDisplays", "HolographicDisplaysSucceedMsg", "HolographicDisplaysFailureMsg");
         // 加载PlayerTask
         USE_TASK = BaseUtil.hook("PlayerTask", "playerTaskSucceedMsg", "playerTaskFailureMsg");
         // 加载PlayerTitle
@@ -58,12 +54,8 @@ public class PlayerTop extends JavaPlugin {
         USE_GUILD = BaseUtil.hook("PlayerGuild", "playerGuildSucceedMsg", "playerGuildFailureMsg");
         // 加载McMmo
         USE_MC_MMO = BaseUtil.hook("mcMMO", "mcMMOSucceedMsg", "mcMMOFailureMsg");
-        // 加载cmi
-        USE_CMI = BaseUtil.hook("CMI", "cmiSucceedMsg", "cmiFailureMsg");
         // 加载jobs
         USE_JOB = BaseUtil.hook("Jobs", "jobsSucceedMsg", "jobsFailureMsg");
-        // 加载decent_holograms
-        USE_DECENT_HOLOGRAMS = BaseUtil.hook("DecentHolograms", "decentHologramsSucceedMsg", "decentHologramsFailureMsg");
 
         initApi.initCommand("cn.handyplus.top.command")
                 .initListener("cn.handyplus.top.listener")
@@ -75,7 +67,7 @@ public class PlayerTop extends JavaPlugin {
         TopTaskUtil.init();
 
         // 加载全息图
-        HdUtil.init();
+        USE_HD = HdUtil.init();
 
         MessageUtil.sendConsoleMessage(ChatColor.GREEN + "已成功载入服务器！");
         MessageUtil.sendConsoleMessage(ChatColor.GREEN + "Author:handy WIKI: https://ricedoc.handyplus.cn/wiki/PlayerTop/README");

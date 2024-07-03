@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spigot-api.vesion>1.21-R0.1-SNAPSHOT</spigot-api.vesion>
         <lombok.version>1.18.32</lombok.version>
-        <HandyLib.version>3.10.1</HandyLib.version>
+        <HandyLib.version>3.10.3</HandyLib.version>
         <placeholderapi.version>2.10.5</placeholderapi.version>
         <VaultAPI.vesion>1.7</VaultAPI.vesion>
         <PlayerPoints.version>3.0.3</PlayerPoints.version>
@@ -22,7 +22,7 @@
         <PlayerGuild.version>1.12.9</PlayerGuild.version>
         <mcMMO.version>2.1.209</mcMMO.version>
         <Jobs.version>5.1.0.1</Jobs.version>
-        <HologramLib.verison>1.0.0</HologramLib.verison>
+        <HologramLib.verison>1.0.1</HologramLib.verison>
     </properties>
 
     <dependencies>

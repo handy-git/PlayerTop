@@ -3,18 +3,6 @@ noPermission: "&4你没有权限执行该命令"
 # 重载插件提醒
 reloadMsg: "&a插件重载完成"
 
-# cmi提醒
-cmiSucceedMsg: "&a成功加载CMI,可启用CMI全息图功能"
-cmiFailureMsg: "&4未找到CMI,不可启用CMI全息图功能"
-
-# HolographicDisplays 提醒
-HolographicDisplaysSucceedMsg: "&a成功加载HolographicDisplays,可启用HolographicDisplays全息图功能"
-HolographicDisplaysFailureMsg: "&4未找到HolographicDisplays,不可启用HolographicDisplays全息图功能"
-
-# DecentHolograms 提醒
-decentHologramsSucceedMsg: "&a成功加载DecentHolograms,可启用DecentHolograms全息图功能"
-decentHologramsFailureMsg: "&4未找到DecentHolograms,不可启用DecentHolograms全息图功能"
-
 # vault提醒
 vaultSucceedMsg: "&a成功加载Vault,启用经济相关功能!"
 vaultFailureMsg: "&4未找到Vault,未启用经济相关功能!"
@@ -55,3 +43,4 @@ paramFailureMsg: "&c参数错误."
 noPlayerFailureMsg: "&c该命令只能玩家执行."
 typeFailureMsg: "&c类型错误"
 noWorld: "&c生成全息排行榜没有找到对应世界:${world}"
+hdFailureMsg: "&a没有找到可使用的全息图插件"
