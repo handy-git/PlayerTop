@@ -23,6 +23,7 @@
         <mcMMO.version>2.1.209</mcMMO.version>
         <Jobs.version>5.1.0.1</Jobs.version>
         <HologramLib.verison>1.0.1</HologramLib.verison>
+        <annotations.version>24.1.0</annotations.version>
     </properties>
 
     <dependencies>
@@ -95,6 +96,12 @@
             <groupId>cn.handyplus.lib.hologram</groupId>
             <artifactId>HologramLib</artifactId>
             <version>${HologramLib.verison}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${annotations.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
