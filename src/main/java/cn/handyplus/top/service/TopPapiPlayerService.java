@@ -3,6 +3,7 @@ package cn.handyplus.top.service;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.db.Compare;
 import cn.handyplus.lib.db.Db;
+import cn.handyplus.lib.db.Tx;
 import cn.handyplus.top.core.AsyncTask;
 import cn.handyplus.top.enter.TopPapiPlayer;
 import cn.handyplus.top.util.ConfigUtil;
@@ -82,20 +83,17 @@ public class TopPapiPlayerService {
             }
             saveTopPapiPlayerList.addAll(papiList);
         }
-        // 先删除全部
-        this.delete();
-        // 判断空
-        if (CollUtil.isEmpty(saveTopPapiPlayerList)) {
-            return;
-        }
         // ID赋值
         for (int i = 0; i < saveTopPapiPlayerList.size(); i++) {
             saveTopPapiPlayerList.get(i).setId(i + 1);
         }
-        // 批量添加
-        for (List<TopPapiPlayer> list : CollUtil.splitList(saveTopPapiPlayerList, 1000)) {
-            this.addBatch(list);
-        }
+        // 使用事物进行处理
+        Tx.use().tx(tx -> {
+            // 删除全部
+            this.delete();
+            // 批量添加
+            this.addBatch(saveTopPapiPlayerList);
+        });
     }
 
     /**
