@@ -71,6 +71,8 @@ public class ConfigUtil {
         HandyConfigUtil.setPathIsNotContains(CONFIG, "blacklist", Collections.singletonList("md5"), Collections.singletonList("黑名单,该名单内的玩家会被过滤掉"), "config.yml");
         // 1.3.2 添加过滤值
         HandyConfigUtil.setPathIsNotContains(CONFIG, "filter", Collections.singletonList(""), Collections.singletonList("papi需要过滤的值(只能为数字) 如果变量获取到这个值就会过滤掉"), "config.yml");
+        // 1.4.3 添加初始化
+        HandyConfigUtil.setPathIsNotContains(CONFIG, "isInit", true, Collections.singletonList("是否自动启动服务器时候初始化一次数据(获取全部玩家),之后只刷新在线玩家的排行数据"), "config.yml");
         CONFIG = HandyConfigUtil.loadConfig();
     }
 
