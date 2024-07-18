@@ -8,11 +8,6 @@ package cn.handyplus.top.constants;
 public abstract class TopConstants {
 
     /**
-     * 更新记录url
-     */
-    public final static String PLUGIN_VERSION_URL = "https://api.github.com/repos/handy-git/PlayerTop/releases/latest";
-
-    /**
      * 是否初始化
      */
     public static boolean IS_INIT;

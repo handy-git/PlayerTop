@@ -5,7 +5,6 @@ import cn.handyplus.lib.constants.BaseConstants;
 import cn.handyplus.lib.hologram.HdUtil;
 import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.lib.util.MessageUtil;
-import cn.handyplus.top.constants.TopConstants;
 import cn.handyplus.top.hook.PlaceholderUtil;
 import cn.handyplus.top.util.ConfigUtil;
 import cn.handyplus.top.util.TopTaskUtil;
@@ -61,7 +60,7 @@ public class PlayerTop extends JavaPlugin {
                 .initListener("cn.handyplus.top.listener")
                 .enableSql("cn.handyplus.top.enter")
                 .addMetrics(15377)
-                .checkVersion(ConfigUtil.CONFIG.getBoolean(BaseConstants.IS_CHECK_UPDATE), TopConstants.PLUGIN_VERSION_URL);
+                .checkVersion(ConfigUtil.CONFIG.getBoolean(BaseConstants.IS_CHECK_UPDATE));
 
         // 定时任务加载
         TopTaskUtil.init();

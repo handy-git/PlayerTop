@@ -1,6 +1,7 @@
 package cn.handyplus.top.hook;
 
 import cn.handyplus.lib.core.StrUtil;
+import cn.handyplus.lib.util.BaseUtil;
 import cn.handyplus.top.PlayerTop;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.enter.TopPapiPlayer;
@@ -59,6 +60,26 @@ public class PlaceholderUtil extends PlaceholderExpansion {
             type = this.getDataType(type);
             Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
             return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getRank().toString()).orElse("0");
+        }
+
+        // 判断是指定玩家排行 %playerTop_[类型]_[玩家名]_playerRank%
+        if ("playerRank".equals(suffix)) {
+            String playerName = placeholderStr[placeholderStr.length - 2];
+            String type = StrUtil.replaceLast(placeholder, "_" + playerName + "_" + suffix, "");
+            type = this.getDataType(type);
+            OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(playerName);
+            Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(offlinePlayer.getUniqueId().toString(), type);
+            return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getRank().toString()).orElse("0");
+        }
+
+        // 判断是指定玩家排行 %playerTop_[类型]_[玩家名]_playerRankVault%
+        if ("playerRankVault".equals(suffix)) {
+            String playerName = placeholderStr[placeholderStr.length - 2];
+            String type = StrUtil.replaceLast(placeholder, "_" + playerName + "_" + suffix, "");
+            type = this.getDataType(type);
+            OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(playerName);
+            Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(offlinePlayer.getUniqueId().toString(), type);
+            return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getVault().toString()).orElse("0");
         }
 
         // 判断是name
