@@ -37,7 +37,7 @@ public class TopTaskUtil {
     public static void init() {
         long period = ConfigUtil.CONFIG.getLong("task", 300);
         // 是否执行初始化
-        TopConstants.IS_INIT = !ConfigUtil.CONFIG.getBoolean("isInit", true);
+        TopConstants.IS_INIT = !ConfigUtil.CONFIG.getBoolean("isInit", false);
         HandySchedulerUtil.runTaskTimerAsynchronously(() -> setToDataToLock(null, true), 20, period * 20);
     }
 
