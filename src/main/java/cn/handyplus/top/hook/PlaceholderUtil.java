@@ -54,12 +54,20 @@ public class PlaceholderUtil extends PlaceholderExpansion {
         // 处理后缀
         String suffix = placeholderStr[placeholderStr.length - 1];
 
-        // 判断是当前玩家排行
+        // 判断是当前玩家排行  %playerTop_[类型]_rank%
         if ("rank".equals(suffix)) {
             String type = StrUtil.replaceLast(placeholder, "_" + suffix, "");
             type = this.getDataType(type);
             Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
             return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getRank().toString()).orElse("0");
+        }
+
+        // 判断是当前玩家排行的值 %playerTop_[类型]_rankVault%
+        if ("rankVault".equals(suffix)) {
+            String type = StrUtil.replaceLast(placeholder, "_" + suffix, "");
+            type = this.getDataType(type);
+            Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
+            return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getVault().toString()).orElse("0");
         }
 
         // 判断是指定玩家排行 %playerTop_[类型]_[玩家名]_playerRank%
@@ -72,7 +80,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
             return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getRank().toString()).orElse("0");
         }
 
-        // 判断是指定玩家排行 %playerTop_[类型]_[玩家名]_playerRankVault%
+        // 判断是指定玩家排行的值 %playerTop_[类型]_[玩家名]_playerRankVault%
         if ("playerRankVault".equals(suffix)) {
             String playerName = placeholderStr[placeholderStr.length - 2];
             String type = StrUtil.replaceLast(placeholder, "_" + playerName + "_" + suffix, "");
