@@ -92,7 +92,7 @@ public class TopPapiPlayerService {
         }
         if (sender != null) {
             int count = this.count();
-            MessageUtil.sendConsoleMessage("当前数据库条数:" + count + "本次同步条数:" + saveTopPapiPlayerList.size());
+            MessageUtil.sendMessage(sender, "当前数据库条数:" + count + "本次同步条数:" + saveTopPapiPlayerList.size());
         }
         // 使用事物进行处理
         Tx.use().tx(tx -> {
