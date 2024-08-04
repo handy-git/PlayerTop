@@ -6,14 +6,14 @@
 
     <groupId>cn.handyplus.top</groupId>
     <artifactId>PlayerTop</artifactId>
-    <version>1.4.6</version>
+    <version>1.4.7</version>
     <description>一款有点好用的排行榜插件</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spigot-api.vesion>1.21-R0.1-SNAPSHOT</spigot-api.vesion>
         <lombok.version>1.18.32</lombok.version>
-        <HandyLib.version>3.10.9</HandyLib.version>
+        <HandyLib.version>3.11.0</HandyLib.version>
         <placeholderapi.version>2.10.5</placeholderapi.version>
         <VaultAPI.vesion>1.7</VaultAPI.vesion>
         <PlayerPoints.version>3.0.3</PlayerPoints.version>

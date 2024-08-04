@@ -58,7 +58,7 @@ public class TopTaskUtil {
                 // 获取要刷新的玩家信息
                 List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyOfflineAsync(AsyncTask.getOfflineList());
                 // 替换数据
-                TopPapiPlayerService.getInstance().replace(topPapiPlayerList);
+                TopPapiPlayerService.getInstance().replace(null, topPapiPlayerList);
                 return;
             }
             // 执行
@@ -93,7 +93,7 @@ public class TopTaskUtil {
             MessageUtil.sendMessage(sender, msg);
         }
         // 替换数据
-        TopPapiPlayerService.getInstance().replace(topPapiPlayerList);
+        TopPapiPlayerService.getInstance().replace(sender, topPapiPlayerList);
         if (sender != null) {
             MessageUtil.sendMessage(sender, "三. 保存" + offlinePlayers.size() + "位在线玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
         }

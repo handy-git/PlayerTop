@@ -4,9 +4,11 @@ import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.db.Compare;
 import cn.handyplus.lib.db.Db;
 import cn.handyplus.lib.db.Tx;
+import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.top.core.AsyncTask;
 import cn.handyplus.top.enter.TopPapiPlayer;
 import cn.handyplus.top.util.ConfigUtil;
+import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,10 +39,11 @@ public class TopPapiPlayerService {
     /**
      * 批量新增或更新数据
      *
+     * @param sender            控制台
      * @param topPapiPlayerList 批量记录
      * @since 1.2.2
      */
-    public void replace(List<TopPapiPlayer> topPapiPlayerList) {
+    public void replace(CommandSender sender, List<TopPapiPlayer> topPapiPlayerList) {
         if (CollUtil.isEmpty(topPapiPlayerList)) {
             return;
         }
@@ -86,6 +89,10 @@ public class TopPapiPlayerService {
         // ID赋值
         for (int i = 0; i < saveTopPapiPlayerList.size(); i++) {
             saveTopPapiPlayerList.get(i).setId(i + 1);
+        }
+        if (sender != null) {
+            int count = this.count();
+            MessageUtil.sendConsoleMessage("当前数据库条数:" + count + "本次同步条数:" + saveTopPapiPlayerList.size());
         }
         // 使用事物进行处理
         Tx.use().tx(tx -> {
@@ -159,6 +166,15 @@ public class TopPapiPlayerService {
      */
     private void delete() {
         Db.use(TopPapiPlayer.class).execution().delete();
+    }
+
+    /**
+     * 总条数
+     *
+     * @since 1.3.7
+     */
+    private int count() {
+        return Db.use(TopPapiPlayer.class).execution().count();
     }
 
     /**
