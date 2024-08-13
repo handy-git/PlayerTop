@@ -46,6 +46,9 @@ public enum PlayerTopTypeEnum {
     MC_MMO_TAMING(20, "McMmo驯兽等级", "mcMmoTaming", ""),
     MC_MMO_UNARMED(21, "McMmo格斗等级", "mcMmoUnarmed", ""),
     MC_MMO_WOODCUTTING(22, "McMmo伐木等级", "mcMmoWoodcutting", ""),
+    MC_MMO_CROSSBOWS(37, "McMmo弩等级", "mcMmoCrossbows", ""),
+    MC_MMO_MACES(38, "McMmo重锤等级", "mcMmoMaces", ""),
+    MC_MMO_TRIDENTS(39, "McMmo三叉戟等级", "mcMmoTridents", ""),
 
     JOBS_BREWER(25, "Jobs 酿造师", "jobsBrewer", "Brewer"),
     JOBS_BUILDER(26, "Jobs 建筑家", "jobsBuilder", "Builder"),

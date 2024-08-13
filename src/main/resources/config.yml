@@ -54,6 +54,9 @@ enable:
   mcMmoTaming: true
   mcMmoUnarmed: true
   mcMmoWoodcutting: true
+  mcMmoCrossbows: false
+  mcMmoMaces: false
+  mcMmoTridents: false
   jobsBrewer: true
   jobsBuilder: true
   jobsCrafter: true

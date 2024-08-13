@@ -350,6 +350,15 @@ public class AsyncTask {
             case MC_MMO_WOODCUTTING:
                 dataValue = McMmoUtil.getInstance().getLevelOffline(offlinePlayer.getUniqueId(), PrimarySkillType.WOODCUTTING.name());
                 break;
+            case MC_MMO_CROSSBOWS:
+                dataValue = McMmoUtil.getInstance().getLevelOffline(offlinePlayer.getUniqueId(), PrimarySkillType.CROSSBOWS.name());
+                break;
+            case MC_MMO_MACES:
+                dataValue = McMmoUtil.getInstance().getLevelOffline(offlinePlayer.getUniqueId(), PrimarySkillType.MACES.name());
+                break;
+            case MC_MMO_TRIDENTS:
+                dataValue = McMmoUtil.getInstance().getLevelOffline(offlinePlayer.getUniqueId(), PrimarySkillType.TRIDENTS.name());
+                break;
             case JOBS_BUILDER:
                 jobLevelMap = JobUtil.getInstance().getLevelMap(offlinePlayer.getUniqueId());
                 dataValue = jobLevelMap.getOrDefault(PlayerTopTypeEnum.JOBS_BREWER.getOriginalType(), 0L);
