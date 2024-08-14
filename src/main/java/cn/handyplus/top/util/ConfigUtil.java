@@ -71,9 +71,9 @@ public class ConfigUtil {
         // 1.4.3 添加初始化
         HandyConfigUtil.setPathIsNotContains(CONFIG, "isInit", false, Collections.singletonList("是否自动启动服务器时候初始化一次数据(获取全部玩家),之后只刷新在线玩家的排行数据"), "config.yml");
         // 1.4.8 添加弩/三叉戟/重锤
-        HandyConfigUtil.setPathIsNotContains(CONFIG, "mcMmoCrossbows", false, null, "config.yml");
-        HandyConfigUtil.setPathIsNotContains(CONFIG, "mcMmoMaces", false, null, "config.yml");
-        HandyConfigUtil.setPathIsNotContains(CONFIG, "mcMmoTridents", false, null, "config.yml");
+        HandyConfigUtil.setPathIsNotContains(CONFIG, "enable.mcMmoCrossbows", false, null, "config.yml");
+        HandyConfigUtil.setPathIsNotContains(CONFIG, "enable.mcMmoMaces", false, null, "config.yml");
+        HandyConfigUtil.setPathIsNotContains(CONFIG, "enable.mcMmoTridents", false, null, "config.yml");
         CONFIG = HandyConfigUtil.loadConfig();
     }
 
