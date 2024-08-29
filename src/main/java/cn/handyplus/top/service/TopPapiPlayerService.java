@@ -94,10 +94,12 @@ public class TopPapiPlayerService {
             int count = this.count();
             MessageUtil.sendMessage(sender, "当前数据库条数:" + count + "本次同步条数:" + saveTopPapiPlayerList.size());
         }
+        // 只删除本次操作的变量
+        List<String> papiList = saveTopPapiPlayerList.stream().map(TopPapiPlayer::getPapi).distinct().collect(Collectors.toList());
         // 使用事物进行处理
         Tx.use().tx(tx -> {
             // 删除全部
-            this.delete();
+            this.deleteByPapi(papiList);
             // 批量添加
             this.addBatch(saveTopPapiPlayerList);
         });
@@ -188,6 +190,18 @@ public class TopPapiPlayerService {
         Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
         use.where().eq(TopPapiPlayer::getPapi, papi);
         return use.execution().delete();
+    }
+
+    /**
+     * 删除
+     *
+     * @param papiList 变量
+     * @since 1.5.0
+     */
+    public void deleteByPapi(List<String> papiList) {
+        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
+        use.where().in(TopPapiPlayer::getPapi, papiList);
+        use.execution().delete();
     }
 
     /**
