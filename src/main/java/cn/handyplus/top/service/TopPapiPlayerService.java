@@ -86,10 +86,6 @@ public class TopPapiPlayerService {
             }
             saveTopPapiPlayerList.addAll(papiList);
         }
-        // ID赋值
-        for (int i = 0; i < saveTopPapiPlayerList.size(); i++) {
-            saveTopPapiPlayerList.get(i).setId(i + 1);
-        }
         if (sender != null) {
             int count = this.count();
             MessageUtil.sendMessage(sender, "当前数据库条数:" + count + "本次同步条数:" + saveTopPapiPlayerList.size());
