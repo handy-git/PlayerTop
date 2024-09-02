@@ -89,6 +89,7 @@ public class TopPapiPlayerService {
         // 只操作本次操作的变量
         List<String> papiList = saveTopPapiPlayerList.stream().map(TopPapiPlayer::getPapi).distinct().collect(Collectors.toList());
         if (sender != null) {
+            MessageUtil.sendMessage(sender, "本次同步的变量:" + CollUtil.listToStr(papiList));
             int count = this.countByPapi(papiList);
             MessageUtil.sendMessage(sender, "当前数据库条数:" + count + "本次同步条数:" + saveTopPapiPlayerList.size());
         }
