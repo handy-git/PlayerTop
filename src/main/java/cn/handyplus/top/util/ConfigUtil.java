@@ -74,6 +74,8 @@ public class ConfigUtil {
         HandyConfigUtil.setPathIsNotContains(CONFIG, "enable.mcMmoCrossbows", false, null, "config.yml");
         HandyConfigUtil.setPathIsNotContains(CONFIG, "enable.mcMmoMaces", false, null, "config.yml");
         HandyConfigUtil.setPathIsNotContains(CONFIG, "enable.mcMmoTridents", false, null, "config.yml");
+        // 1.5.0 添加同步数据模式配置
+        HandyConfigUtil.setPathIsNotContains(CONFIG, "syncMode", "online", Collections.singletonList("同步数据模式 online 是只同步在线玩家  offline 是同步全部玩家(包含不在线)"), "config.yml");
         CONFIG = HandyConfigUtil.loadConfig();
     }
 

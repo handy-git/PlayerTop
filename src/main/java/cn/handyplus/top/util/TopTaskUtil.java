@@ -41,7 +41,9 @@ public class TopTaskUtil {
         }
         // 是否执行初始化
         TopConstants.IS_INIT = !ConfigUtil.CONFIG.getBoolean("isInit", false);
-        HandySchedulerUtil.runTaskTimerAsynchronously(() -> setToDataToLock(null, true), 20, period * 20);
+        // 同步模式
+        boolean syncMode = "online".equalsIgnoreCase(ConfigUtil.CONFIG.getString("syncMode", "online"));
+        HandySchedulerUtil.runTaskTimerAsynchronously(() -> setToDataToLock(null, syncMode), 20, period * 20);
     }
 
     /**
@@ -89,16 +91,16 @@ public class TopTaskUtil {
         List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyOfflineAsync(offlinePlayers);
         if (sender != null) {
             boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
-            String msg = "二. 同步" + offlinePlayers.size() + "位在线玩家变量(未过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
+            String msg = "二. 同步" + offlinePlayers.size() + "位玩家变量(未过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
             if (isOp) {
-                msg = "二. 同步" + offlinePlayers.size() + "位在线玩家变量(已过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
+                msg = "二. 同步" + offlinePlayers.size() + "位玩家变量(已过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
             }
             MessageUtil.sendMessage(sender, msg);
         }
         // 替换数据
         TopPapiPlayerService.getInstance().replace(sender, topPapiPlayerList);
         if (sender != null) {
-            MessageUtil.sendMessage(sender, "三. 保存" + offlinePlayers.size() + "位在线玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
+            MessageUtil.sendMessage(sender, "三. 保存" + offlinePlayers.size() + "位玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
         }
         // 获取数据
         List<PlayerPapiHd> playerPapiHdList = createHd();
