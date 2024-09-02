@@ -86,12 +86,12 @@ public class TopPapiPlayerService {
             }
             saveTopPapiPlayerList.addAll(papiList);
         }
+        // 只操作本次操作的变量
+        List<String> papiList = saveTopPapiPlayerList.stream().map(TopPapiPlayer::getPapi).distinct().collect(Collectors.toList());
         if (sender != null) {
-            int count = this.count();
+            int count = this.countByPapi(papiList);
             MessageUtil.sendMessage(sender, "当前数据库条数:" + count + "本次同步条数:" + saveTopPapiPlayerList.size());
         }
-        // 只删除本次操作的变量
-        List<String> papiList = saveTopPapiPlayerList.stream().map(TopPapiPlayer::getPapi).distinct().collect(Collectors.toList());
         // 使用事物进行处理
         Tx.use().tx(tx -> {
             // 删除全部
@@ -173,6 +173,17 @@ public class TopPapiPlayerService {
      */
     private int count() {
         return Db.use(TopPapiPlayer.class).execution().count();
+    }
+
+    /**
+     * 总条数
+     *
+     * @since 1.5.0
+     */
+    private int countByPapi(List<String> papiList) {
+        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
+        use.where().in(TopPapiPlayer::getPapi, papiList);
+        return use.execution().count();
     }
 
     /**
