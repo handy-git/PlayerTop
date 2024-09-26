@@ -75,18 +75,6 @@ public class AsyncTask {
         if (CollUtil.isEmpty(playerList)) {
             return topPapiPlayerList;
         }
-        // 判断是否过滤op
-        boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
-        if (isOp) {
-            playerList = playerList.stream().filter(s -> !s.isOp()).collect(Collectors.toList());
-        }
-        // 过滤掉空名称的
-        playerList = playerList.stream().filter(s -> StrUtil.isNotEmpty(s.getName())).collect(Collectors.toList());
-        // 过滤掉黑名单的
-        List<String> blacklist = ConfigUtil.CONFIG.getStringList("blacklist");
-        if (CollUtil.isNotEmpty(blacklist)) {
-            playerList = playerList.stream().filter(s -> !blacklist.contains(s.getName())).collect(Collectors.toList());
-        }
         // 异步循环获取值
         List<CompletableFuture<List<TopPapiPlayer>>> completableFutureList = new ArrayList<>();
         for (List<OfflinePlayer> players : CollUtil.splitList(playerList, 1000)) {

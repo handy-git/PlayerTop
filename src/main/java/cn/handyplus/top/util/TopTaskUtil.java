@@ -8,6 +8,7 @@ import cn.handyplus.lib.util.MessageUtil;
 import cn.handyplus.top.constants.PlayerTopTypeEnum;
 import cn.handyplus.top.constants.TopConstants;
 import cn.handyplus.top.core.AsyncTask;
+import cn.handyplus.top.core.PapiRank;
 import cn.handyplus.top.enter.TopPapiPlayer;
 import cn.handyplus.top.param.PlayerPapiHd;
 import cn.handyplus.top.service.TopPapiPlayerService;
@@ -40,7 +41,7 @@ public class TopTaskUtil {
             return;
         }
         // 是否执行初始化
-        TopConstants.IS_INIT = !ConfigUtil.CONFIG.getBoolean("isInit", false);
+        TopConstants.IS_INIT = ConfigUtil.CONFIG.getBoolean("isInit", false);
         // 同步模式
         boolean syncMode = "online".equalsIgnoreCase(ConfigUtil.CONFIG.getString("syncMode", "online"));
         HandySchedulerUtil.runTaskTimerAsynchronously(() -> setToDataToLock(null, syncMode), 20, period * 20);
@@ -57,14 +58,9 @@ public class TopTaskUtil {
             return;
         }
         try {
-            // 初始化数据
-            if (!TopConstants.IS_INIT) {
-                TopConstants.IS_INIT = true;
-                // 获取要刷新的玩家信息
-                List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyOfflineAsync(AsyncTask.getOfflineList());
-                // 替换数据
-                TopPapiPlayerService.getInstance().replace(null, topPapiPlayerList);
-                return;
+            if (TopConstants.IS_INIT && !isOnline) {
+                isOnline = true;
+                TopConstants.IS_INIT = false;
             }
             // 执行
             setTopData(sender, isOnline);
@@ -78,43 +74,24 @@ public class TopTaskUtil {
      */
     private static void setTopData(CommandSender sender, boolean isOnline) {
         long start = System.currentTimeMillis();
-        if (sender != null) {
-            MessageUtil.sendMessage(sender, "一. 开始获取排行数据,请耐心等待,当前进度: 1/6");
-        }
+        MessageUtil.sendMessage(sender, "1 -> 开始获取排行数据,请耐心等待,当前进度: 1/6");
         // 获取要刷新的玩家信息
-        List<OfflinePlayer> offlinePlayers;
-        if (isOnline) {
-            offlinePlayers = AsyncTask.getOnlineList();
-        } else {
-            offlinePlayers = AsyncTask.getOfflineList();
-        }
+        List<OfflinePlayer> offlinePlayers = isOnline ? AsyncTask.getOnlineList() : AsyncTask.getOfflineList();
+        // 获取变量数据
         List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyOfflineAsync(offlinePlayers);
-        if (sender != null) {
-            boolean isOp = ConfigUtil.CONFIG.getBoolean("isOp");
-            String msg = "二. 同步" + offlinePlayers.size() + "位玩家变量(未过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
-            if (isOp) {
-                msg = "二. 同步" + offlinePlayers.size() + "位玩家变量(已过滤OP)" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6";
-            }
-            MessageUtil.sendMessage(sender, msg);
-        }
-        // 替换数据
-        TopPapiPlayerService.getInstance().replace(sender, topPapiPlayerList);
-        if (sender != null) {
-            MessageUtil.sendMessage(sender, "三. 保存" + offlinePlayers.size() + "位玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
-        }
+        MessageUtil.sendMessage(sender, "2 -> 同步" + offlinePlayers.size() + "位玩家变量" + ",已消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 2/6");
+        // 更新并排序变量数据
+        PapiRank.replace(sender, topPapiPlayerList);
+        MessageUtil.sendMessage(sender, "3 -> 保存" + offlinePlayers.size() + "位玩家数据" + ",已消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 3/6");
         // 获取数据
         List<PlayerPapiHd> playerPapiHdList = createHd();
         playerPapiHdList.addAll(createPapiHd());
-        if (sender != null) {
-            MessageUtil.sendMessage(sender, "四. 获取构建全息图的数据,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 4/6");
-        }
+        MessageUtil.sendMessage(sender, "4 -> 获取构建全息图的数据,已消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 4/6");
         // 同步处理
         HandySchedulerUtil.runTask(() -> {
             // 删除现有全息图
             HdUtil.deleteAll();
-            if (sender != null) {
-                MessageUtil.sendMessage(sender, "五. 删除现有全息图,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 5/6");
-            }
+            MessageUtil.sendMessage(sender, "5 -> 删除现有全息图,已消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 5/6");
             // 生成全息排行榜
             if (CollUtil.isEmpty(playerPapiHdList)) {
                 return;
@@ -122,9 +99,7 @@ public class TopTaskUtil {
             for (PlayerPapiHd playerPapiHd : playerPapiHdList) {
                 HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial(), playerPapiHd.getCustomModelData());
             }
-            if (sender != null) {
-                MessageUtil.sendMessage(sender, "六. 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 6/6");
-            }
+            MessageUtil.sendMessage(sender, "6 -> 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 6/6");
         });
     }
 

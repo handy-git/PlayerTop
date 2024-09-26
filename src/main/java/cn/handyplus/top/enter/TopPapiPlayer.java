@@ -20,7 +20,7 @@ import java.util.Date;
 public class TopPapiPlayer {
 
     @TableField(value = "id", comment = "ID")
-    private Long id;
+    private Integer id;
 
     @TableField(value = "player_name", comment = "玩家名称")
     private String playerName;
