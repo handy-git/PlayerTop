@@ -3,6 +3,7 @@ package cn.handyplus.top.service;
 import cn.handyplus.lib.core.CollUtil;
 import cn.handyplus.lib.db.Compare;
 import cn.handyplus.lib.db.Db;
+import cn.handyplus.lib.db.Tx;
 import cn.handyplus.top.enter.TopPapiPlayer;
 
 import java.util.Date;
@@ -85,13 +86,25 @@ public class TopPapiPlayerService {
     /**
      * 更新值
      *
+     * @param topPapiPlayerList 数据
+     * @since 1.5.1
+     */
+    public void setVault(List<TopPapiPlayer> topPapiPlayerList) {
+        if (CollUtil.isEmpty(topPapiPlayerList)) {
+            return;
+        }
+        Tx.use().tx(tx -> topPapiPlayerList.forEach(this::setVault));
+    }
+
+    /**
+     * 更新值
+     *
      * @param topPapiPlayer 数据
      * @since 1.5.1
      */
-    public void setVault(TopPapiPlayer topPapiPlayer) {
-        Optional<TopPapiPlayer> topPapiPlayerOptional = this.findByUidAndType(topPapiPlayer.getPlayerUuid(), topPapiPlayer.getPapi());
-        if (!topPapiPlayerOptional.isPresent()) {
-            // 新增
+    private void setVault(TopPapiPlayer topPapiPlayer) {
+        // 新增
+        if (topPapiPlayer.getId() == null) {
             topPapiPlayer.setCreateTime(new Date());
             this.add(topPapiPlayer);
             return;
@@ -99,24 +112,10 @@ public class TopPapiPlayerService {
         // 更新
         Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
         use.update().set(TopPapiPlayer::getVault, topPapiPlayer.getVault())
+                .set(TopPapiPlayer::getRank, topPapiPlayer.getRank())
+                .set(TopPapiPlayer::getPlayerName, topPapiPlayer.getPlayerName())
                 .set(TopPapiPlayer::getUpdateTime, new Date());
-        use.where().eq(TopPapiPlayer::getPapi, topPapiPlayer.getPapi())
-                .eq(TopPapiPlayer::getPlayerUuid, topPapiPlayer.getPlayerUuid());
-        use.execution().update();
-    }
-
-    /**
-     * 更新排序
-     *
-     * @param id   ID
-     * @param rank 排行
-     * @since 1.5.1
-     */
-    public void updateRank(Integer id, Integer rank) {
-        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
-        use.update().set(TopPapiPlayer::getRank, rank)
-                .set(TopPapiPlayer::getUpdateTime, new Date());
-        use.execution().updateById(id);
+        use.execution().updateById(topPapiPlayer.getId());
     }
 
     /**
@@ -130,39 +129,6 @@ public class TopPapiPlayerService {
         Db<TopPapiPlayer> db = Db.use(TopPapiPlayer.class);
         db.where().eq(TopPapiPlayer::getPapi, papi);
         return db.execution().list();
-    }
-
-    /**
-     * 根据名称删除
-     *
-     * @param playerNameList 过滤玩家
-     * @param papi           变量
-     * @since 1.5.1
-     */
-    public void deleteByNameAndPapi(List<String> playerNameList, String papi) {
-        if (CollUtil.isEmpty(playerNameList)) {
-            return;
-        }
-        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
-        use.where().in(TopPapiPlayer::getPlayerName, playerNameList).eq(TopPapiPlayer::getPapi, papi);
-        use.execution().delete();
-    }
-
-    /**
-     * 根据值删除
-     *
-     * @param valueList 过滤值
-     * @param papi      变量
-     * @since 1.5.1
-     */
-    public void deleteByValueAndPapi(List<Long> valueList, String papi) {
-        if (CollUtil.isEmpty(valueList)) {
-            return;
-        }
-        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
-        use.where().in(TopPapiPlayer::getVault, valueList)
-                .eq(TopPapiPlayer::getPapi, papi);
-        use.execution().delete();
     }
 
     /**
