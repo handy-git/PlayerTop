@@ -93,6 +93,7 @@ public class TopPapiPlayerService {
         if (CollUtil.isEmpty(topPapiPlayerList)) {
             return;
         }
+        // 改为循环操作，批量先删除后新增多bc子服容易出问题
         Tx.use().tx(tx -> topPapiPlayerList.forEach(this::setVault));
     }
 
