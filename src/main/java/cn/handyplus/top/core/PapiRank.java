@@ -63,21 +63,21 @@ public class PapiRank {
             if (dbTopPapiPlayer == null) {
                 newList.add(topPapi);
             } else {
-                dbTopPapiPlayer.setVault(topPapi.getVault());
+                dbTopPapiPlayer.setValue(topPapi.getValue());
                 dbTopPapiPlayer.setPlayerName(topPapi.getPlayerName());
                 newList.add(dbTopPapiPlayer);
             }
         }
         // 3. 过滤不需要的数据
         newList = newList.stream().filter(topPapiPlayer -> !blacklist.contains(topPapiPlayer.getPlayerName())).collect(Collectors.toList());
-        newList = newList.stream().filter(topPapiPlayer -> !filterList.contains(topPapiPlayer.getVault())).collect(Collectors.toList());
+        newList = newList.stream().filter(topPapiPlayer -> !filterList.contains(topPapiPlayer.getValue())).collect(Collectors.toList());
         // 4. 处理排序
         if ("desc".equalsIgnoreCase(papiList.get(0).getSort())) {
             newList = newList.stream().peek(player -> player.setSort("desc")).collect(Collectors.toList());
-            newList = newList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault).reversed()).collect(Collectors.toList());
+            newList = newList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue).reversed()).collect(Collectors.toList());
         } else {
             newList = newList.stream().peek(player -> player.setSort("asc")).collect(Collectors.toList());
-            newList = newList.stream().sorted(Comparator.comparing(TopPapiPlayer::getVault)).collect(Collectors.toList());
+            newList = newList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue)).collect(Collectors.toList());
         }
         // 更新排序
         for (int i = 0; i < newList.size(); i++) {

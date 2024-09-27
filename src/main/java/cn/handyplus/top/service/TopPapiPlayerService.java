@@ -112,7 +112,7 @@ public class TopPapiPlayerService {
         }
         // 更新
         Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
-        use.update().set(TopPapiPlayer::getVault, topPapiPlayer.getVault())
+        use.update().set(TopPapiPlayer::getValue, topPapiPlayer.getValue())
                 .set(TopPapiPlayer::getRank, topPapiPlayer.getRank())
                 .set(TopPapiPlayer::getPlayerName, topPapiPlayer.getPlayerName())
                 .set(TopPapiPlayer::getUpdateTime, new Date());

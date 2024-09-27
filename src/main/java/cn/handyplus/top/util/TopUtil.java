@@ -34,7 +34,7 @@ public class TopUtil {
      * @since 1.2.2
      */
     public static String getContent(String lore, TopPapiPlayer topPapiPlayer) {
-        String content = lore.replace("${content}", topPapiPlayer.getVault().toString())
+        String content = lore.replace("${content}", topPapiPlayer.getValue().toString())
                 .replace("${player}", topPapiPlayer.getPlayerName())
                 .replace("${rank}", topPapiPlayer.getRank().toString());
         content = PlaceholderApiUtil.set(UUID.fromString(topPapiPlayer.getPlayerUuid()), content);

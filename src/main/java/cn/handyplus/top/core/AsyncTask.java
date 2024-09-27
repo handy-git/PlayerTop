@@ -209,7 +209,7 @@ public class AsyncTask {
             if (!numericToBigDecimal.isPresent()) {
                 continue;
             }
-            topPapiPlayer.setVault(numericToBigDecimal.get());
+            topPapiPlayer.setValue(numericToBigDecimal.get());
             topPapiPlayer.setCreateTime(new Date());
             topPapiPlayerList.add(topPapiPlayer);
         }
@@ -235,7 +235,7 @@ public class AsyncTask {
             topPapiPlayer.setPlayerUuid(offlinePlayer.getUniqueId().toString());
             topPapiPlayer.setPapi(typeEnum.getType());
             topPapiPlayer.setSort("desc");
-            topPapiPlayer.setVault(getDataValue(offlinePlayer, typeEnum));
+            topPapiPlayer.setValue(getDataValue(offlinePlayer, typeEnum));
             topPapiPlayer.setCreateTime(new Date());
             topPapiPlayerList.add(topPapiPlayer);
         }

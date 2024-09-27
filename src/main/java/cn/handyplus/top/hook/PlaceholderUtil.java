@@ -67,7 +67,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
             String type = StrUtil.replaceLast(placeholder, "_" + suffix, "");
             type = this.getDataType(type);
             Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(player.getUniqueId().toString(), type);
-            return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getVault().toString()).orElse("0");
+            return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getValue().toString()).orElse("0");
         }
 
         // 判断是指定玩家排行 %playerTop_[类型]_[玩家名]_playerRank%
@@ -87,7 +87,7 @@ public class PlaceholderUtil extends PlaceholderExpansion {
             type = this.getDataType(type);
             OfflinePlayer offlinePlayer = BaseUtil.getOfflinePlayer(playerName);
             Optional<TopPapiPlayer> topPapiPlayerOptional = TopPapiPlayerService.getInstance().findByUidAndType(offlinePlayer.getUniqueId().toString(), type);
-            return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getVault().toString()).orElse("0");
+            return topPapiPlayerOptional.map(topPapiPlayer -> topPapiPlayer.getValue().toString()).orElse("0");
         }
 
         // 判断是name
