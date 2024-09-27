@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +44,6 @@ public class PapiRank {
      * 处理值和排行
      */
     private static void papiRank(CommandSender sender, String papi, List<TopPapiPlayer> papiList) {
-        Date now = new Date();
         // 过滤黑名单
         List<String> blacklist = ConfigUtil.CONFIG.getStringList("blacklist");
         TopPapiPlayerService.getInstance().deleteByPlayerName(blacklist, papi);
@@ -66,7 +64,6 @@ public class PapiRank {
             TopPapiPlayer topPapiPlayer = papiListMap.get(dbTop.getPlayerUuid());
             if (topPapiPlayer != null) {
                 dbTop.setValue(topPapiPlayer.getValue());
-                dbTop.setUpdateTime(now);
                 dbTop.setPlayerName(topPapiPlayer.getPlayerName());
             }
         }
@@ -89,7 +86,7 @@ public class PapiRank {
         // 本次需要处理的数据
         List<TopPapiPlayer> newList = dbTopList.stream().filter(obj -> !dbTopSet.contains(obj)).collect(Collectors.toList());
         TopPapiPlayerService.getInstance().setValue(newList);
-        MessageUtil.sendMessage(sender, "2.5 -> 同步" + papi + "变量数据(" + newList.size() + "/" + dbTopList.size() + ")条结束" + ",同步消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 2.5/6");
+        MessageUtil.sendMessage(sender, "2.5 -> 同步" + papi + "变量数据(" + newList.size() + "/" + dbTopList.size() + ")条结束" + ",本操作消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2.5/6");
     }
 
 }

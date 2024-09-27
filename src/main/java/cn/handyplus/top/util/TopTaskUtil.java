@@ -79,19 +79,19 @@ public class TopTaskUtil {
         List<OfflinePlayer> offlinePlayers = isOnline ? AsyncTask.getOnlineList() : AsyncTask.getOfflineList();
         // 获取变量数据
         List<TopPapiPlayer> topPapiPlayerList = AsyncTask.supplyOfflineAsync(offlinePlayers);
-        MessageUtil.sendMessage(sender, "2 -> 同步" + offlinePlayers.size() + "位玩家变量" + ",已消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 2/6");
+        MessageUtil.sendMessage(sender, "2 -> 同步" + offlinePlayers.size() + "位玩家变量" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2/6");
         // 更新并排序变量数据
         PapiRank.replace(sender, topPapiPlayerList);
-        MessageUtil.sendMessage(sender, "3 -> 保存" + offlinePlayers.size() + "位玩家数据" + ",已消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 3/6");
+        MessageUtil.sendMessage(sender, "3 -> 保存" + offlinePlayers.size() + "位玩家数据" + ",已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 3/6");
         // 获取数据
         List<PlayerPapiHd> playerPapiHdList = createHd();
         playerPapiHdList.addAll(createPapiHd());
-        MessageUtil.sendMessage(sender, "4 -> 获取构建全息图的数据,已消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 4/6");
+        MessageUtil.sendMessage(sender, "4 -> 获取构建全息图的数据,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 4/6");
         // 同步处理
         HandySchedulerUtil.runTask(() -> {
             // 删除现有全息图
             HdUtil.deleteAll();
-            MessageUtil.sendMessage(sender, "5 -> 删除现有全息图,已消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 5/6");
+            MessageUtil.sendMessage(sender, "5 -> 删除现有全息图,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 5/6");
             // 生成全息排行榜
             if (CollUtil.isEmpty(playerPapiHdList)) {
                 return;
@@ -99,7 +99,7 @@ public class TopTaskUtil {
             for (PlayerPapiHd playerPapiHd : playerPapiHdList) {
                 HdUtil.create(playerPapiHd.getTextLineList(), playerPapiHd.getLocation(), playerPapiHd.getMaterial(), playerPapiHd.getCustomModelData());
             }
-            MessageUtil.sendMessage(sender, "6 -> 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 6/6");
+            MessageUtil.sendMessage(sender, "6 -> 全部流程完成,本次刷新" + playerPapiHdList.size() + "全息图排行,已消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 6/6");
         });
     }
 

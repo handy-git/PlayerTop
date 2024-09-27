@@ -108,7 +108,6 @@ public class TopPapiPlayerService {
     private void setValue(TopPapiPlayer topPapiPlayer) {
         // 新增
         if (topPapiPlayer.getId() == null) {
-            topPapiPlayer.setCreateTime(new Date());
             this.add(topPapiPlayer);
             return;
         }
