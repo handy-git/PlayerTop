@@ -8,10 +8,11 @@ import cn.handyplus.top.util.ConfigUtil;
 import org.bukkit.command.CommandSender;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -32,58 +33,61 @@ public class PapiRank {
         if (CollUtil.isEmpty(topPapiPlayerList)) {
             return;
         }
-        // 过滤黑名单
-        List<String> blacklist = ConfigUtil.CONFIG.getStringList("blacklist");
-        // 过滤OP
-        if (ConfigUtil.CONFIG.getBoolean("isOp")) {
-            blacklist.addAll(AsyncTask.getOpUidList());
-        }
-        // 过滤值
-        List<Long> filter = ConfigUtil.CONFIG.getLongList("filter");
-        List<BigDecimal> filterList = filter.stream().map(BigDecimal::valueOf).collect(Collectors.toList());
         // 分组处理 避免bc配置不同
         Map<String, List<TopPapiPlayer>> topPapiPlayerGroupList = topPapiPlayerList.stream().collect(Collectors.groupingBy(TopPapiPlayer::getPapi));
         for (String papi : topPapiPlayerGroupList.keySet()) {
-            papiRank(sender, papi, topPapiPlayerGroupList.get(papi), blacklist, filterList);
+            papiRank(sender, papi, topPapiPlayerGroupList.get(papi));
         }
     }
 
     /**
      * 处理值和排行
      */
-    private static void papiRank(CommandSender sender, String papi, List<TopPapiPlayer> papiList, List<String> blacklist, List<BigDecimal> filterList) {
+    private static void papiRank(CommandSender sender, String papi, List<TopPapiPlayer> papiList) {
+        Date now = new Date();
+        // 过滤黑名单
+        List<String> blacklist = ConfigUtil.CONFIG.getStringList("blacklist");
+        int blacklistNum = TopPapiPlayerService.getInstance().deleteByPlayerName(blacklist, papi);
+        MessageUtil.sendMessage(sender, "2.5 -> 过滤黑名单玩家" + blacklistNum + "个,当前进度: 2.5/6");
+        // 过滤OP
+        int opUidListNum = TopPapiPlayerService.getInstance().deleteByPlayerUuid(AsyncTask.getOpUidList(), papi);
+        MessageUtil.sendMessage(sender, "2.5 -> 过滤OP玩家" + opUidListNum + "个,当前进度: 2.5/6");
+        // 过滤值
+        List<Long> filter = ConfigUtil.CONFIG.getLongList("filter");
+        List<BigDecimal> filterList = filter.stream().map(BigDecimal::valueOf).collect(Collectors.toList());
+        int filterListNum = TopPapiPlayerService.getInstance().deleteByValue(filterList, papi);
+        MessageUtil.sendMessage(sender, "2.5 -> 过滤值" + filterListNum + "个,当前进度: 2.5/6");
+        // 开始同步数据
         long start = System.currentTimeMillis();
         // 1. 先查询现有数据
         List<TopPapiPlayer> dbTopList = TopPapiPlayerService.getInstance().findByPapi(papi);
-        Map<String, TopPapiPlayer> dbPapiMap = dbTopList.stream().collect(Collectors.toMap(TopPapiPlayer::getPlayerUuid, e -> e));
-        // 2. 更新数据
-        List<TopPapiPlayer> newList = new ArrayList<>();
-        for (TopPapiPlayer topPapi : papiList) {
-            TopPapiPlayer dbTopPapiPlayer = dbPapiMap.get(topPapi.getPlayerUuid());
-            if (dbTopPapiPlayer == null) {
-                newList.add(topPapi);
-            } else {
-                dbTopPapiPlayer.setValue(topPapi.getValue());
-                dbTopPapiPlayer.setPlayerName(topPapi.getPlayerName());
-                newList.add(dbTopPapiPlayer);
+        Map<String, TopPapiPlayer> papiListMap = papiList.stream().collect(Collectors.toMap(TopPapiPlayer::getPlayerUuid, e -> e));
+        // 更新旧记录
+        for (TopPapiPlayer dbTop : dbTopList) {
+            TopPapiPlayer topPapiPlayer = papiListMap.get(dbTop.getPlayerUuid());
+            if (topPapiPlayer != null) {
+                dbTop.setValue(topPapiPlayer.getValue());
+                dbTop.setUpdateTime(now);
+                dbTop.setPlayerName(topPapiPlayer.getPlayerName());
             }
         }
-        // 3. 过滤不需要的数据
-        newList = newList.stream().filter(topPapiPlayer -> !blacklist.contains(topPapiPlayer.getPlayerName())).collect(Collectors.toList());
-        newList = newList.stream().filter(topPapiPlayer -> !filterList.contains(topPapiPlayer.getValue())).collect(Collectors.toList());
+        // 添加新记录
+        Set<String> dbPlayerSet = dbTopList.stream().map(TopPapiPlayer::getPlayerUuid).collect(Collectors.toSet());
+        List<TopPapiPlayer> differenceFromPapi = papiList.stream().filter(p -> !dbPlayerSet.contains(p.getPlayerUuid())).collect(Collectors.toList());
+        dbTopList.addAll(differenceFromPapi);
         // 4. 处理排序
         if ("desc".equalsIgnoreCase(papiList.get(0).getSort())) {
-            newList = newList.stream().peek(player -> player.setSort("desc")).collect(Collectors.toList());
-            newList = newList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue).reversed()).collect(Collectors.toList());
+            dbTopList = dbTopList.stream().peek(player -> player.setSort("desc")).collect(Collectors.toList());
+            dbTopList = dbTopList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue).reversed()).collect(Collectors.toList());
         } else {
-            newList = newList.stream().peek(player -> player.setSort("asc")).collect(Collectors.toList());
-            newList = newList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue)).collect(Collectors.toList());
+            dbTopList = dbTopList.stream().peek(player -> player.setSort("asc")).collect(Collectors.toList());
+            dbTopList = dbTopList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue)).collect(Collectors.toList());
         }
         // 更新排序
-        for (int i = 0; i < newList.size(); i++) {
-            newList.get(i).setRank(i + 1);
+        for (int i = 0; i < dbTopList.size(); i++) {
+            dbTopList.get(i).setRank(i + 1);
         }
-        TopPapiPlayerService.getInstance().setVault(newList);
+        TopPapiPlayerService.getInstance().setValue(dbTopList);
         MessageUtil.sendMessage(sender, "2.5 -> 同步" + papi + "变量数据结束" + ",同步消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 2.5/6");
     }
 

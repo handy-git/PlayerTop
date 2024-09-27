@@ -7,7 +7,7 @@
 使用教程: [点击查看](https://ricedoc.handyplus.cn/wiki/PlayerTop/README/)  
 购买地址: [点击查看](https://afdian.net/item/c1bf175c4a3111ed94bb52540025c377)
 
-开发版本下载渠道:
+开发版本下载渠道(请注意:开发版本不稳定)
 
 [GITHUB ACTIONS](https://github.com/handy-git/PlayerTop/actions)
 

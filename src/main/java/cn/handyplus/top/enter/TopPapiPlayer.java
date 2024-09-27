@@ -34,7 +34,7 @@ public class TopPapiPlayer {
     @TableField(value = "sort", comment = "排序方式")
     private String sort;
 
-    @TableField(value = "vault", comment = "值")
+    @TableField(value = "vault", comment = "值 vault 兼容历史数据不做变更")
     private BigDecimal value;
 
     @TableField(value = "rank", comment = "排名")

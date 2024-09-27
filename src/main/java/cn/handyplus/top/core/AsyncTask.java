@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -88,6 +89,12 @@ public class AsyncTask {
         for (CompletableFuture<List<TopPapiPlayer>> listCompletableFuture : completableFutureList) {
             topPapiPlayerList.addAll(listCompletableFuture.join());
         }
+        // 过滤不需要的值
+        List<Long> filterList = ConfigUtil.CONFIG.getLongList("filter");
+        if (CollUtil.isNotEmpty(filterList)) {
+            List<BigDecimal> filterBigDecimalList = filterList.stream().map(BigDecimal::valueOf).collect(Collectors.toList());
+            topPapiPlayerList = topPapiPlayerList.stream().filter(s -> !filterBigDecimalList.contains(s.getValue())).collect(Collectors.toList());
+        }
         return topPapiPlayerList;
     }
 
@@ -96,9 +103,12 @@ public class AsyncTask {
      *
      * @return op uid
      */
-    public static List<String> getOpUidList() {
+    public static List<UUID> getOpUidList() {
+        if (!ConfigUtil.CONFIG.getBoolean("isOp")) {
+            return new ArrayList<>();
+        }
         List<OfflinePlayer> opList = new ArrayList<>(Bukkit.getOperators());
-        return opList.stream().map(s -> s.getUniqueId().toString()).collect(Collectors.toList());
+        return opList.stream().map(OfflinePlayer::getUniqueId).collect(Collectors.toList());
     }
 
     /**

@@ -6,9 +6,11 @@ import cn.handyplus.lib.db.Db;
 import cn.handyplus.lib.db.Tx;
 import cn.handyplus.top.enter.TopPapiPlayer;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * 玩家papi排行数据
@@ -89,12 +91,12 @@ public class TopPapiPlayerService {
      * @param topPapiPlayerList 数据
      * @since 1.5.1
      */
-    public void setVault(List<TopPapiPlayer> topPapiPlayerList) {
+    public void setValue(List<TopPapiPlayer> topPapiPlayerList) {
         if (CollUtil.isEmpty(topPapiPlayerList)) {
             return;
         }
         // 改为循环操作，批量先删除后新增多bc子服容易出问题
-        Tx.use().tx(tx -> topPapiPlayerList.forEach(this::setVault));
+        Tx.use().tx(tx -> topPapiPlayerList.forEach(this::setValue));
     }
 
     /**
@@ -103,7 +105,7 @@ public class TopPapiPlayerService {
      * @param topPapiPlayer 数据
      * @since 1.5.1
      */
-    private void setVault(TopPapiPlayer topPapiPlayer) {
+    private void setValue(TopPapiPlayer topPapiPlayer) {
         // 新增
         if (topPapiPlayer.getId() == null) {
             topPapiPlayer.setCreateTime(new Date());
@@ -142,6 +144,58 @@ public class TopPapiPlayerService {
     public int deleteByPapi(String papi) {
         Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
         use.where().eq(TopPapiPlayer::getPapi, papi);
+        return use.execution().delete();
+    }
+
+    /**
+     * 根据 名称 删除
+     *
+     * @param playerNameList 名称
+     * @param papi           变量
+     * @return 数量
+     * @since 1.5.1
+     */
+    public int deleteByPlayerName(List<String> playerNameList, String papi) {
+        if (CollUtil.isEmpty(playerNameList)) {
+            return 0;
+        }
+        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
+        use.where().in(TopPapiPlayer::getPlayerName, playerNameList)
+                .eq(TopPapiPlayer::getPapi, papi);
+        return use.execution().delete();
+    }
+
+    /**
+     * 根据 uuid 删除
+     *
+     * @param playerUuidList uid
+     * @param papi           变量
+     * @since 1.5.1
+     */
+    public int deleteByPlayerUuid(List<UUID> playerUuidList, String papi) {
+        if (CollUtil.isEmpty(playerUuidList)) {
+            return 0;
+        }
+        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
+        use.where().in(TopPapiPlayer::getPlayerName, playerUuidList)
+                .eq(TopPapiPlayer::getPapi, papi);
+        return use.execution().delete();
+    }
+
+    /**
+     * 根据 值 删除
+     *
+     * @param valueList 值
+     * @param papi      变量
+     * @since 1.5.1
+     */
+    public int deleteByValue(List<BigDecimal> valueList, String papi) {
+        if (CollUtil.isEmpty(valueList)) {
+            return 0;
+        }
+        Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
+        use.where().in(TopPapiPlayer::getValue, valueList)
+                .eq(TopPapiPlayer::getPapi, papi);
         return use.execution().delete();
     }
 
