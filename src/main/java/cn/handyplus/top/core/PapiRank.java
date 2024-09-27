@@ -48,16 +48,13 @@ public class PapiRank {
         Date now = new Date();
         // 过滤黑名单
         List<String> blacklist = ConfigUtil.CONFIG.getStringList("blacklist");
-        int blacklistNum = TopPapiPlayerService.getInstance().deleteByPlayerName(blacklist, papi);
-        MessageUtil.sendMessage(sender, "2.5 -> 已过滤黑名单玩家" + blacklistNum + "个,当前进度: 2.5/6");
+        TopPapiPlayerService.getInstance().deleteByPlayerName(blacklist, papi);
         // 过滤OP
-        int opUidListNum = TopPapiPlayerService.getInstance().deleteByPlayerUuid(AsyncTask.getOpUidList(), papi);
-        MessageUtil.sendMessage(sender, "2.5 -> 已过滤OP玩家" + opUidListNum + "个,当前进度: 2.5/6");
+        TopPapiPlayerService.getInstance().deleteByPlayerUuid(AsyncTask.getOpUidList(), papi);
         // 过滤值
         List<Long> filter = ConfigUtil.CONFIG.getLongList("filter");
         List<BigDecimal> filterList = filter.stream().map(BigDecimal::valueOf).collect(Collectors.toList());
-        int filterListNum = TopPapiPlayerService.getInstance().deleteByValue(filterList, papi);
-        MessageUtil.sendMessage(sender, "2.5 -> 已过滤值" + filterListNum + "个,当前进度: 2.5/6");
+        TopPapiPlayerService.getInstance().deleteByValue(filterList, papi);
         // 开始同步数据
         long start = System.currentTimeMillis();
         // 1. 先查询现有数据
