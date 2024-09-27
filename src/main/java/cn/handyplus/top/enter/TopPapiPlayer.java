@@ -3,8 +3,7 @@ package cn.handyplus.top.enter;
 import cn.handyplus.lib.annotation.TableField;
 import cn.handyplus.lib.annotation.TableName;
 import cn.handyplus.lib.db.enums.IndexEnum;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,8 +13,7 @@ import java.util.Date;
  *
  * @author handy
  */
-@Getter
-@Setter
+@Data
 @TableName(value = "top_papi_player", comment = "玩家Papi排行数据")
 public class TopPapiPlayer {
 

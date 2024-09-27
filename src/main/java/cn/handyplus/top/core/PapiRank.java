@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,19 +49,20 @@ public class PapiRank {
         // 过滤黑名单
         List<String> blacklist = ConfigUtil.CONFIG.getStringList("blacklist");
         int blacklistNum = TopPapiPlayerService.getInstance().deleteByPlayerName(blacklist, papi);
-        MessageUtil.sendMessage(sender, "2.5 -> 过滤黑名单玩家" + blacklistNum + "个,当前进度: 2.5/6");
+        MessageUtil.sendMessage(sender, "2.5 -> 已过滤黑名单玩家" + blacklistNum + "个,当前进度: 2.5/6");
         // 过滤OP
         int opUidListNum = TopPapiPlayerService.getInstance().deleteByPlayerUuid(AsyncTask.getOpUidList(), papi);
-        MessageUtil.sendMessage(sender, "2.5 -> 过滤OP玩家" + opUidListNum + "个,当前进度: 2.5/6");
+        MessageUtil.sendMessage(sender, "2.5 -> 已过滤OP玩家" + opUidListNum + "个,当前进度: 2.5/6");
         // 过滤值
         List<Long> filter = ConfigUtil.CONFIG.getLongList("filter");
         List<BigDecimal> filterList = filter.stream().map(BigDecimal::valueOf).collect(Collectors.toList());
         int filterListNum = TopPapiPlayerService.getInstance().deleteByValue(filterList, papi);
-        MessageUtil.sendMessage(sender, "2.5 -> 过滤值" + filterListNum + "个,当前进度: 2.5/6");
+        MessageUtil.sendMessage(sender, "2.5 -> 已过滤值" + filterListNum + "个,当前进度: 2.5/6");
         // 开始同步数据
         long start = System.currentTimeMillis();
         // 1. 先查询现有数据
         List<TopPapiPlayer> dbTopList = TopPapiPlayerService.getInstance().findByPapi(papi);
+        Set<TopPapiPlayer> dbTopSet = new HashSet<>(dbTopList);
         Map<String, TopPapiPlayer> papiListMap = papiList.stream().collect(Collectors.toMap(TopPapiPlayer::getPlayerUuid, e -> e));
         // 更新旧记录
         for (TopPapiPlayer dbTop : dbTopList) {
@@ -87,8 +89,10 @@ public class PapiRank {
         for (int i = 0; i < dbTopList.size(); i++) {
             dbTopList.get(i).setRank(i + 1);
         }
-        TopPapiPlayerService.getInstance().setValue(dbTopList);
-        MessageUtil.sendMessage(sender, "2.5 -> 同步" + papi + "变量数据结束" + ",同步消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 2.5/6");
+        // 本次需要处理的数据
+        List<TopPapiPlayer> newList = dbTopList.stream().filter(obj -> !dbTopSet.contains(obj)).collect(Collectors.toList());
+        TopPapiPlayerService.getInstance().setValue(newList);
+        MessageUtil.sendMessage(sender, "2.5 -> 同步" + papi + "变量数据" + newList.size() + "条结束" + ",同步消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 2.5/6");
     }
 
 }
