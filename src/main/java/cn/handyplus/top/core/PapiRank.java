@@ -89,7 +89,7 @@ public class PapiRank {
         // 本次需要处理的数据
         List<TopPapiPlayer> newList = dbTopList.stream().filter(obj -> !dbTopSet.contains(obj)).collect(Collectors.toList());
         TopPapiPlayerService.getInstance().setValue(newList);
-        MessageUtil.sendMessage(sender, "2.5 -> 同步" + papi + "变量数据" + newList.size() + "条结束" + ",同步消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 2.5/6");
+        MessageUtil.sendMessage(sender, "2.5 -> 同步" + papi + "变量数据(" + newList.size() + "/" + dbTopList.size() + ")条结束" + ",同步消耗:" + (System.currentTimeMillis() - start) / 1000 + "秒,当前进度: 2.5/6");
     }
 
 }
