@@ -53,7 +53,6 @@ public class PapiRank {
      */
     private static void papiRank(CommandSender sender, String papi, List<TopPapiPlayer> papiList, List<String> blacklist, List<BigDecimal> filterList) {
         long start = System.currentTimeMillis();
-        MessageUtil.sendMessage(sender, "2.5 -> 同步" + papi + "变量数据开始,当前进度: 2.5/6");
         // 1. 先查询现有数据
         List<TopPapiPlayer> dbTopList = TopPapiPlayerService.getInstance().findByPapi(papi);
         Map<String, TopPapiPlayer> dbPapiMap = dbTopList.stream().collect(Collectors.toMap(TopPapiPlayer::getPlayerUuid, e -> e));
