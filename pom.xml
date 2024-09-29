@@ -6,7 +6,7 @@
 
     <groupId>cn.handyplus.top</groupId>
     <artifactId>PlayerTop</artifactId>
-    <version>1.5.1</version>
+    <version>1.5.2</version>
     <description>一款有点好用的排行榜插件</description>
 
     <properties>
@@ -24,6 +24,7 @@
         <Jobs.version>5.1.0.1</Jobs.version>
         <HologramLib.verison>1.0.2</HologramLib.verison>
         <annotations.version>24.1.0</annotations.version>
+        <junit.version>5.10.2</junit.version>
     </properties>
 
     <dependencies>
@@ -102,6 +103,13 @@
             <artifactId>annotations</artifactId>
             <version>${annotations.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- 全局单元测试 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

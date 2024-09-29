@@ -74,10 +74,10 @@ public class PapiRank {
         // 4. 处理排序
         if ("desc".equalsIgnoreCase(papiList.get(0).getSort())) {
             dbTopList = dbTopList.stream().peek(player -> player.setSort("desc")).collect(Collectors.toList());
-            dbTopList = dbTopList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue).reversed()).collect(Collectors.toList());
+            dbTopList = dbTopList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue).reversed().thenComparing(TopPapiPlayer::getCreateTime)).collect(Collectors.toList());
         } else {
             dbTopList = dbTopList.stream().peek(player -> player.setSort("asc")).collect(Collectors.toList());
-            dbTopList = dbTopList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue)).collect(Collectors.toList());
+            dbTopList = dbTopList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue).thenComparing(TopPapiPlayer::getCreateTime)).collect(Collectors.toList());
         }
         // 更新排序
         for (int i = 0; i < dbTopList.size(); i++) {
