@@ -151,17 +151,16 @@ public class TopPapiPlayerService {
      *
      * @param playerNameList 名称
      * @param papi           变量
-     * @return 数量
      * @since 1.5.1
      */
-    public int deleteByPlayerName(List<String> playerNameList, String papi) {
+    public void deleteByPlayerName(List<String> playerNameList, String papi) {
         if (CollUtil.isEmpty(playerNameList)) {
-            return 0;
+            return;
         }
         Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
         use.where().in(TopPapiPlayer::getPlayerName, playerNameList)
                 .eq(TopPapiPlayer::getPapi, papi);
-        return use.execution().delete();
+        use.execution().delete();
     }
 
     /**
@@ -171,14 +170,14 @@ public class TopPapiPlayerService {
      * @param papi           变量
      * @since 1.5.1
      */
-    public int deleteByPlayerUuid(List<UUID> playerUuidList, String papi) {
+    public void deleteByPlayerUuid(List<UUID> playerUuidList, String papi) {
         if (CollUtil.isEmpty(playerUuidList)) {
-            return 0;
+            return;
         }
         Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
-        use.where().in(TopPapiPlayer::getPlayerName, playerUuidList)
+        use.where().in(TopPapiPlayer::getPlayerUuid, playerUuidList)
                 .eq(TopPapiPlayer::getPapi, papi);
-        return use.execution().delete();
+        use.execution().delete();
     }
 
     /**
@@ -188,14 +187,14 @@ public class TopPapiPlayerService {
      * @param papi      变量
      * @since 1.5.1
      */
-    public int deleteByValue(List<BigDecimal> valueList, String papi) {
+    public void deleteByValue(List<BigDecimal> valueList, String papi) {
         if (CollUtil.isEmpty(valueList)) {
-            return 0;
+            return;
         }
         Db<TopPapiPlayer> use = Db.use(TopPapiPlayer.class);
         use.where().in(TopPapiPlayer::getValue, valueList)
                 .eq(TopPapiPlayer::getPapi, papi);
-        return use.execution().delete();
+        use.execution().delete();
     }
 
 }
