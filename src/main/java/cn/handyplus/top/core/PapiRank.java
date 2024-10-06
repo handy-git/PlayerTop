@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -44,15 +45,21 @@ public class PapiRank {
      * 处理值和排行
      */
     private static void papiRank(CommandSender sender, String papi, List<TopPapiPlayer> papiList) {
+        String sort = papiList.get(0).getSort();
         // 过滤黑名单
         List<String> blacklist = ConfigUtil.CONFIG.getStringList("blacklist");
         TopPapiPlayerService.getInstance().deleteByPlayerName(blacklist, papi);
+        papiList = papiList.stream().filter(s -> !blacklist.contains(s.getPlayerName())).collect(Collectors.toList());
         // 过滤OP
-        TopPapiPlayerService.getInstance().deleteByPlayerUuid(AsyncTask.getOpUidList(), papi);
+        List<UUID> opUidList = AsyncTask.getOpUidList();
+        List<String> opUidStrList = opUidList.stream().map(String::valueOf).collect(Collectors.toList());
+        TopPapiPlayerService.getInstance().deleteByPlayerUuid(opUidList, papi);
+        papiList = papiList.stream().filter(s -> !opUidStrList.contains(s.getPlayerUuid())).collect(Collectors.toList());
         // 过滤值
         List<Long> filter = ConfigUtil.CONFIG.getLongList("filter");
         List<BigDecimal> filterList = filter.stream().map(BigDecimal::valueOf).collect(Collectors.toList());
         TopPapiPlayerService.getInstance().deleteByValue(filterList, papi);
+        papiList = papiList.stream().filter(s -> !filterList.contains(s.getValue())).collect(Collectors.toList());
         // 开始同步数据
         long start = System.currentTimeMillis();
         // 1. 先查询现有数据
@@ -72,7 +79,7 @@ public class PapiRank {
         List<TopPapiPlayer> differenceFromPapi = papiList.stream().filter(p -> !dbPlayerSet.contains(p.getPlayerUuid())).collect(Collectors.toList());
         dbTopList.addAll(differenceFromPapi);
         // 4. 处理排序
-        if ("desc".equalsIgnoreCase(papiList.get(0).getSort())) {
+        if ("desc".equalsIgnoreCase(sort)) {
             dbTopList = dbTopList.stream().peek(player -> player.setSort("desc")).collect(Collectors.toList());
             dbTopList = dbTopList.stream().sorted(Comparator.comparing(TopPapiPlayer::getValue).reversed().thenComparing(TopPapiPlayer::getCreateTime)).collect(Collectors.toList());
         } else {
@@ -86,7 +93,7 @@ public class PapiRank {
         // 本次需要处理的数据
         List<TopPapiPlayer> newList = dbTopList.stream().filter(obj -> !dbTopSet.contains(obj)).collect(Collectors.toList());
         TopPapiPlayerService.getInstance().setValue(newList);
-        MessageUtil.sendMessage(sender, "2.5 -> 同步" + papi + "变量数据(" + newList.size() + "/" + dbTopList.size() + ")条结束" + ",本操作消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2.5/6");
+        MessageUtil.sendDebugMessage(sender, "2.5 -> 同步" + papi + "变量数据(" + newList.size() + "/" + dbTopList.size() + ")条结束" + ",本操作消耗ms:" + (System.currentTimeMillis() - start) + ",当前进度: 2.5/6");
     }
 
 }
